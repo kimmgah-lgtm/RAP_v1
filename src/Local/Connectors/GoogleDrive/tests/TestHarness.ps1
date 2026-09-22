@@ -1,0 +1,10 @@
+Set-StrictMode -Version Latest
+function New-RapDriveTestHarness {
+ param([string]$AuditPath)
+ $bytes1=[Text.Encoding]::UTF8.GetBytes('%PDF-1.4 sample-one');$bytes2=[Text.Encoding]::UTF8.GetBytes('%PDF-1.4 sample-two')
+ $state=[pscustomobject]@{Unavailable=$false;Requests=[Collections.Generic.List[object]]::new();Bytes=@{FILE0001=$bytes1;FILE0002=$bytes2}}
+ $transport={param($request,$raw)$state.Requests.Add($request);if($request.Method -ne 'GET'){throw 'Non-GET Drive request rejected'};if($state.Unavailable){throw 'Drive unavailable'};if($request.Uri -match '/about\?'){return [pscustomobject]@{user=[pscustomobject]@{displayName='Test'}}};if($request.Uri -match 'alt=media'){if($request.Uri -match 'FILE0001'){return $state.Bytes.FILE0001};return $state.Bytes.FILE0002};if($request.Uri -match '/files/FILE0001'){return [pscustomobject]@{id='FILE0001';name='paper.pdf';mimeType='application/pdf';size=$state.Bytes.FILE0001.Length;modifiedTime='2026-09-21T00:00:00Z';parents=@('ROOT');appProperties=[pscustomobject]@{Library_ID='LIB:L000001'};trashed=$false}};if($request.Uri -match 'FOLDER01'){return [pscustomobject]@{files=@([pscustomobject]@{id='FILE0002';name='second.pdf';mimeType='application/pdf';size=$state.Bytes.FILE0002.Length;modifiedTime='2026-09-21T00:00:00Z';parents=@('FOLDER01');appProperties=[pscustomobject]@{Library_ID='LIB:L000002'};trashed=$false})}};return [pscustomobject]@{files=@([pscustomobject]@{id='FILE0001';name='paper.pdf';mimeType='application/pdf';size=$state.Bytes.FILE0001.Length;modifiedTime='2026-09-21T00:00:00Z';parents=@('ROOT');appProperties=[pscustomobject]@{Library_ID='LIB:L000001'};trashed=$false},[pscustomobject]@{id='FOLDER01';name='Sub';mimeType='application/vnd.google-apps.folder';size=0;modifiedTime='2026-09-21T00:00:00Z';parents=@('ROOT');appProperties=[pscustomobject]@{};trashed=$false})}
+ }.GetNewClosure()
+ $context=New-RapGoogleDriveContext -FolderId ROOT -AccessToken test-token -AuditPath $AuditPath -Transport $transport
+ [pscustomobject]@{State=$state;Context=$context}
+}

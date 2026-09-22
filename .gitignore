@@ -1,0 +1,12 @@
+src/Local/ResearchAutomation.Local/logs/*.log
+src/Local/ResearchAutomation.Local/logs/*.jsonl
+src/Local/ResearchAutomation.Local/queue/*.db
+src/Local/ResearchAutomation.Local/queue/*.db-*
+src/Local/ResearchAutomation.Local/temp/*
+!src/Local/ResearchAutomation.Local/logs/.gitkeep
+!src/Local/ResearchAutomation.Local/queue/.gitkeep
+!src/Local/ResearchAutomation.Local/temp/.gitkeep
+.DS_Store
+Thumbs.db
+work/
+.rap-git/

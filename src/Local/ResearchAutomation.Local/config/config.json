@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0-alpha.5",
+  "build": "20260922.001",
+  "environment": "Local",
+  "paths": {
+    "queue": "queue/queue.db",
+    "logs": "logs",
+    "temp": "temp"
+  },
+  "logging": {
+    "minimumLevel": "Information",
+    "plainEnabled": true,
+    "jsonEnabled": true
+  },
+  "queue": {
+    "busyTimeoutMilliseconds": 5000
+  },
+  "zotero": {
+    "preferredConnector": "SQLite",
+    "databasePath": "",
+    "storageRoot": "",
+    "webApiBaseUrl": "https://api.zotero.org/",
+    "libraryType": "users",
+    "libraryId": "",
+    "apiKeyEnvironmentVariable": "ZOTERO_API_KEY"
+  },
+  "writeLayer": {
+    "enabled": false,
+    "sandboxLibraryType": "groups",
+    "sandboxLibraryId": "",
+    "sandboxNamePattern": "(?i)sandbox",
+    "auditPath": "logs/write-audit.jsonl"
+  },
+  "googleDrive": {
+    "folderId": "",
+    "accessTokenEnvironmentVariable": "GOOGLE_DRIVE_ACCESS_TOKEN",
+    "auditPath": "logs/drive-audit.jsonl"
+  },
+  "operation": {
+    "mode": "Bootstrap"
+  },
+  "capabilities": {
+    "CloudController": true,
+    "LocalAgent": true,
+    "SQLite": true,
+    "Logger": true,
+    "Queue": true,
+    "Zotero": true,
+    "WriteLayer": true,
+    "Drive": true,
+    "Bootstrap": true,
+    "Notion": true,
+    "AIReview": false
+  }
+}
