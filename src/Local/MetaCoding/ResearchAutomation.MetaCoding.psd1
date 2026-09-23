@@ -1,0 +1,9 @@
+@{
+    RootModule='ResearchAutomation.MetaCoding.psm1'
+    ModuleVersion='1.0.0'
+    GUID='d9e612a6-74ac-41f4-a3bd-8e3f6f2e7007'
+    PowerShellVersion='7.0'
+    FunctionsToExport=@('New-RapMetaCodingRequest','Invoke-RapMetaCoding','Confirm-RapMetaCoding','Initialize-RapMetaCodingStore','Register-RapMetaCodingProjectFixture','New-RapMetaCodingSqliteDependencies','Get-RapMetaCodingFixtureRecord')
+    CmdletsToExport=@();AliasesToExport=@();VariablesToExport=@()
+    PrivateData=@{PSData=@{Prerelease='alpha.6';Tags=@('RAP','MetaCoding','ProjectSpecific','FixtureOnly')}}
+}

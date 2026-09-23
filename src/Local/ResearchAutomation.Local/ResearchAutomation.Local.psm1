@@ -8,6 +8,9 @@ $moduleDirectory = Join-Path $PSScriptRoot 'modules'
 Import-Module (Join-Path $PSScriptRoot '../Connectors/Zotero/ZoteroConnector.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../Write/ResearchAutomation.Write/ResearchAutomation.Write.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../Bootstrap/ResearchAutomation.Bootstrap.psd1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot '../MetaCoding/ResearchAutomation.MetaCoding.psd1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot '../EvidenceGraph/ResearchAutomation.EvidenceGraph.psd1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot '../Synthesis/ResearchAutomation.Synthesis.psd1') -Force -ErrorAction Stop
 
 function Get-RapZoteroItems {
     <#
@@ -137,6 +140,14 @@ Export-ModuleMember -Function @(
     'Get-RapConfiguration', 'Initialize-RapConfiguration',
     'Initialize-RapLogger', 'Write-RapLog',
     'Initialize-RapQueue', 'Test-RapQueue', 'Invoke-RapQueueScalar',
-    'Invoke-RapSelfTest', 'Show-RapHealthDashboard'
-    'Get-RapZoteroItems', 'Get-RapZoteroCollections', 'Get-RapZoteroLibraryStatistics', 'Test-RapZoteroConnection'
+    'Invoke-RapSelfTest', 'Show-RapHealthDashboard',
+    'Get-RapZoteroItems', 'Get-RapZoteroCollections', 'Get-RapZoteroLibraryStatistics', 'Test-RapZoteroConnection',
+    'New-RapMetaCodingRequest', 'Invoke-RapMetaCoding', 'Confirm-RapMetaCoding',
+    'Initialize-RapMetaCodingStore', 'Register-RapMetaCodingProjectFixture', 'New-RapMetaCodingSqliteDependencies', 'Get-RapMetaCodingFixtureRecord',
+    'New-RapEvidenceNodeId', 'New-RapEvidenceGraphNode', 'New-RapEvidenceGraphEdge', 'New-RapEvidenceGraphOperation', 'Invoke-RapEvidenceGraphMutation',
+    'Get-RapEvidenceByLibraryId', 'Get-RapProjectMetaCodingGraph', 'Get-RapEffectEvidenceGraph', 'Get-RapDerivedValueInputs', 'Get-RapEvidenceDependents', 'Get-RapProjectPaperGraph',
+    'Initialize-RapEvidenceGraphStore', 'New-RapEvidenceGraphSqliteDependencies', 'Get-RapEvidenceGraphFixtureSnapshot',
+    'New-RapAnalysisSpecification', 'Get-RapHedgesG', 'New-RapAnalysisDataset', 'Invoke-RapSynthesis',
+    'Invoke-RapSubgroupAnalysis', 'Invoke-RapSensitivityAnalysis', 'Get-RapPublicationBiasDiagnostic',
+    'Initialize-RapSynthesisStore', 'New-RapSynthesisSqliteDependencies', 'Get-RapSynthesisFixtureSnapshot'
 )

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.0-alpha.5",
-  "build": "20260922.001",
+  "version": "1.0.0-alpha.8",
+  "build": "20260922.004",
   "environment": "Local",
   "paths": {
     "queue": "queue/queue.db",
@@ -51,6 +51,16 @@
     "Drive": true,
     "Bootstrap": true,
     "Notion": true,
-    "AIReview": false
+    "AIReview": false,
+    "MetaCoding": true,
+    "MetaCodingProductionWrite": false,
+    "ProductionAIProvider": false,
+    "ProductionNotionWrite": false,
+    "ProductionZoteroWrite": false,
+    "ProductionDriveMigration": false,
+    "EvidenceGraph": true,
+    "EvidenceGraphProductionWrite": false,
+    "Synthesis": true,
+    "SynthesisProductionWrite": false
   }
 }

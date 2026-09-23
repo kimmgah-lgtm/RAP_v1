@@ -32,7 +32,7 @@ function Initialize-RapConfiguration {
     [void][IO.Directory]::CreateDirectory($configDirectory)
     if (-not (Test-Path -LiteralPath $configPath -PathType Leaf)) {
         $default = [ordered]@{
-            schemaVersion = 1; version = '1.0.0-alpha.5'; build = '20260922.001'; environment = 'Local'
+            schemaVersion = 1; version = '1.0.0-alpha.8'; build = '20260922.004'; environment = 'Local'
             paths = [ordered]@{ queue = 'queue/queue.db'; logs = 'logs'; temp = 'temp' }
             logging = [ordered]@{ minimumLevel = 'Information'; plainEnabled = $true; jsonEnabled = $true }
             queue = [ordered]@{ busyTimeoutMilliseconds = 5000 }
@@ -43,6 +43,11 @@ function Initialize-RapConfiguration {
             capabilities = [ordered]@{
                 CloudController = $true; LocalAgent = $true; SQLite = $true; Logger = $true; Queue = $true
                 Zotero = $true; WriteLayer = $true; Drive = $true; Bootstrap = $true; Notion = $true; AIReview = $false
+                MetaCoding = $true; MetaCodingProductionWrite = $false
+                ProductionAIProvider = $false; ProductionNotionWrite = $false
+                ProductionZoteroWrite = $false; ProductionDriveMigration = $false
+                EvidenceGraph = $true; EvidenceGraphProductionWrite = $false
+                Synthesis = $true; SynthesisProductionWrite = $false
             }
         }
         $default | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $configPath -Encoding utf8NoBOM
@@ -89,7 +94,7 @@ function Get-RapConfiguration {
     if($configuration.writeLayer.enabled -isnot [bool]){throw 'writeLayer.enabled must be Boolean.'}
     if([string]::IsNullOrWhiteSpace([string]$configuration.googleDrive.accessTokenEnvironmentVariable)){throw 'googleDrive.accessTokenEnvironmentVariable is required.'}
     if($configuration.operation.mode -notin @('Bootstrap','Live')){throw 'operation.mode must be Bootstrap or Live.'}
-    foreach ($capabilityName in @('CloudController','LocalAgent','SQLite','Logger','Queue','Zotero','WriteLayer','Drive','Bootstrap','Notion','AIReview')) {
+    foreach ($capabilityName in @('CloudController','LocalAgent','SQLite','Logger','Queue','Zotero','WriteLayer','Drive','Bootstrap','Notion','AIReview','MetaCoding','MetaCodingProductionWrite','ProductionAIProvider','ProductionNotionWrite','ProductionZoteroWrite','ProductionDriveMigration','EvidenceGraph','EvidenceGraphProductionWrite','Synthesis','SynthesisProductionWrite')) {
         $capability = $configuration.capabilities.PSObject.Properties[$capabilityName]
         if ($null -eq $capability) { throw "Configuration capability is required: $capabilityName" }
         if ($capability.Value -isnot [bool]) { throw "Configuration capability must be Boolean: $capabilityName" }

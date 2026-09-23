@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.0.0-alpha.8 - 2026-09-22
+
+- Added the SPR-009 fixture-only Meta Analysis & Synthesis Engine with researcher-confirmed input gating, deterministic datasets, explicit specifications, and analysis versioning.
+- Added Hedges' g derivation, fixed/random pooling, Q/I²/tau², direction and dependency safeguards, subgroup summaries, leave-one-out sensitivity, and funnel diagnostic data.
+- Added Evidence Graph-compatible lineage, shared operation-ledger idempotency, SQLite persistence/audit, 68 focused assertions, and safe regression integration.
+- Kept production AI, Zotero, Drive, Notion, and synthesis writes disabled.
+
+## 1.0.0-alpha.7 - 2026-09-22
+
+- Added the SPR-008 Evidence Graph Turn A with typed nodes, typed edges, deterministic evidence/edge identities, project-context validation, and referential integrity checks.
+- Added traceability queries for Library-to-Evidence, Project-Paper-to-Meta-Coding, Effect-to-Evidence, Derived-Value-to-Inputs, Evidence reverse dependencies, and Project-to-Project-Paper relationships.
+- Added SQLite node/edge/state/audit persistence through the existing Operations ledger, replay conflict protection, and independent Process A/Process B recovery.
+- Added 47 fixture/local assertions and full available safe regression integration; all production external writes remain disabled.
+- Re-ran the focused suite and full safe regression, verified SPR-008 Final Gate PASS, and limited next-sprint readiness to local/mock development only.
+
+## 1.0.0-alpha.6 - 2026-09-22
+
+- Added the SPR-007 Meta Coding Engine Turn A with `Library_ID + Project_ID` scope.
+- Added typed AI-assisted evidence output for outcomes, comparisons, effect data, samples, moderators, arms, measurements, time points, and statistical inputs.
+- Added explicit separation and preservation of researcher-confirmed HUMAN_OWNED decisions and Common Study Review content.
+- Added deterministic operation IDs, payload conflict detection, checkpoints, replay protection, append-only audit hooks, and restart-style recovery.
+- Added local SQLite persistence through the existing Operations ledger, typed multiple-effect aggregates, derivation provenance, and independent Process A/Process B recovery.
+- Added 42 fixture/mock scenario assertions; production AI, Notion, Zotero, and Drive writes remain disabled.
+- Verified focused tests and the full available safe RAP regression, and recorded SPR-007 Final Gate PASS; next-sprint readiness is local/mock development only.
+
 ## 1.0.0-alpha.5 - 2026-09-22
 
 - Approved ADR-0011 defining Bootstrap and Live operating modes.

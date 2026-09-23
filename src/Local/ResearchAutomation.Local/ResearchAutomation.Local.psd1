@@ -13,10 +13,21 @@
         'Initialize-RapQueue', 'Test-RapQueue', 'Invoke-RapQueueScalar',
         'Invoke-RapSelfTest', 'Show-RapHealthDashboard',
         'Get-RapZoteroItems', 'Get-RapZoteroCollections',
-        'Get-RapZoteroLibraryStatistics', 'Test-RapZoteroConnection'
+        'Get-RapZoteroLibraryStatistics', 'Test-RapZoteroConnection',
+        'New-RapMetaCodingRequest', 'Invoke-RapMetaCoding', 'Confirm-RapMetaCoding',
+        'Initialize-RapMetaCodingStore', 'Register-RapMetaCodingProjectFixture',
+        'New-RapMetaCodingSqliteDependencies', 'Get-RapMetaCodingFixtureRecord',
+        'New-RapEvidenceNodeId', 'New-RapEvidenceGraphNode', 'New-RapEvidenceGraphEdge',
+        'New-RapEvidenceGraphOperation', 'Invoke-RapEvidenceGraphMutation',
+        'Get-RapEvidenceByLibraryId', 'Get-RapProjectMetaCodingGraph', 'Get-RapEffectEvidenceGraph',
+        'Get-RapDerivedValueInputs', 'Get-RapEvidenceDependents', 'Get-RapProjectPaperGraph',
+        'Initialize-RapEvidenceGraphStore', 'New-RapEvidenceGraphSqliteDependencies', 'Get-RapEvidenceGraphFixtureSnapshot',
+        'New-RapAnalysisSpecification', 'Get-RapHedgesG', 'New-RapAnalysisDataset', 'Invoke-RapSynthesis',
+        'Invoke-RapSubgroupAnalysis', 'Invoke-RapSensitivityAnalysis', 'Get-RapPublicationBiasDiagnostic',
+        'Initialize-RapSynthesisStore', 'New-RapSynthesisSqliteDependencies', 'Get-RapSynthesisFixtureSnapshot'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()
     AliasesToExport   = @()
-    PrivateData       = @{ PSData = @{ Prerelease = 'alpha.5'; Tags = @('RAP', 'Local', 'SQLite', 'Zotero', 'Transactions', 'GoogleDrive', 'Bootstrap'); LicenseUri = 'https://opensource.org/license/mit' } }
+    PrivateData       = @{ PSData = @{ Prerelease = 'alpha.8'; Tags = @('RAP', 'Local', 'SQLite', 'Zotero', 'Transactions', 'GoogleDrive', 'Bootstrap', 'MetaCoding', 'EvidenceGraph', 'MetaAnalysis'); LicenseUri = 'https://opensource.org/license/mit' } }
 }
