@@ -1,6 +1,16 @@
 # SPR-009 Scenario Matrix
 
-All scenarios execute in `src/Local/Synthesis/tests/SynthesisTests.ps1`. Each row maps to one runtime assertion. Result: 68/68 PASS on 2026-09-22.
+All scenarios execute in `src/Local/Synthesis/tests/SynthesisTests.ps1`. Each row maps to one runtime assertion. Result: 68/68 PASS, rerun on 2026-09-23.
+
+## Turn B coverage finding
+
+The existing assertions pass, but the Final Gate found material requirements that
+the matrix does not exercise: execution/rejection of a selected dependency
+strategy, mandatory derivation metadata, explicit model/estimator selection,
+complete Analysis Dataset-to-Paper lineage, persistence of sensitivity runs, and
+rejection of missing moderator values. Accordingly, this matrix is valid evidence
+for the assertions listed below but is not sufficient evidence for a passing
+SPR-009 Final Gate. See `docs/RISK-REGISTER.md`.
 
 | Test | Requirement | Assertion evidence | Result |
 |---:|---|---|---|

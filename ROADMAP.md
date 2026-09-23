@@ -67,7 +67,7 @@ The official baseline keeps SPR-006 complete. Its code/test artifacts are absent
 
 No next Sprint was started during the SPR-008 Final Gate.
 
-## SPR-009 — Meta Analysis & Synthesis Engine (Turn A implemented; Final Gate pending)
+## SPR-009 — Meta Analysis & Synthesis Engine (Turn A implemented; Final Gate FAIL)
 
 - Researcher-confirmed, project-scoped analysis input gate and deterministic dataset builder
 - Persistent hashed analysis specifications and versioned results
@@ -76,5 +76,8 @@ No next Sprint was started during the SPR-008 Final Gate.
 - Evidence Graph-compatible lineage, shared operation-ledger idempotency, SQLite persistence, and audit
 - Focused scenarios 68/68 PASS and full available safe regression PASS
 - All production integrations and synthesis production writes remain disabled
+- Turn B independently validated the implemented statistical formulas, but found six Gate-blocking P1 risks in dependency execution, explicit researcher decisions, derivation provenance, complete Evidence Graph lineage, sensitivity persistence, and moderator validation
+- Next-sprint readiness: NO
 
-SPR-009 Final Gate and any SPR-010 work are outside this Turn A result.
+SPR-010 has not been started. The SPR-009 Gate-blocking risks must be resolved and
+the Final Gate rerun under separate authorization before the planned next Sprint.

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — SPR-009 Turn B Final Gate
+
+- Re-ran all 68 SPR-009 focused assertions and all 15 available safe RAP test scripts; both suites passed.
+- Independently reproduced the implemented Hedges' g, variance/SE, fixed-effect, DerSimonian-Laird random-effects, CI, Q, I², and tau² calculations.
+- Recorded a failed SPR-009 Final Gate because six current P1 defects violate dependency safety, researcher-decision, provenance, lineage, sensitivity-persistence, and moderator-validation requirements.
+- Added the current evidence-based Risk Register. No production write, external-data access, commit, push, or SPR-010 implementation was performed.
+
 ## 1.0.0-alpha.8 - 2026-09-22
 
 - Added the SPR-009 fixture-only Meta Analysis & Synthesis Engine with researcher-confirmed input gating, deterministic datasets, explicit specifications, and analysis versioning.
