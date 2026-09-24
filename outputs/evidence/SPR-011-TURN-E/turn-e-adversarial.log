@@ -1,0 +1,21 @@
+EA-01 PASS masked success cannot unlock AUTO_SAFE
+EA-02 PASS combined PDF change and coding conflict keeps researcher value and invalidates dependents
+EA-03 PASS recorded CURRENT is not trusted over lineage evidence
+EA-04 PASS automation actor type rejected
+EA-05 PASS case-varied automation identity rejected
+EA-06 PASS non-canonical actor type rejected
+EA-07 PASS destructive decision vocabulary rejected
+EA-08 PASS no forged decision reached the lifecycle store
+EA-09 PASS re-observed identity blocker reopens the case and stays BLOCKED
+EA-10 PASS appended forged event detected
+EA-11 PASS deleted operation audit row detected
+EA-12 PASS malformed payload permutation rejected (WRONG_TYPE:Links)
+EA-13 PASS malformed payload permutation rejected (WRONG_TYPE:AutomationRuns\[0\].ExitCode)
+EA-14 PASS malformed payload permutation rejected (DUPLICATE_ID:Dependents\[1\].ArtifactId)
+EA-15 PASS malformed payload permutation rejected (INVALID_VALUE:Dependents\[0\].Requires)
+EA-16 PASS malformed payload permutation rejected (WRONG_TYPE:VersionState.DerivedVersion)
+EA-17 PASS order permutation of new classes gives identical BLOCKED policy
+EA-18 PASS dependent order permutation gives identical impact
+EA-19 PASS whitespace-padded class cannot borrow STALE AUTO_SAFE
+EA-20 PASS failed decision commit does not resolve the case
+SPR-011 Turn-E adversarial tests: 20/20 cases PASS; assertions: 20

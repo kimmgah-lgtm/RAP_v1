@@ -1,19 +1,18 @@
 # RAP Risk Register
 
-Last verified: 2026-09-24, SPR-011 Turn D Final Gate re-verification
+Last verified: 2026-09-24, SPR-011 Turn E native Windows verification (independent re-verification pending in Turn F)
 
-Open-risk summary: **P0 = 0, P1 = 5, P2 = 1**.
+Open-risk summary: **P0 = 0, P1 = 0, P2 = 5**.
 
 ## Open risks
 
 | Risk ID | Priority | Description and evidence | Impact | Affected component | Gate blocking |
 |---|---|---|---|---|---|
 | RISK-BASELINE-001 | P2 | No SPR-006 executable source/test artifacts are present in this checkout. | The historical SPR-006 baseline cannot be rerun locally as part of the safe regression. | Repository regression evidence | NO |
-| RISK-SPR011-002 | P1 | Turn B found no dedicated `AUTOMATION_FAILURE` taxonomy class and incomplete unsupported-type normalization. | Mandatory taxonomy/fail-closed coverage may be incomplete. | Workflow exception taxonomy | YES |
-| RISK-SPR011-003 | P1 | Turn B found incomplete downstream behavior evidence for PDF blocking/change lineage, AI evidence retention, and dependent stale artifacts (E05/E06/E10/E11). | Exception handling may not fully protect downstream reproducibility. | Workflow scenario behavior | YES |
-| RISK-SPR011-004 | P1 | Turn B found missing actor, explicit transition, failure-reason, human-review-decision, and final-resolution audit evidence. | Material lifecycle reconstruction may be incomplete. | Workflow audit | YES |
-| RISK-SPR011-005 | P1 | Turn B found the pre-Turn-C matrix insufficiently traceable to exact test cases/assertions for all mandatory requirements. Turn C adds exact R01-R20 mapping but does not re-adjudicate the entire matrix. | Final Gate traceability remains pending. | Requirements/test evidence | YES |
-| RISK-SPR011-006 | P1 | Turn B found incomplete deterministic malformed-payload and true partial-persistence/interruption coverage outside the bounded composite-policy recovery path. | Some failure paths remain unverified. | Workflow recovery/error handling | YES |
+| RISK-SPR011-007 | P2 | Turn E: the lifecycle hash chain detects partial edits, forged appends, tail deletion, and deleted audit rows (E3-17~19, EA-10/11), but has no external anchor. An actor with local write access who recomputes the whole chain and head can rewrite history undetected. | Tamper evidence is local-only. | Workflow audit store | NO |
+| RISK-SPR011-008 | P2 | Turn E: `Submit-RapHumanReviewDecision` checks the researcher against a configured `AuthorizedResearchers` list and rejects automation identities, but identity is asserted, not authenticated (single-user local agent). | A local process could claim a researcher identity. | Researcher decision workflow | NO |
+| RISK-SPR011-009 | P2 | Turn E: downstream impact consumes a normalized Evidence-Graph lineage projection (`Snapshot.Dependents`); an adapter that builds this projection from live `Get-RapEvidenceDependents` / `Get-RapDerivedValueInputs` results is not implemented (same boundary as Turn A: detection consumes normalized snapshots). No competing lineage store was created. | Live wiring must be verified when connectors are enabled. | Workflow ↔ Evidence Graph boundary | NO |
+| RISK-SPR011-011 | P2 | Turn E: legacy assertion `'partial commit marked complete'` in `WorkflowExceptionAdversarialTests.ps1` checks a local flag that is never set (vacuous). The requirement is re-mapped to E3-20 and E5-10~17; the historical test was left unchanged. | Legacy assertion count overstates evidence by 1. | Requirements/test evidence | NO |
 
 ## Resolved by SPR-009 Turn C
 
@@ -44,3 +43,17 @@ Open-risk summary: **P0 = 0, P1 = 5, P2 = 1**.
 | RISK-SPR011-001 | P1 | Turn B reproduced `LIBRARY_ID_LINKAGE_BROKEN + STALE -> AUTO_SAFE/RECONCILED` and failed the Final Gate. Turn C added complete-set precedence and explicit safety predicates. Turn D independently reproduced the input and verified BLOCKED for both plans, AUTO_SAFE=false, zero mutation, order-independent policy hashes, and safe post-reconciliation blocker handling. | RESOLVED |
 
 No risk was closed solely by documentation. SPR-011 Turn B Final Gate remains FAIL in the historical report. Turn D independently closes only `RISK-SPR011-001`; five other P1 risks remain open and therefore SPR-011 Turn D Final Gate is FAIL. `RISK-BASELINE-001` remains open, P2, and non-blocking.
+
+## Resolved by SPR-011 Turn E (remediation verified on native Windows; independent re-verification pending in Turn F)
+
+| Risk ID | Former priority | RED → GREEN evidence | Status |
+|---|---:|---|---|
+| RISK-SPR011-002 | P1 | RED: E1-01~04, E1-06~15 failed before repair. GREEN: `AUTOMATION_FAILURE` (BLOCKED) incl. masked exit-0 failures; ordinal-only class normalization to `UNKNOWN_EXCEPTION`; composite policy rejects unsupported classes and forged `DefaultResolution`; E1-01~15 and EA-01/17/19 PASS. Mutation M5 (disable class check) turns E1-13 red. | RESOLVED (Turn E) |
+| RISK-SPR011-003 | P1 | RED: E2-01~04, E2-06/07/09~21 failed. GREEN: lineage-derived impact with executable gate; E05 block modeled and transitive; E06 four dependents REVALIDATION_REQUIRED with transition events and no recomputation; E10 typed retention with model/version/run and confirmation provenance; E11 dependents stay non-CURRENT after DerivedVersion refresh; E01–E12 semantic 12/12 (E2-S-*). Mutation M1 (drop propagation) turns 7 assertions red. | RESOLVED (Turn E) |
+| RISK-SPR011-004 | P1 | RED: E3-01~15, E3-17~20 failed. GREEN: hash-chained append-only lifecycle store; actor/actor type, persisted prior state, from/to transitions, failure reason, researcher decision event, distinct final resolution; lifecycle reconstructed from a freshly opened store (E3-13); tamper/tail-deletion detection (E3-17~19, EA-10/11). Mutations M2 and M4 turn the corresponding assertions red. | RESOLVED (Turn E) |
+| RISK-SPR011-005 | P1 | Matrix re-mapped to 180 rows (40 legacy + 20 R + 15 CA + 85 E + 20 EA) with the full schema; `WorkflowMatrixTraceabilityTests.ps1` (13 assertions) enforces literal resolution for static rows and bidirectional runtime equality for Turn-E rows; a deliberately broken token is detected. | RESOLVED (Turn E) |
+| RISK-SPR011-006 | P1 | RED: E5-01~17 failed. GREEN: deterministic `MALFORMED_SNAPSHOT:*` / `MALFORMED_OPERATION_ID` rejection with zero mutation (E5-01~09, EA-12~16); fault injection at AFTER_STATE, AFTER_AUDIT, AFTER_EVENTS, BEFORE_COMMIT with separate fault / inspect / complete / replay processes: full rollback, `OPERATION_FAILED` recorded, one completion, no duplicates (E5-10~17). Mutation M3 (fault after COMMIT) turns E5-16/17 red. | RESOLVED (Turn E) |
+| RISK-SPR011-012 | P1 (found in Turn E) | `GetOperation`/`CommitWorkflow` interpolated `OperationId` into SQL. Fixed by OperationId validation before store access (E5-09) and SQL literal escaping in persistence. | RESOLVED (Turn E) |
+| RISK-SPR011-010 | P2 | Native Windows PowerShell re-run after applying the Turn-E bundle: 238/238 focused assertions PASS; 24-script repository regression PASS; SPR-009 Gate remediation 31/31 PASS; Production writes remained disabled. | RESOLVED (Turn E Windows verification) |
+
+No risk above was closed by documentation alone; each has RED evidence before repair and executable GREEN evidence after. Independent Final Gate re-verification (Turn F) has not been performed. `RISK-BASELINE-001` remains open, P2, and non-blocking.

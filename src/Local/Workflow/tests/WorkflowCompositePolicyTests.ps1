@@ -80,7 +80,7 @@ try{
     &$powerShell -NoProfile -File $recoveryScript -Phase Read -DatabasePath $db
     if($LASTEXITCODE-ne0){throw 'R20 process B failed'}
     $snapshot=Get-RapWorkflowExceptionSnapshot $db
-    Assert-RapRemediation R20 ($snapshot.AuditCount-eq2-and$snapshot.Exceptions.Count-ge2-and$snapshot.LastAudit.PolicyVersion-eq'SPR-011-TURN-C-1') 'historical exception/audit trail lost'
+    Assert-RapRemediation R20 ($snapshot.AuditCount-eq2-and$snapshot.Exceptions.Count-ge2-and$snapshot.LastAudit.PolicyVersion-eq'SPR-011-TURN-E-1') 'historical exception/audit trail lost'
 }finally{Remove-Item -LiteralPath $temp -Recurse -Force}
 
 if($script:Scenarios-ne20-or$script:Assertions-ne20){throw "Expected 20 scenarios/assertions, got $script:Scenarios/$script:Assertions"}

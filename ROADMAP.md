@@ -97,7 +97,7 @@ No next Sprint was started during the SPR-008 Final Gate.
 
 SPR-010 Final Gate passed. Next-sprint readiness is **YES — LOCAL/MOCK DEVELOPMENT ONLY**. SPR-011 was not started.
 
-## SPR-011 — Research Workflow & Exception Management Engine (Turn D Final Gate FAIL; remediation required)
+## SPR-011 — Research Workflow & Exception Management Engine (Turn E P1 remediation verified on native Windows; Final Gate re-verification pending in Turn F)
 
 - Thirteen-class exception taxonomy and deterministic registry identities
 - Fixture integrity detector for Zotero, bibliography, Notion, Library_ID, PDF, project, edit, coding, orphan, stale, link, and unknown conditions
@@ -109,6 +109,8 @@ SPR-010 Final Gate passed. Next-sprint readiness is **YES — LOCAL/MOCK DEVELOP
 - Turn C added conservative complete-set resolution precedence, explicit AUTO_SAFE safety predicates, fail-closed evidence handling, deterministic policy version/hash audit, and cross-process verification
 - Core 69, original adversarial 16, R01-R20 remediation 20, and composite adversarial 15 assertions PASS (120 total); all 10 available safe local suites PASS
 - Turn D independently verified the original AUTO_SAFE defect is fixed, but Final Gate failed on remaining E05/E06/E10/E11 semantics, lifecycle auditability, and complete requirement/assertion traceability
+- Turn E remediated RISK-SPR011-002~006: `AUTOMATION_FAILURE` class and fail-closed class normalization; lineage-derived downstream impact with executable dependent-operation gate (E05/E06/E11); typed AI-alternative retention with model/version/run evidence (E10); hash-chained append-only lifecycle store with actor, prior state, transitions, failure reason, researcher decision, and final resolution; deterministic malformed-payload rejection; four-point cross-process interruption recovery; 180-row mechanically enforced requirement ↔ assertion matrix
+- Turn E evidence: legacy 120 + Turn-E 85 + Turn-E adversarial 20 + traceability 13 assertions PASS; all available safe local suites PASS on both the original Linux test mirror and the subsequent native Windows re-run
 - Production workflow writes disabled and external tests deferred
 
-Turn D Final Gate is **FAIL**. Readiness for SPR-011.5 is **NO**; SPR-011.5 and SPR-012 were not started.
+Turn D Final Gate is **FAIL** (historical). Turn E remediation is complete locally; the **Final Gate re-verification (Turn F) has not been performed**. Readiness for SPR-011.5 is **NOT EVALUATED**; SPR-011.5 and SPR-012 were not started.

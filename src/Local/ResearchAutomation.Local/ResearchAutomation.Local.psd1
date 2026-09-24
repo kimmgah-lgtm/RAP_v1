@@ -30,6 +30,8 @@
         'Invoke-RapOutputGeneration', 'Initialize-RapOutputStore', 'New-RapOutputSqliteDependencies', 'Get-RapOutputSnapshot', 'Save-RapOutputPackage',
         'Get-RapExceptionTaxonomy', 'Find-RapWorkflowExceptions', 'Get-RapCompositeResolutionPolicy', 'New-RapExceptionResolutionPlan',
         'Invoke-RapExceptionReconciliation', 'Test-RapExceptionResolution', 'Invoke-RapWorkflowExceptionOperation',
+        'ConvertTo-RapExceptionClass', 'ConvertTo-RapNormalizedException', 'Get-RapDownstreamImpact', 'Test-RapDependentOperationPermitted',
+        'Test-RapWorkflowSnapshot', 'Submit-RapHumanReviewDecision', 'Get-RapExceptionLifecycle', 'Test-RapWorkflowAuditChain',
         'Initialize-RapWorkflowExceptionStore', 'New-RapWorkflowSqliteDependencies', 'Get-RapWorkflowExceptionSnapshot'
     )
     CmdletsToExport   = @()

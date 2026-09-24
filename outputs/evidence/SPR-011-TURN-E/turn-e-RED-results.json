@@ -1,0 +1,512 @@
+[
+  {
+    "Id": "E1-01",
+    "Name": "taxonomy contains AUTOMATION_FAILURE with non-AUTO_SAFE default",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E1-02",
+    "Name": "taxonomy has 14 unique classes",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E1-03",
+    "Name": "masked failure (exit 0 + error evidence) detected as AUTOMATION_FAILURE",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E1-04",
+    "Name": "non-zero exit detected as unmasked AUTOMATION_FAILURE",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E1-05",
+    "Name": "successful automation run produces no AUTOMATION_FAILURE",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E1-06",
+    "Name": "unsupported type normalizes to UNKNOWN_EXCEPTION [1]",
+    "Result": "FAIL",
+    "Detail": "The term 'ConvertTo-RapExceptionClass' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E1-07",
+    "Name": "unsupported type normalizes to UNKNOWN_EXCEPTION [2]",
+    "Result": "FAIL",
+    "Detail": "The term 'ConvertTo-RapExceptionClass' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E1-08",
+    "Name": "unsupported type normalizes to UNKNOWN_EXCEPTION [3]",
+    "Result": "FAIL",
+    "Detail": "The term 'ConvertTo-RapExceptionClass' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E1-09",
+    "Name": "unsupported type normalizes to UNKNOWN_EXCEPTION [4]",
+    "Result": "FAIL",
+    "Detail": "The term 'ConvertTo-RapExceptionClass' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E1-010",
+    "Name": "unsupported type normalizes to UNKNOWN_EXCEPTION [5]",
+    "Result": "FAIL",
+    "Detail": "The term 'ConvertTo-RapExceptionClass' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E1-11",
+    "Name": "raw unsupported exception normalizes to blocked UNKNOWN_EXCEPTION with original class evidence",
+    "Result": "FAIL",
+    "Detail": "The term 'ConvertTo-RapNormalizedException' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E1-12",
+    "Name": "normalized unsupported exception forces composite BLOCKED",
+    "Result": "FAIL",
+    "Detail": "The term 'ConvertTo-RapNormalizedException' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E1-13",
+    "Name": "forged exception with unsupported class fails closed",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E1-14",
+    "Name": "forged DefaultResolution on known class fails closed",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E1-15",
+    "Name": "AUTOMATION_FAILURE + STALE is BLOCKED with zero mutation",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E2-01",
+    "Name": "E05 evidence models the downstream block",
+    "Result": "FAIL",
+    "Detail": "The property 'Condition' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E2-02",
+    "Name": "E05 evidence lists PDF-dependent artifacts as BLOCKED",
+    "Result": "FAIL",
+    "Detail": "The property 'AffectedArtifacts' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E2-03",
+    "Name": "E05 PDF-dependent operation is executably refused",
+    "Result": "FAIL",
+    "Detail": "The term 'Test-RapDependentOperationPermitted' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E2-04",
+    "Name": "E05 block propagates transitively to Synthesis and Output",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapDownstreamImpact' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E2-05",
+    "Name": "E05 metadata/review/coding preserved with no delete",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-06",
+    "Name": "E06 evidence enumerates all four dependent artifacts",
+    "Result": "FAIL",
+    "Detail": "The property 'Condition' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E2-07",
+    "Name": "E06 every dependent is REVALIDATION_REQUIRED, none CURRENT",
+    "Result": "FAIL",
+    "Detail": "The property 'AffectedArtifacts' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E2-08",
+    "Name": "E06 no automatic recomputation",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-09",
+    "Name": "E06 status transitions CURRENT to REVALIDATION_REQUIRED recorded as lifecycle events",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E2-10",
+    "Name": "E10 evidence records AI value, model, version and run",
+    "Result": "FAIL",
+    "Detail": "The property 'Conflicts' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E2-11",
+    "Name": "E10 evidence records researcher value and confirmation provenance",
+    "Result": "FAIL",
+    "Detail": "The property 'Conflicts' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E2-12",
+    "Name": "E10 typed retention: AI branch retained, not applied",
+    "Result": "FAIL",
+    "Detail": "The input name \"ExceptionClass\" cannot be resolved to a property."
+  },
+  {
+    "Id": "E2-13",
+    "Name": "E10 researcher-confirmed unchanged and alternative persisted in registry",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E2-14",
+    "Name": "E10 incomplete AI provenance is flagged and never AUTO_SAFE",
+    "Result": "FAIL",
+    "Detail": "The property 'Conflicts' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E2-15",
+    "Name": "E11 evidence records dependent artifact identity and status",
+    "Result": "FAIL",
+    "Detail": "The property 'AffectedArtifacts' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E2-16",
+    "Name": "E11 DerivedVersion refresh alone does not mark dependents CURRENT",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapDownstreamImpact' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E2-17",
+    "Name": "E11 stale artifact cannot be consumed as current",
+    "Result": "FAIL",
+    "Detail": "The term 'Test-RapDependentOperationPermitted' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E2-18",
+    "Name": "E11 explicit revalidation evidence restores CURRENT",
+    "Result": "FAIL",
+    "Detail": "The term 'Test-RapDependentOperationPermitted' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E2-19",
+    "Name": "unknown artifact is refused (fail closed)",
+    "Result": "FAIL",
+    "Detail": "The term 'Test-RapDependentOperationPermitted' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E2-20",
+    "Name": "lineage reference to missing artifact blocks the dependent",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapDownstreamImpact' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E2-21",
+    "Name": "lineage cycle blocks instead of looping",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapDownstreamImpact' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E2-S-E01",
+    "Name": "semantic E01 disposition BLOCKED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E02",
+    "Name": "semantic E02 disposition HUMAN_REVIEW_REQUIRED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E03",
+    "Name": "semantic E03 disposition HUMAN_REVIEW_REQUIRED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E04",
+    "Name": "semantic E04 disposition HUMAN_REVIEW_REQUIRED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E05",
+    "Name": "semantic E05 disposition HUMAN_REVIEW_REQUIRED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E06",
+    "Name": "semantic E06 disposition HUMAN_REVIEW_REQUIRED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E07",
+    "Name": "semantic E07 disposition BLOCKED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E08",
+    "Name": "semantic E08 disposition HUMAN_REVIEW_REQUIRED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E09",
+    "Name": "semantic E09 disposition HUMAN_REVIEW_REQUIRED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E10",
+    "Name": "semantic E10 disposition HUMAN_REVIEW_REQUIRED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E11",
+    "Name": "semantic E11 disposition AUTO_SAFE and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E2-S-E12",
+    "Name": "semantic E12 disposition BLOCKED and protected data preserved",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E3-01",
+    "Name": "audit records actor identity and actor type",
+    "Result": "FAIL",
+    "Detail": "The property 'Actor' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E3-02",
+    "Name": "audit persists actual prior state, not only its hash",
+    "Result": "FAIL",
+    "Detail": "The property 'PriorState' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E3-03",
+    "Name": "review case lifecycle sequence reconstructed",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapExceptionLifecycle' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-04",
+    "Name": "AUTO_SAFE case lifecycle ends in FINAL_RESOLUTION",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapExceptionLifecycle' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-05",
+    "Name": "every transition event has from/to state, actor and timestamp",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapExceptionLifecycle' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-06",
+    "Name": "human review decision event records decision, actor, timestamp, provenance and permitted action",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapExceptionLifecycle' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-07",
+    "Name": "final resolution is a distinct event from operation completion",
+    "Result": "FAIL",
+    "Detail": "The term 'Get-RapExceptionLifecycle' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-08",
+    "Name": "automation actor cannot write a human review decision",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E3-09",
+    "Name": "unauthorized researcher decision rejected",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E3-10",
+    "Name": "decision on a case not awaiting review rejected",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E3-11",
+    "Name": "decision permits no destructive action and changes no source data",
+    "Result": "FAIL",
+    "Detail": "The property 'Status' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E3-12",
+    "Name": "decision replay idempotent; changed decision payload conflicts",
+    "Result": "FAIL",
+    "Detail": "The term 'Submit-RapHumanReviewDecision' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-13",
+    "Name": "lifecycle reconstructed from a freshly opened store equals expected sequence",
+    "Result": "FAIL",
+    "Detail": "A parameter cannot be found that matches parameter name 'AuthorizedResearchers'."
+  },
+  {
+    "Id": "E3-14",
+    "Name": "operation replay adds no lifecycle events",
+    "Result": "FAIL",
+    "Detail": "Cannot bind argument to parameter 'Dependencies' because it is null."
+  },
+  {
+    "Id": "E3-15",
+    "Name": "audit chain valid on untampered store",
+    "Result": "FAIL",
+    "Detail": "The term 'Test-RapWorkflowAuditChain' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-16",
+    "Name": "module exposes no audit update/delete command",
+    "Result": "PASS",
+    "Detail": null
+  },
+  {
+    "Id": "E3-17",
+    "Name": "in-place operation audit edit is detected",
+    "Result": "FAIL",
+    "Detail": "The term 'Test-RapWorkflowAuditChain' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-18",
+    "Name": "in-place lifecycle event edit is detected",
+    "Result": "FAIL",
+    "Detail": "The term 'Test-RapWorkflowAuditChain' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-19",
+    "Name": "tail deletion of lifecycle events is detected",
+    "Result": "FAIL",
+    "Detail": "The term 'Test-RapWorkflowAuditChain' is not recognized as a name of a cmdlet, function, script file, or executable program.\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+  },
+  {
+    "Id": "E3-20",
+    "Name": "failed operation records OPERATION_FAILED with FailureReason and no completed state",
+    "Result": "FAIL",
+    "Detail": "The property 'ReadEvents' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E5-01",
+    "Name": "malformed payload rejected deterministically with zero mutation [missing-field]",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-02",
+    "Name": "malformed payload rejected deterministically with zero mutation [wrong-type]",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-03",
+    "Name": "malformed payload rejected deterministically with zero mutation [oversized]",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-04",
+    "Name": "malformed payload rejected deterministically with zero mutation [invalid-library-id]",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-05",
+    "Name": "malformed payload rejected deterministically with zero mutation [invalid-project-id]",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-06",
+    "Name": "malformed payload rejected deterministically with zero mutation [invalid-dependent]",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-07",
+    "Name": "malformed payload rejected deterministically with zero mutation [wrong-bool]",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-08",
+    "Name": "null snapshot rejected",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-09",
+    "Name": "injection-shaped OperationId rejected before any store access",
+    "Result": "FAIL",
+    "Detail": null
+  },
+  {
+    "Id": "E5-10",
+    "Name": "interruption AFTER_STATE rolls back fully and records failure (process boundary)",
+    "Result": "FAIL",
+    "Detail": "The property 'Operations' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E5-11",
+    "Name": "restart after AFTER_STATE completes once without duplicates (process boundary)",
+    "Result": "FAIL",
+    "Detail": "The property 'Operations' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E5-12",
+    "Name": "interruption AFTER_AUDIT rolls back fully and records failure (process boundary)",
+    "Result": "FAIL",
+    "Detail": "The property 'Operations' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E5-13",
+    "Name": "restart after AFTER_AUDIT completes once without duplicates (process boundary)",
+    "Result": "FAIL",
+    "Detail": "The property 'Operations' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E5-14",
+    "Name": "interruption AFTER_EVENTS rolls back fully and records failure (process boundary)",
+    "Result": "FAIL",
+    "Detail": "The property 'Operations' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E5-15",
+    "Name": "restart after AFTER_EVENTS completes once without duplicates (process boundary)",
+    "Result": "FAIL",
+    "Detail": "The property 'Operations' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E5-16",
+    "Name": "interruption BEFORE_COMMIT rolls back fully and records failure (process boundary)",
+    "Result": "FAIL",
+    "Detail": "The property 'Operations' cannot be found on this object. Verify that the property exists."
+  },
+  {
+    "Id": "E5-17",
+    "Name": "restart after BEFORE_COMMIT completes once without duplicates (process boundary)",
+    "Result": "FAIL",
+    "Detail": "The property 'Operations' cannot be found on this object. Verify that the property exists."
+  }
+]

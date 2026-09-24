@@ -19,7 +19,7 @@ if($Phase-eq'Write'){
 $snapshot=Get-RapWorkflowExceptionSnapshot $DatabasePath
 $policy=Get-RapCompositeResolutionPolicy @(Find-RapWorkflowExceptions $broken) $broken
 if($snapshot.AuditCount-ne2){throw 'RECOVERY_AUDIT_HISTORY_LOST'}
-if($snapshot.LastAudit.PolicyVersion-ne'SPR-011-TURN-C-1'){throw 'RECOVERY_POLICY_VERSION_LOST'}
+if($snapshot.LastAudit.PolicyVersion-ne'SPR-011-TURN-E-1'){throw 'RECOVERY_POLICY_VERSION_LOST'}
 if($snapshot.LastAudit.PolicyDecision-ne'BLOCKED'){throw 'RECOVERY_POLICY_DECISION_CHANGED'}
 if($snapshot.LastAudit.PolicyHash-ne$policy.PolicyHash){throw 'RECOVERY_POLICY_NONDETERMINISTIC'}
 Write-Host 'TURN-C recovery process B: PASS'

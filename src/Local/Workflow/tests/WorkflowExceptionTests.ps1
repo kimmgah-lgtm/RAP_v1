@@ -10,8 +10,8 @@ function T([scriptblock]$action,[string]$pattern,[string]$message){$script:Asser
 
 # Taxonomy and clean baseline.
 $taxonomy=@(Get-RapExceptionTaxonomy)
-$required=@('ZOTERO_SOURCE_DELETED','DUPLICATE_BIBLIOGRAPHIC_REGISTRATION','NOTION_REVIEW_MISSING','MANUALLY_CREATED_NOTION_REVIEW','LIBRARY_ID_LINKAGE_BROKEN','PDF_MISSING_OR_REPLACED','PROJECT_LINKAGE_INCONSISTENCY','AUTOMATION_MANUAL_EDIT_CONFLICT','AI_ASSISTED_RESEARCHER_CONFIRMED_CONFLICT','ORPHAN','STALE','BROKEN_LINK','UNKNOWN_EXCEPTION')
-A ($taxonomy.Count-eq13) 'taxonomy count'
+$required=@('ZOTERO_SOURCE_DELETED','DUPLICATE_BIBLIOGRAPHIC_REGISTRATION','NOTION_REVIEW_MISSING','MANUALLY_CREATED_NOTION_REVIEW','LIBRARY_ID_LINKAGE_BROKEN','PDF_MISSING_OR_REPLACED','PROJECT_LINKAGE_INCONSISTENCY','AUTOMATION_MANUAL_EDIT_CONFLICT','AI_ASSISTED_RESEARCHER_CONFIRMED_CONFLICT','ORPHAN','STALE','BROKEN_LINK','UNKNOWN_EXCEPTION','AUTOMATION_FAILURE')
+A ($taxonomy.Count-eq14) 'taxonomy count'
 A (@($required|Where-Object{$taxonomy.ExceptionClass-notcontains$_}).Count-eq0) 'taxonomy completeness'
 A (@($taxonomy.DefaultResolution|Sort-Object -Unique|Where-Object{$_-notin@('AUTO_SAFE','HUMAN_REVIEW_REQUIRED','BLOCKED')}).Count-eq0) 'taxonomy states'
 $clean=New-RapWorkflowFixture

@@ -87,10 +87,10 @@ function Invoke-RapSelfTest {
     $outputLoaded=@($outputCommands|Where-Object{Get-Command $_ -CommandType Function -ErrorAction SilentlyContinue}).Count -eq $outputCommands.Count
     $outputSafe=$outputLoaded -and $Configuration.capabilities.Output -eq $true -and $Configuration.capabilities.OutputProductionWrite -eq $false
     $checks.Add((New-RapCheck 'Output Engine' $outputSafe 'SPR-010 Final Gate PASS; traceable local/mock output engine loaded; production writes disabled'))
-    $workflowCommands=@('Get-RapExceptionTaxonomy','Find-RapWorkflowExceptions','Get-RapCompositeResolutionPolicy','New-RapExceptionResolutionPlan','Invoke-RapExceptionReconciliation','Test-RapExceptionResolution','Invoke-RapWorkflowExceptionOperation','New-RapWorkflowSqliteDependencies')
+    $workflowCommands=@('Get-RapExceptionTaxonomy','Find-RapWorkflowExceptions','Get-RapCompositeResolutionPolicy','New-RapExceptionResolutionPlan','Invoke-RapExceptionReconciliation','Test-RapExceptionResolution','Invoke-RapWorkflowExceptionOperation','New-RapWorkflowSqliteDependencies','Get-RapDownstreamImpact','Test-RapDependentOperationPermitted','Test-RapWorkflowSnapshot','Submit-RapHumanReviewDecision','Get-RapExceptionLifecycle','Test-RapWorkflowAuditChain','ConvertTo-RapExceptionClass')
     $workflowLoaded=@($workflowCommands|Where-Object{Get-Command $_ -CommandType Function -ErrorAction SilentlyContinue}).Count -eq $workflowCommands.Count
     $workflowSafe=$workflowLoaded -and $Configuration.capabilities.WorkflowExceptions -eq $true -and $Configuration.capabilities.WorkflowExceptionsProductionWrite -eq $false
-    $checks.Add((New-RapCheck 'Workflow Exceptions' $workflowSafe 'SPR-011 Turn-C conservative composite policy loaded; production writes disabled'))
+    $checks.Add((New-RapCheck 'Workflow Exceptions' $workflowSafe 'SPR-011 Turn-E policy (taxonomy, lineage impact, hash-chained lifecycle audit) loaded; production writes disabled'))
     $checks.Add((New-RapCheck 'Operation Mode' ($Configuration.operation.mode -in @('Bootstrap','Live')) "Mode: $($Configuration.operation.mode)"))
     $allPassed = @($checks | Where-Object Status -ne 'PASS').Count -eq 0
     $capabilities = @($capabilityNames | ForEach-Object {

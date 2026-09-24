@@ -64,7 +64,7 @@ foreach($testName in @('OutputTests.ps1','OutputAdversarialTests.ps1','OutputGat
     if($LASTEXITCODE -ne 0){throw "Output Engine test failed: $testName ($LASTEXITCODE)"}
 }
 $workflowTestRoot=[IO.Path]::GetFullPath((Join-Path $root '../Workflow/tests'))
-foreach($testName in @('WorkflowExceptionTests.ps1','WorkflowExceptionAdversarialTests.ps1','WorkflowCompositePolicyTests.ps1','WorkflowCompositePolicyAdversarialTests.ps1')){
+foreach($testName in @('WorkflowExceptionTests.ps1','WorkflowExceptionAdversarialTests.ps1','WorkflowCompositePolicyTests.ps1','WorkflowCompositePolicyAdversarialTests.ps1','WorkflowTurnERemediationTests.ps1','WorkflowTurnEAdversarialTests.ps1','WorkflowMatrixTraceabilityTests.ps1')){
     & $powerShell -NoProfile -File (Join-Path $workflowTestRoot $testName)
     if($LASTEXITCODE -ne 0){throw "Workflow Exception Engine test failed: $testName ($LASTEXITCODE)"}
 }

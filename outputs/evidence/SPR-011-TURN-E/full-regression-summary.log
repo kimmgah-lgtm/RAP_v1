@@ -1,0 +1,150 @@
+Overall Status: PASS
+Status: PASS
+Overall Status: PASS
+SPR-002 unit/connector/Web API/normalization tests: PASS
+SPR-002 SQLite/sample library/acceptance tests: PASS
+SPR-003 transaction/audit/idempotency tests: PASS
+SPR-003 rollback/error queue tests: PASS
+SPR-003 verification/dry-run/validation tests: PASS
+SPR-003 acceptance/queue/sandbox tests: PASS
+SPR-004 connector/scan/SHA256 tests: PASS
+SPR-004 integrity/broken-link/duplicate tests: PASS
+SPR-004 acceptance/no-modification tests: PASS
+SPR-005 bootstrap unit tests: PASS
+SPR-005 acceptance tests: PASS
+SPR-007 Meta Coding focused tests: 42/42 PASS; assertions: 42
+SPR-008 Evidence Graph focused tests: 47/47 PASS; assertions: 47
+SPR-009 Synthesis focused tests: 68/68 PASS; assertions: 68
+SPR-010 output core scenarios: 92/92 PASS; assertions: 101
+SPR-010 adversarial tests: 10/10 PASS; assertions: 10
+GATE-A: PASS
+GATE-B: PASS
+GATE-C: PASS
+GATE-D: PASS
+GATE-E: PASS
+GATE-F: PASS
+GATE-G: PASS
+GATE-H: PASS
+GATE-I: PASS
+GATE-J: PASS
+GATE-K: PASS
+GATE-L: PASS
+GATE-M: PASS
+GATE-N: PASS
+GATE-O: PASS
+SPR-010 Turn-B independent Gate tests: 15/15 PASS; assertions: 62
+SPR-011 workflow exception core tests: PASS; assertions: 69
+SPR-011 workflow exception adversarial tests: 16/16 PASS; assertions: 16
+TURN-C recovery process A: PASS
+TURN-C recovery process B: PASS
+SPR-011 Turn-C remediation tests: R01-R20 20/20 PASS; assertions: 20
+SPR-011 Turn-C composite adversarial policy tests: 9/9 cases PASS; assertions: 15
+E1-01     PASS taxonomy contains AUTOMATION_FAILURE with non-AUTO_SAFE default
+E1-02     PASS taxonomy has 14 unique classes
+E1-03     PASS masked failure (exit 0 + error evidence) detected as AUTOMATION_FAILURE
+E1-04     PASS non-zero exit detected as unmasked AUTOMATION_FAILURE
+E1-05     PASS successful automation run produces no AUTOMATION_FAILURE
+E1-06     PASS unsupported type normalizes to UNKNOWN_EXCEPTION [1]
+E1-07     PASS unsupported type normalizes to UNKNOWN_EXCEPTION [2]
+E1-08     PASS unsupported type normalizes to UNKNOWN_EXCEPTION [3]
+E1-09     PASS unsupported type normalizes to UNKNOWN_EXCEPTION [4]
+E1-010    PASS unsupported type normalizes to UNKNOWN_EXCEPTION [5]
+E1-11     PASS raw unsupported exception normalizes to blocked UNKNOWN_EXCEPTION with original class evidence
+E1-12     PASS normalized unsupported exception forces composite BLOCKED
+E1-13     PASS forged exception with unsupported class fails closed
+E1-14     PASS forged DefaultResolution on known class fails closed
+E1-15     PASS AUTOMATION_FAILURE + STALE is BLOCKED with zero mutation
+E2-01     PASS E05 evidence models the downstream block
+E2-02     PASS E05 evidence lists PDF-dependent artifacts as BLOCKED
+E2-03     PASS E05 PDF-dependent operation is executably refused
+E2-04     PASS E05 block propagates transitively to Synthesis and Output
+E2-05     PASS E05 metadata/review/coding preserved with no delete
+E2-06     PASS E06 evidence enumerates all four dependent artifacts
+E2-07     PASS E06 every dependent is REVALIDATION_REQUIRED, none CURRENT
+E2-08     PASS E06 no automatic recomputation
+E2-09     PASS E06 status transitions CURRENT to REVALIDATION_REQUIRED recorded as lifecycle events
+E2-10     PASS E10 evidence records AI value, model, version and run
+E2-11     PASS E10 evidence records researcher value and confirmation provenance
+E2-12     PASS E10 typed retention: AI branch retained, not applied
+E2-13     PASS E10 researcher-confirmed unchanged and alternative persisted in registry
+E2-14     PASS E10 incomplete AI provenance is flagged and never AUTO_SAFE
+E2-15     PASS E11 evidence records dependent artifact identity and status
+E2-16     PASS E11 DerivedVersion refresh alone does not mark dependents CURRENT
+E2-17     PASS E11 stale artifact cannot be consumed as current
+E2-18     PASS E11 explicit revalidation evidence restores CURRENT
+E2-19     PASS unknown artifact is refused (fail closed)
+E2-20     PASS lineage reference to missing artifact blocks the dependent
+E2-21     PASS lineage cycle blocks instead of looping
+E2-S-E01  PASS semantic E01 disposition BLOCKED and protected data preserved
+E2-S-E02  PASS semantic E02 disposition HUMAN_REVIEW_REQUIRED and protected data preserved
+E2-S-E03  PASS semantic E03 disposition HUMAN_REVIEW_REQUIRED and protected data preserved
+E2-S-E04  PASS semantic E04 disposition HUMAN_REVIEW_REQUIRED and protected data preserved
+E2-S-E05  PASS semantic E05 disposition HUMAN_REVIEW_REQUIRED and protected data preserved
+E2-S-E06  PASS semantic E06 disposition HUMAN_REVIEW_REQUIRED and protected data preserved
+E2-S-E07  PASS semantic E07 disposition BLOCKED and protected data preserved
+E2-S-E08  PASS semantic E08 disposition HUMAN_REVIEW_REQUIRED and protected data preserved
+E2-S-E09  PASS semantic E09 disposition HUMAN_REVIEW_REQUIRED and protected data preserved
+E2-S-E10  PASS semantic E10 disposition HUMAN_REVIEW_REQUIRED and protected data preserved
+E2-S-E11  PASS semantic E11 disposition AUTO_SAFE and protected data preserved
+E2-S-E12  PASS semantic E12 disposition BLOCKED and protected data preserved
+E3-01     PASS audit records actor identity and actor type
+E3-02     PASS audit persists actual prior state, not only its hash
+E3-03     PASS review case lifecycle sequence reconstructed
+E3-04     PASS AUTO_SAFE case lifecycle ends in FINAL_RESOLUTION
+E3-05     PASS every transition event has from/to state, actor and timestamp
+E3-06     PASS human review decision event records decision, actor, timestamp, provenance and permitted action
+E3-07     PASS final resolution is a distinct event from operation completion
+E3-08     PASS automation actor cannot write a human review decision
+E3-09     PASS unauthorized researcher decision rejected
+E3-10     PASS decision on a case not awaiting review rejected
+E3-11     PASS decision permits no destructive action and changes no source data
+E3-12     PASS decision replay idempotent; changed decision payload conflicts
+E3-13     PASS lifecycle reconstructed from a freshly opened store equals expected sequence
+E3-14     PASS operation replay adds no lifecycle events
+E3-15     PASS audit chain valid on untampered store
+E3-16     PASS module exposes no audit update/delete command
+E3-17     PASS in-place operation audit edit is detected
+E3-18     PASS in-place lifecycle event edit is detected
+E3-19     PASS tail deletion of lifecycle events is detected
+E3-20     PASS failed operation records OPERATION_FAILED with FailureReason and no completed state
+E5-01     PASS malformed payload rejected deterministically with zero mutation [missing-field]
+E5-02     PASS malformed payload rejected deterministically with zero mutation [wrong-type]
+E5-03     PASS malformed payload rejected deterministically with zero mutation [oversized]
+E5-04     PASS malformed payload rejected deterministically with zero mutation [invalid-library-id]
+E5-05     PASS malformed payload rejected deterministically with zero mutation [invalid-project-id]
+E5-06     PASS malformed payload rejected deterministically with zero mutation [invalid-dependent]
+E5-07     PASS malformed payload rejected deterministically with zero mutation [wrong-bool]
+E5-08     PASS null snapshot rejected
+E5-09     PASS injection-shaped OperationId rejected before any store access
+E5-10     PASS interruption AFTER_STATE rolls back fully and records failure (process boundary)
+E5-11     PASS restart after AFTER_STATE completes once without duplicates (process boundary)
+E5-12     PASS interruption AFTER_AUDIT rolls back fully and records failure (process boundary)
+E5-13     PASS restart after AFTER_AUDIT completes once without duplicates (process boundary)
+E5-14     PASS interruption AFTER_EVENTS rolls back fully and records failure (process boundary)
+E5-15     PASS restart after AFTER_EVENTS completes once without duplicates (process boundary)
+E5-16     PASS interruption BEFORE_COMMIT rolls back fully and records failure (process boundary)
+E5-17     PASS restart after BEFORE_COMMIT completes once without duplicates (process boundary)
+SPR-011 Turn-E remediation tests: 85/85 PASS; failures: 0
+EA-01 PASS masked success cannot unlock AUTO_SAFE
+EA-02 PASS combined PDF change and coding conflict keeps researcher value and invalidates dependents
+EA-03 PASS recorded CURRENT is not trusted over lineage evidence
+EA-04 PASS automation actor type rejected
+EA-05 PASS case-varied automation identity rejected
+EA-06 PASS non-canonical actor type rejected
+EA-07 PASS destructive decision vocabulary rejected
+EA-08 PASS no forged decision reached the lifecycle store
+EA-09 PASS re-observed identity blocker reopens the case and stays BLOCKED
+EA-10 PASS appended forged event detected
+EA-11 PASS deleted operation audit row detected
+EA-12 PASS malformed payload permutation rejected (WRONG_TYPE:Links)
+EA-13 PASS malformed payload permutation rejected (WRONG_TYPE:AutomationRuns\[0\].ExitCode)
+EA-14 PASS malformed payload permutation rejected (DUPLICATE_ID:Dependents\[1\].ArtifactId)
+EA-15 PASS malformed payload permutation rejected (INVALID_VALUE:Dependents\[0\].Requires)
+EA-16 PASS malformed payload permutation rejected (WRONG_TYPE:VersionState.DerivedVersion)
+EA-17 PASS order permutation of new classes gives identical BLOCKED policy
+EA-18 PASS dependent order permutation gives identical impact
+EA-19 PASS whitespace-padded class cannot borrow STALE AUTO_SAFE
+EA-20 PASS failed decision commit does not resolve the case
+SPR-011 Turn-E adversarial tests: 20/20 cases PASS; assertions: 20
+SPR-011 matrix traceability tests: PASS; mapped rows: 180; assertions: 13
+RAP repository acceptance tests: PASS

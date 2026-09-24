@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased — SPR-011 Turn E P1 remediation
+
+- Applied the Turn-E remediation bundle to the native Windows workspace and verified 238/238 focused assertions, the 24-script full available regression, and the SPR-009 Gate suite (31/31); resolved `RISK-SPR011-010`.
+- Reproduced every open P1 (RISK-SPR011-002~006) as failing assertions first: 69/85 Turn-E assertions failed against the Turn-D engine (RED), 85/85 pass after repair (GREEN).
+- Taxonomy: added `AUTOMATION_FAILURE` (BLOCKED), including masked failures (exit 0 with error evidence); `ConvertTo-RapExceptionClass` / `ConvertTo-RapNormalizedException` normalize unsupported, null, differently-cased, or padded classes to `UNKNOWN_EXCEPTION`; the composite policy rejects forged classes and forged `DefaultResolution` values.
+- Downstream semantics: `Get-RapDownstreamImpact` derives effective artifact status (CURRENT < STALE < REVALIDATION_REQUIRED < BLOCKED) transitively from the snapshot's normalized Evidence-Graph lineage projection; missing references and cycles block. `Test-RapDependentOperationPermitted` is the executable downstream gate. PDF, STALE, and AI-conflict evidence now carry affected artifacts / typed conflict provenance; AI alternatives are retained as `RETAINED_NOT_APPLIED`.
+- Audit: append-only SHA-256 hash-chained `WorkflowLifecycleEvents` + `WorkflowChainHead`; audit rows carry actor, actor type, prior state, transitions, failure reason, final status; `Submit-RapHumanReviewDecision` (researcher-only, authorized list, idempotent) and `Get-RapExceptionLifecycle`; `Test-RapWorkflowAuditChain` detects in-place edits, forged appends, tail deletion, and deleted audit rows.
+- Error paths: deterministic `MALFORMED_SNAPSHOT:*` and `MALFORMED_OPERATION_ID` rejection before any store access; SQL literal escaping for OperationKey; fault injection at four transaction boundaries with cross-process rollback/restart/replay verification; `OPERATION_FAILED` event recorded after rollback.
+- Traceability: `docs/SPR-011-SCENARIO-MATRIX.md` re-mapped to 180 rows with the full schema; `WorkflowMatrixTraceabilityTests.ps1` enforces it statically and at runtime.
+- Policy version `SPR-011-TURN-E-1`; Workflow module `1.0.0-alpha.12`. Two legacy pins were updated intentionally (taxonomy count 13→14; policy version in R20/recovery helper).
+- Final Gate not performed (Turn F); no production write, real external data access, commit, push, SPR-011.5, or SPR-012 work.
+
 ## Unreleased — SPR-011 Turn D Final Gate
 
 - Independently verified that the Turn-B `LIBRARY_ID_LINKAGE_BROKEN + STALE` defect is fixed: both plans are BLOCKED, AUTO_SAFE is false, and no reconciliation mutation occurs.
