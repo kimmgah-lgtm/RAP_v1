@@ -138,3 +138,17 @@ remained disabled.
 SPR-011.5 Final Gate passed. Next-sprint readiness is **YES — LOCAL/MOCK
 DEVELOPMENT ONLY**. Exact next sprint: **SPR-012 Turn A**, pending an
 authoritative scope/specification. Production writes remain disabled.
+
+## SPR-012 — Controlled External Integration & Production Readiness (Turn A complete)
+
+- Explicit, fail-closed LOCAL/TEST/PRODUCTION environment classification
+- GET-only Zotero, Google Drive, and Notion adapter boundary separated from core preflight logic
+- Authentication, permission, schema, required-object, timeout, and unknown-state outcomes normalized without exposing credentials
+- Default-deny firewall covering create, update, delete, move, merge, apply, upsert, PATCH, POST, and PUT
+- Environment, identity, ownership, permission, schema, lineage, stale-state, mutation-plan, and recovery preflight
+- Deterministic future mutation manifests; apply always disabled
+- PR01–PR16 16/16, adversarial 17/17, credential leakage 2/2, and full safe RAP regression PASS
+- Live Zotero/Drive/Notion probes `TEST_DEFERRED`; production mutations 0/0/0
+- P0=0, P1=0, inherited P2=7 non-blocking
+
+Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the next sprint was not evaluated, and Turn B was not started. The exact next step is an independently commanded SPR-012 Turn B Final Gate. Production writes remain disabled.

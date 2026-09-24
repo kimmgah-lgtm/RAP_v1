@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased — SPR-011.5 reconciliation Final Gate
+## Unreleased — SPR-012 production readiness Turn A
+
+- Added explicit LOCAL/TEST/PRODUCTION environment guards, read-only Zotero/Drive/Notion probe adapters, fail-closed preflight, a production write firewall, and deterministic mutation manifests with apply disabled.
+- Passed PR01–PR16 (16/16), adversarial (17/17), credential leakage (2/2), and the full available safe RAP regression.
+- Recorded live Zotero, Drive, and Notion probes as `TEST_DEFERRED` because no credential or explicit target was configured; production mutations remained 0/0/0.
+- Did not perform the SPR-012 Final Gate, determine next-sprint readiness, start Turn B, or enable any production write.
+
+## SPR-011.5 reconciliation Final Gate
 
 - Added the local/fixture Data Integrity, Reconciliation, and Exception Recovery
   Engine with ownership-aware decisions, plan-before-apply, stale-plan blocking,

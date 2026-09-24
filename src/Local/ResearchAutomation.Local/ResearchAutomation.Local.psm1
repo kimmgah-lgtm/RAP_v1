@@ -14,6 +14,7 @@ Import-Module (Join-Path $PSScriptRoot '../Synthesis/ResearchAutomation.Synthesi
 Import-Module (Join-Path $PSScriptRoot '../Output/ResearchAutomation.Output.psd1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../Workflow/ResearchAutomation.Workflow.psd1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../Reconciliation/ResearchAutomation.Reconciliation.psd1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot '../ProductionReadiness/ResearchAutomation.ProductionReadiness.psd1') -Force -ErrorAction Stop
 
 function Get-RapZoteroItems {
     <#
@@ -163,5 +164,7 @@ Export-ModuleMember -Function @(
     'Initialize-RapWorkflowExceptionStore', 'New-RapWorkflowSqliteDependencies', 'Get-RapWorkflowExceptionSnapshot',
     'Test-RapIntegritySnapshot', 'Compare-RapIntegritySnapshot', 'New-RapReconciliationDecision', 'New-RapRecoveryPlan',
     'Test-RapRecoveryReadBack', 'Invoke-RapRecoveryPlan', 'Initialize-RapReconciliationStore',
-    'New-RapReconciliationSqliteDependencies', 'Register-RapReconciliationFixture', 'Get-RapReconciliationSnapshot', 'Get-RapReconciliationAudit'
+    'New-RapReconciliationSqliteDependencies', 'Register-RapReconciliationFixture', 'Get-RapReconciliationSnapshot', 'Get-RapReconciliationAudit',
+    'Get-RapCredentialPresence', 'New-RapExternalReadAdapter', 'Invoke-RapExternalReadProbe', 'New-RapProductionReadAdapters',
+    'New-RapEnvironmentGuard', 'Invoke-RapProductionWriteFirewall', 'New-RapMutationManifest', 'Test-RapProductionPreflight', 'Invoke-RapProductionDryRun'
 )

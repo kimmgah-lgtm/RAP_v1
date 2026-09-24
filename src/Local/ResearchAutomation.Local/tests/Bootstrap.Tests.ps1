@@ -24,6 +24,7 @@ $expectedCapabilities = [ordered]@{
     Output = $true; OutputProductionWrite = $false
     WorkflowExceptions = $true; WorkflowExceptionsProductionWrite = $false
     Reconciliation = $true; ReconciliationProductionWrite = $false
+    ProductionReadiness = $true; ProductionReadinessProductionWrite = $false
 }
 foreach ($entry in $expectedCapabilities.GetEnumerator()) {
     if ($configuration.capabilities.PSObject.Properties[$entry.Key].Value -ne $entry.Value) {

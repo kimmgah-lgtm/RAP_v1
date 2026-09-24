@@ -1,0 +1,3 @@
+. (Join-Path $PSScriptRoot 'TestHarness.ps1')
+$secret=('RAP'+'-LEAK-CANARY-'+[guid]::NewGuid().ToString('N'));[Environment]::SetEnvironmentVariable('RAP_TEST_CREDENTIAL',$secret)
+try{$e=New-RapPrExpected;$a=New-RapPrActual;$result=Invoke-RapProductionDryRun (New-RapPrProbe Zotero $a) $e (New-RapPrGuard) LEAK-SCAN;$serialized=$result|ConvertTo-Json -Depth 60;if($serialized-match[regex]::Escape($secret)){throw 'CREDENTIAL_LEAK_DETECTED'};if($serialized-match'Authorization|Zotero-API-Key'){throw 'CREDENTIAL_HEADER_LEAK_DETECTED'};Write-Host 'SPR-012 credential leakage scan: 2/2 PASS; secret leakage: 0'}finally{[Environment]::SetEnvironmentVariable('RAP_TEST_CREDENTIAL',$null)}
