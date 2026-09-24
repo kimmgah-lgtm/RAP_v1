@@ -2,13 +2,11 @@
 
 ## Current Sprint
 
-SPR-012 — Controlled External Integration & Production Readiness, complete after Turn D Final Gate PASS on 2026-09-24.
+SPR-013 — Controlled Read-Only Research Validation, Turn A complete on 2026-09-24.
 
-## HEAD before Gate commit
+## Baseline HEAD
 
-`b2f7012adc2b40d5684ba4e711b741ef582b254f`
-
-Turn D is to be committed with subject `chore: close SPR-012 production readiness gate`.
+`d3ab408092020d2caef82f9f12f835b6d424798c`
 
 ## Branch
 
@@ -23,6 +21,11 @@ Turn D is to be committed with subject `chore: close SPR-012 production readines
 - SPR-012 Turn D Final Gate: **PASS**
 - SPR-012: **COMPLETE**
 - Ready for SPR-013 Controlled Read-Only Validation: **YES**
+- SPR-013 Turn A implementation and real read-only validation: **COMPLETE / PASS**
+- Actual papers inspected: **3**
+- `LIB:L000003`: **MATCHED** through Notion Common Review
+- `LIB:L000001`, `LIB:L000002`: **AMBIGUOUS / HUMAN ACTION REQUIRED**
+- SPR-013 Final Gate: **NOT PERFORMED**
 
 The Gate means local/mock production-readiness is verified. It does not authorize Production Write and does not convert deferred live probes to PASS.
 
@@ -41,6 +44,7 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 - Workflow core/adversarial/remediation/traceability: **PASS**, including Turn-E 85/85 and 20/20 adversarial
 - Full available safe RAP regression: **PASS**
 - Mandatory failures: **0**
+- SPR-013 focused validation: **21 assertions PASS; failures 0**
 
 ## Risks
 
@@ -52,11 +56,18 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 
 ## External connectivity
 
-- Zotero: **TEST_DEFERRED**
-- Google Drive: **TEST_DEFERRED**
-- Notion: **TEST_DEFERRED**
+- Zotero: **PASS** through the existing read-only SQLite connector against the real local library
+- Google Drive: **PASS** for authenticated search, metadata, and raw PDF reads
+- Notion: **PASS** for authenticated search, page/schema fetch, and data-source query
 
-All configured credential-presence and target-presence checks were false. Values were not printed, logged, persisted, or included in audit/report output. No live external probe was attempted.
+Credential values, authorization headers, and temporary signed URLs were not printed into or persisted in repository artifacts. The Zotero desktop local HTTP endpoint was not running, but the real library was available through the read-only SQLite route, so Zotero validation was not deferred.
+
+Real trace summary:
+
+- `LIB:L000003`: Zotero `BCMYA9ZJ` -> Drive `1fJgUzCYIHM4pPo6Lo-SfBGT8mqE4-em9` -> Notion `3e25745c-693d-8120-890f-c4ffd0819b5a` = **MATCHED**
+- `LIB:L000001`: two attachment hashes = **AMBIGUOUS**
+- `LIB:L000002`: duplicate Zotero bibliographic records = **AMBIGUOUS**
+- `Pr1 | Study Review`: readable but 0 rows; project mappings are **MISSING**
 
 ## Production safety
 
@@ -72,16 +83,17 @@ All configured credential-presence and target-presence checks were false. Values
 
 ## Remaining limitations
 
-- Live Zotero, Google Drive, and Notion authentication, permission, schema, timeout, and required-object behavior remain unverified until explicitly configured read-only credentials and targets exist.
-- Production Write and production reconciliation APPLY remain disabled and unauthorized.
-- The inherited seven non-blocking P2 limitations remain tracked.
+- `L000001` requires human canonical-PDF selection and structured Zotero/Drive linkage backfill.
+- `L000002` requires human resolution of duplicate Zotero records; automatic merge is prohibited.
+- Drive File ID, PDF URL, Master Row, lifecycle, and Projects fields remain incomplete on inspected Notion rows.
+- The project review data source has no rows, so Common Review -> Project mapping is not complete.
+- Zotero `attachments:` base-path configuration remains unresolved for direct linked-file existence checks.
+- Production Write and reconciliation APPLY remain disabled and unauthorized.
 
-## Exact next sprint
+## Exact next step
 
-**SPR-013 — Controlled Read-Only Validation.**
-
-Scope must remain read-only. Validate explicitly configured external connectivity without creating, updating, deleting, moving, merging, applying, or overwriting any external or local truth. Keep each unavailable real probe as `TEST_DEFERRED`.
+Perform an independently commanded SPR-013 Final Gate or targeted read-only remediation planning for the two ambiguity cases. Do not start SPR-014.
 
 ## Next command
 
-Issue the SPR-013 Controlled Read-Only Validation Turn A implementation/validation command against the Turn-D Gate commit on branch `ASS_v1`. Do not enable Production Write.
+Issue the SPR-013 Final Gate command, or explicitly authorize a separate human-reviewed backfill phase. Keep Production Write disabled and do not APPLY reconciliation.

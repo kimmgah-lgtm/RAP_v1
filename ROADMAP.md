@@ -152,3 +152,12 @@ authoritative scope/specification. Production writes remain disabled.
 - P0=0, P1=0, inherited P2=7 non-blocking
 
 Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the next sprint was not evaluated, and Turn B was not started. The exact next step is an independently commanded SPR-012 Turn B Final Gate. Production writes remain disabled.
+
+## SPR-013 — Controlled Read-Only Research Validation (Turn A complete)
+
+- Reused the existing read-only Zotero, Drive, Notion, ProductionReadiness, and Reconciliation boundaries.
+- Validated three real papers across Zotero -> Library_ID -> Drive PDF -> Notion Common Review.
+- `L000003` MATCHED end to end through Common Review; `L000001` and `L000002` were stopped as AMBIGUOUS with PLAN-only reconciliation cases.
+- Verified PDF bibliographic identity and SHA-256 evidence; recorded incomplete structured linkage and a zero-row project mapping data source.
+- Focused 21 assertions and the full safe RAP regression PASS; P0/P1 0/0; secret leakage 0; production mutations 0/0/0.
+- Production Write remains disabled. SPR-013 Final Gate was not performed and SPR-014 was not started.

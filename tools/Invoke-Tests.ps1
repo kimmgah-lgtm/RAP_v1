@@ -14,4 +14,5 @@ $repositoryRoot = Split-Path -Parent $PSScriptRoot
 & (Join-Path $repositoryRoot 'src/Local/ProductionReadiness/tests/ProductionReadinessAdversarialTests.ps1')
 & (Join-Path $repositoryRoot 'src/Local/ProductionReadiness/tests/CredentialLeakageTests.ps1')
 & (Join-Path $repositoryRoot 'src/Local/ProductionReadiness/tests/ReadCapabilityBoundaryTests.ps1')
+& (Join-Path $repositoryRoot 'src/Local/ProductionReadiness/tests/ResearchWorkflowValidationTests.ps1')
 

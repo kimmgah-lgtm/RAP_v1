@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — SPR-013 controlled read-only validation Turn A
+
+- Added a pure read-only cross-system identity classifier and PLAN-only reconciliation-case builder; no APPLY path is exposed.
+- Read three real Zotero/Drive/Notion paper chains: `L000003` MATCHED, while `L000001` and `L000002` were conservatively classified AMBIGUOUS.
+- Verified real PDF title/author/year/DOI identity and SHA-256 evidence, Notion review schema/status, and missing project mappings without modifying any external system.
+- Passed 21 focused assertions and the full safe RAP regression with zero focused failures, zero secret leakage, P0/P1 0/0, and production mutations 0/0/0.
+- Kept Production Write disabled, did not perform the Final Gate, and did not start SPR-014.
+
 ## Unreleased — SPR-012 production readiness Turn A
 
 - Added explicit LOCAL/TEST/PRODUCTION environment guards, read-only Zotero/Drive/Notion probe adapters, fail-closed preflight, a production write firewall, and deterministic mutation manifests with apply disabled.
