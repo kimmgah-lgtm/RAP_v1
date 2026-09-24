@@ -54,3 +54,21 @@ Fixture persistence extends the existing local SQLite queue with graph node, edg
 Analysis specifications make model, estimator, scopes, moderators, dependency strategy, diagnostics, and engine version explicit and hash them canonically. The engine implements fixed-effect and DerSimonian–Laird random-effects synthesis, Q/I²/tau², explicit Hedges' g derivation, approved direction reversal, subgroup summaries, leave-one-out sensitivity, and funnel data. It never writes scientific interpretation or selects research decisions automatically.
 
 SQLite persistence reuses the RAP `Operations` ledger for OperationID/PayloadHash semantics and stores versioned specifications, results, lineage, and audit events locally. Analysis-result lineage references upstream effect/evidence/input identities compatible with the Evidence Graph; it does not mutate Meta Coding or replace graph provenance. Production synthesis writes remain disabled.
+
+## Research Output & Reproducibility boundary
+
+`ResearchAutomation.Output` consumes verified, project-scoped records from the existing RAP layers. An explicit Output Specification canonically hashes scientifically meaningful selections. A deterministic Output Dataset sorts and snapshots source identities, versions, data, and lineage before artifact generation, so an artifact never reads changing upstream state midway through generation.
+
+Structured output builders cover study characteristics, project Meta Coding, effect sizes, synthesis, heterogeneity, moderator/subgroup, sensitivity, publication-bias diagnostics, screening flow, evidence summaries, and figure-ready data. Verified SPR-009 results are copied, not recalculated. Missing screening history returns `MISSING_REQUIRED_DATA`; the engine makes no PRISMA-compliance claim. Figure rendering and physical archive writing are outside Turn A.
+
+Artifacts carry stable IDs, version keys, source/config/content hashes, generator version, and record-level lineage. Analysis-scoped artifacts require the correct `Analysis_ID`; effect/analysis lineage requires Evidence and Paper references, while derived effects also require transformation and statistical-input references. Dedicated manifest and package builders preserve those identities, recompute hashes from actual content, and reject credentials, tokens, PDFs, and private notes. HUMAN_OWNED narrative fields and unconfirmed input are rejected, and the factual statement template cannot add scientific interpretation.
+
+Local persistence reuses the shared `Operations` ledger and commits the output snapshot, append-only audit entry, and completed operation in one SQLite transaction. Artifact history uses the artifact-plus-version key; logical package metadata and semantic audit payloads survive reload. Production output write remains disabled; no external output service or duplicate canonical research store is introduced.
+
+## Workflow & Exception Management boundary
+
+`ResearchAutomation.Workflow` consumes a normalized snapshot supplied by existing authoritative boundaries and emits exception records; it does not poll, mutate, or duplicate those sources. The detector assigns stable identities to Zotero deletion, duplicate registration, Notion review, Library_ID, PDF, project, edit-ownership, AI/researcher, orphan, stale, broken-link, and unknown conditions.
+
+The planner maps each exception to `AUTO_SAFE`, `HUMAN_REVIEW_REQUIRED`, `BLOCKED`, or justified ignore. Turn A permits automatic reconciliation only for local derived `STALE` state. Every other case preserves the original snapshot. Verification hashes HUMAN_OWNED and researcher-confirmed branches, preserves Library_ID, rejects prohibited actions, and reruns detection for an AUTO_SAFE result.
+
+Registry state, plans, reconciliations, verifications, operation completion, and safety audit are stored locally through the shared SQLite queue and Operations ledger. A single transaction prevents partial completion. Production workflow write remains disabled, and there is no automatic delete, merge, canonical selection, external recovery action, or source-system write.

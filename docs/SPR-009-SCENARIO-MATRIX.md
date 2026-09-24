@@ -1,16 +1,26 @@
 # SPR-009 Scenario Matrix
 
-All scenarios execute in `src/Local/Synthesis/tests/SynthesisTests.ps1`. Each row maps to one runtime assertion. Result: 68/68 PASS, rerun on 2026-09-23.
+Legacy scenarios execute in `src/Local/Synthesis/tests/SynthesisTests.ps1` and each
+legacy row maps to one runtime assertion. Gate-remediation scenarios execute in
+`src/Local/Synthesis/tests/SynthesisGateRemediationTests.ps1`; their 25 scenario
+rows use 31 assertions, including 6 additional numerical non-regression checks.
+Result: **93/93 scenarios PASS; 99 actual assertions; 17 numerical assertions**
+on 2026-09-23.
 
-## Turn B coverage finding
+Turn D reran both focused suites unchanged and confirmed the same 93/93 scenario,
+99 assertion, and 17 numerical-assertion result before the Final Gate PASS. The
+remaining SPR-006 artifact-availability risk does not alter these SPR-009 results.
+
+## Turn B coverage finding and Turn C closure
 
 The existing assertions pass, but the Final Gate found material requirements that
 the matrix does not exercise: execution/rejection of a selected dependency
 strategy, mandatory derivation metadata, explicit model/estimator selection,
 complete Analysis Dataset-to-Paper lineage, persistence of sensitivity runs, and
-rejection of missing moderator values. Accordingly, this matrix is valid evidence
-for the assertions listed below but is not sufficient evidence for a passing
-SPR-009 Final Gate. See `docs/RISK-REGISTER.md`.
+rejection of missing moderator values. Turn C added scenarios 69–93 below to close
+those coverage gaps. Turn C itself did not perform Final Gate; the later Turn D
+gate reran and accepted this matrix. See `docs/RISK-REGISTER.md` for current risk
+state.
 
 | Test | Requirement | Assertion evidence | Result |
 |---:|---|---|---|
@@ -83,8 +93,39 @@ SPR-009 Final Gate. See `docs/RISK-REGISTER.md`.
 | 67 | External deferral | AIReview false/write disabled | PASS |
 | 68 | Zero production change | fixture audit only | PASS |
 
+## Turn C Gate-remediation scenarios
+
+| Test | Requirement | Assertion evidence | Result |
+|---:|---|---|---|
+| 69 (A) | Derived source inputs | missing source statistics raise `DERIVED_EFFECT_SOURCE_INPUTS_REQUIRED` | PASS |
+| 70 (B) | Derived transformation | missing transformation raises `DERIVED_EFFECT_TRANSFORMATION_REQUIRED` | PASS |
+| 71 (C) | Valid derived eligibility | complete inputs and method/version remain intact | PASS |
+| 72 (D) | No empty moderator group | subgroup call raises `MISSING_MODERATOR_VALUE` | PASS |
+| 73 (E) | Missing state preservation | primary dataset retains null moderator | PASS |
+| 74 (F) | Unsupported RVE | `UNSUPPORTED_DEPENDENCY_STRATEGY`; no pooled result | PASS |
+| 75 (G) | Unapproved dependency | shared group with `NONE` raises `DEPENDENCY_STRATEGY_REQUIRED` | PASS |
+| 76 (H) | Independent non-regression | valid independent fixture still pools to `0.6` | PASS |
+| 77 (I) | Sensitivity identity | every child has a distinct Analysis ID | PASS |
+| 78 (J) | Parent relationship | every child retains parent Analysis ID | PASS |
+| 79 (K) | Sensitivity hashes | child dataset/configuration hashes present | PASS |
+| 80 (L) | Sensitivity version/provenance | engine version and upstream lineage retained | PASS |
+| 81 (M) | Restart/reload | separate writer and reader processes recover three child runs | PASS |
+| 82 (N) | Complete SPR-008 lineage | result links dataset, effect, evidence, and paper identities | PASS |
+| 83 (O) | Broken analysis/effect path | missing `HAS_EFFECT_SIZE` edge blocks dataset | PASS |
+| 84 (P) | Broken paper path | missing Paper node blocks dataset | PASS |
+| 85 (Q) | Derived transformation lineage | derived node and six statistical inputs retained | PASS |
+| 86 (R) | Missing model | `ANALYSIS_MODEL_REQUIRED` | PASS |
+| 87 (S) | Missing estimator | `ANALYSIS_ESTIMATOR_REQUIRED` | PASS |
+| 88 (T) | Explicit scientific decision | researcher-specified RANDOM/DL retained | PASS |
+| 89 (U) | HUMAN_OWNED non-regression | blank Reviewer Memo remains blocked | PASS |
+| 90 (V) | Project boundary non-regression | PR002 record rejected by PR001 analysis | PASS |
+| 91 (W) | Production safety | all production capabilities and synthesis write remain disabled | PASS |
+| 92 (X) | Sensitivity idempotent replay | same operation/payload adds no child runs | PASS |
+| 93 (Y) | Sensitivity payload conflict | changed dataset with same operation raises `PAYLOAD_CONFLICT` | PASS |
+
 ## Numerical fixtures
 
 - Hedges' g: equal group SDs, means 12 and 10, N=50+50; expected `g ≈ 0.4961`, tolerance `0.0002`.
 - Random-effects fixture: effects `0.1, 0.5, 1.2`, each variance `0.04`, DerSimonian–Laird estimator.
 - Expected pooled effect `0.6` (tolerance `1e-12`), Q `15.5` (`1e-10`), I² `87.096774%` (`1e-5`), tau² `0.27` (`1e-12`), and lower 95% CI `-0.0300529` (`1e-5`).
+- Turn C independently reasserts Hedges' g `0.4961636828644501`, variance `0.04125601224588579`, SE `0.20311576070282136`, fixed pooled effect `0.6`, fixed SE `0.11547005383792516`, and fixed lower CI `0.37367869447766666`, each at tolerance `1e-12`.

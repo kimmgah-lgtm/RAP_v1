@@ -67,7 +67,7 @@ The official baseline keeps SPR-006 complete. Its code/test artifacts are absent
 
 No next Sprint was started during the SPR-008 Final Gate.
 
-## SPR-009 — Meta Analysis & Synthesis Engine (Turn A implemented; Final Gate FAIL)
+## SPR-009 — Meta Analysis & Synthesis Engine (complete; Final Gate PASS)
 
 - Researcher-confirmed, project-scoped analysis input gate and deterministic dataset builder
 - Persistent hashed analysis specifications and versioned results
@@ -76,8 +76,39 @@ No next Sprint was started during the SPR-008 Final Gate.
 - Evidence Graph-compatible lineage, shared operation-ledger idempotency, SQLite persistence, and audit
 - Focused scenarios 68/68 PASS and full available safe regression PASS
 - All production integrations and synthesis production writes remain disabled
-- Turn B independently validated the implemented statistical formulas, but found six Gate-blocking P1 risks in dependency execution, explicit researcher decisions, derivation provenance, complete Evidence Graph lineage, sensitivity persistence, and moderator validation
-- Next-sprint readiness: NO
+- Turn B independently validated the implemented statistical formulas and found six Gate-blocking P1 risks
+- Turn C remediated all six P1 risks with 25 new scenarios and 31 assertions; 68/68 legacy scenarios, 25/25 remediation scenarios, and 16/16 available safe test scripts pass
+- Turn D reconstructed the missing persistent Gate evidence by rerunning 93 focused scenarios and all 16 available safe test scripts; Final Gate PASS
+- P0=0, P1=0, P2=1; `RISK-BASELINE-001` remains open and verified non-blocking
+- Next-sprint readiness: YES — LOCAL/MOCK DEVELOPMENT ONLY
 
-SPR-010 has not been started. The SPR-009 Gate-blocking risks must be resolved and
-the Final Gate rerun under separate authorization before the planned next Sprint.
+## SPR-010 — Research Output & Reproducible Report Engine (complete; Final Gate PASS)
+
+- Explicit, hashed Output Specifications and deterministic project-scoped Output Datasets
+- Versioned structured table, result, flow, evidence-summary, and figure-data artifacts
+- Record-, Analysis-, Effect Size-, Evidence-, and Paper-level lineage
+- Reproducibility Manifest, deterministic Export Package validation, and stale detection
+- HUMAN_OWNED narrative firewall and factual-only result statements
+- Atomic SQLite state/audit/operation commit using the shared Operations ledger
+- 92/92 required core, 10/10 Turn-A adversarial, and 15/15 independent Gate scenarios PASS (173 executable assertions)
+- Turn B independently verified SPR-009 value equivalence, reverse traceability, actual-content tamper detection, persistence/audit, and artifact version history
+- All 9 available safe local suites PASS; SPR-006 remains unavailable under `RISK-BASELINE-001`
+- Production output writes and all real external tests remain disabled/deferred
+
+SPR-010 Final Gate passed. Next-sprint readiness is **YES — LOCAL/MOCK DEVELOPMENT ONLY**. SPR-011 was not started.
+
+## SPR-011 — Research Workflow & Exception Management Engine (Turn D Final Gate FAIL; remediation required)
+
+- Thirteen-class exception taxonomy and deterministic registry identities
+- Fixture integrity detector for Zotero, bibliography, Notion, Library_ID, PDF, project, edit, coding, orphan, stale, link, and unknown conditions
+- Four resolution states with unsafe AUTO_SAFE escalation and unjustified ignore rejection
+- Bounded local STALE reconciliation plus post-resolution safety verification
+- No-delete, no-merge, no-canonical-selection, HUMAN_OWNED, confirmed-coding, Library_ID, and source-boundary invariants
+- Shared Operations-ledger idempotency, atomic SQLite persistence, and semantic audit trail
+- Turn B Final Gate failed after reproducing `LIBRARY_ID_LINKAGE_BROKEN + STALE -> AUTO_SAFE/RECONCILED`
+- Turn C added conservative complete-set resolution precedence, explicit AUTO_SAFE safety predicates, fail-closed evidence handling, deterministic policy version/hash audit, and cross-process verification
+- Core 69, original adversarial 16, R01-R20 remediation 20, and composite adversarial 15 assertions PASS (120 total); all 10 available safe local suites PASS
+- Turn D independently verified the original AUTO_SAFE defect is fixed, but Final Gate failed on remaining E05/E06/E10/E11 semantics, lifecycle auditability, and complete requirement/assertion traceability
+- Production workflow writes disabled and external tests deferred
+
+Turn D Final Gate is **FAIL**. Readiness for SPR-011.5 is **NO**; SPR-011.5 and SPR-012 were not started.

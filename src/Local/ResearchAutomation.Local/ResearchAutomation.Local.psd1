@@ -24,7 +24,13 @@
         'Initialize-RapEvidenceGraphStore', 'New-RapEvidenceGraphSqliteDependencies', 'Get-RapEvidenceGraphFixtureSnapshot',
         'New-RapAnalysisSpecification', 'Get-RapHedgesG', 'New-RapAnalysisDataset', 'Invoke-RapSynthesis',
         'Invoke-RapSubgroupAnalysis', 'Invoke-RapSensitivityAnalysis', 'Get-RapPublicationBiasDiagnostic',
-        'Initialize-RapSynthesisStore', 'New-RapSynthesisSqliteDependencies', 'Get-RapSynthesisFixtureSnapshot'
+        'Initialize-RapSynthesisStore', 'New-RapSynthesisSqliteDependencies', 'Get-RapSynthesisFixtureSnapshot',
+        'New-RapOutputSpecification', 'New-RapOutputDataset', 'New-RapResearchArtifact', 'New-RapFactualResultStatement',
+        'New-RapReproducibilityManifest', 'New-RapExportPackage', 'Test-RapOutputPackage', 'Test-RapOutputStale',
+        'Invoke-RapOutputGeneration', 'Initialize-RapOutputStore', 'New-RapOutputSqliteDependencies', 'Get-RapOutputSnapshot', 'Save-RapOutputPackage',
+        'Get-RapExceptionTaxonomy', 'Find-RapWorkflowExceptions', 'Get-RapCompositeResolutionPolicy', 'New-RapExceptionResolutionPlan',
+        'Invoke-RapExceptionReconciliation', 'Test-RapExceptionResolution', 'Invoke-RapWorkflowExceptionOperation',
+        'Initialize-RapWorkflowExceptionStore', 'New-RapWorkflowSqliteDependencies', 'Get-RapWorkflowExceptionSnapshot'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

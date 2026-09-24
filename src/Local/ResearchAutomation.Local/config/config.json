@@ -61,6 +61,10 @@
     "EvidenceGraph": true,
     "EvidenceGraphProductionWrite": false,
     "Synthesis": true,
-    "SynthesisProductionWrite": false
+    "SynthesisProductionWrite": false,
+    "Output": true,
+    "OutputProductionWrite": false,
+    "WorkflowExceptions": true,
+    "WorkflowExceptionsProductionWrite": false
   }
 }

@@ -1,6 +1,11 @@
-# SPR-009 Final Gate Report
+# SPR-009 Turn B Final Gate Report (Historical)
 
 Date: 2026-09-23
+
+This report preserves the earlier Turn B FAIL decision. It was followed by Turn C
+remediation and a separate Turn D Final Gate PASS recorded in
+`outputs/SPR-009-TURN-D-FINAL-GATE-REPORT.md`. This historical report is not the
+latest canonical SPR-009 state.
 
 ## 1. Implementation Verification
 

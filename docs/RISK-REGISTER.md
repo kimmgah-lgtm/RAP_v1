@@ -1,18 +1,46 @@
 # RAP Risk Register
 
-Last verified: 2026-09-23, SPR-009 Turn B Final Gate
+Last verified: 2026-09-24, SPR-011 Turn D Final Gate re-verification
 
-Open-risk summary: **P0 = 0, P1 = 6, P2 = 2**.
+Open-risk summary: **P0 = 0, P1 = 5, P2 = 1**.
+
+## Open risks
 
 | Risk ID | Priority | Description and evidence | Impact | Affected component | Gate blocking |
 |---|---|---|---|---|---|
-| RISK-SPR009-001 | P1 | A dataset containing two effects in one dependency group is accepted with `DependencyStrategy=RVE`, but `Invoke-RapSynthesis` still applies the ordinary independent inverse-variance model and returns a pooled result. | A claimed dependency strategy is recorded but not executed, so dependent effects can be analysed as independent. | SPR-009 dependency handling and primary synthesis | YES |
-| RISK-SPR009-002 | P1 | `New-RapAnalysisSpecification` silently defaults to `Model=RANDOM` and `Estimator=DL` when the caller omits both parameters. | A scientifically consequential researcher decision can be finalized by a runtime default. | SPR-009 analysis specification / researcher decision firewall | YES |
-| RISK-SPR009-003 | P1 | A `DERIVED_EFFECT` record with null `StatisticalInputs` and null `Transformation` is accepted into an analysis dataset. | A derived effect can lose the source-statistic and formula lineage required for audit and reproduction. | SPR-009 dataset validation / effect provenance | YES |
-| RISK-SPR009-004 | P1 | Synthesis lineage contains effect, project, evidence text, and optional input data, but no Analysis Dataset node/link or Paper node/link and does not emit validated SPR-008 graph edges. | The required result → dataset → effect → input → evidence → paper chain cannot be verified from the analysis result. | SPR-008/SPR-009 lineage integration | YES |
-| RISK-SPR009-005 | P1 | Leave-one-out results contain only parent analysis ID, method, excluded effect ID, pooled estimate, and timestamp; they are not saved by synthesis persistence and contain no config/dataset hash, engine version, or provenance. | Sensitivity analyses cannot be fully reloaded, versioned, or reproduced from persisted state. | SPR-009 sensitivity and persistence | YES |
-| RISK-SPR009-006 | P1 | An approved moderator with a missing value is accepted and analysed as a subgroup whose identity is an empty string. | Invalid moderator input does not fail explicitly and can create an anonymous subgroup. | SPR-009 moderator validation | YES |
-| RISK-SPR009-007 | P2 | The 68-scenario suite passes but does not assert the six Final Gate conditions above; scenario 38 checks only a missing dependency strategy, not execution of a selected strategy. | Existing green test evidence overstates coverage of several scientific safety boundaries. | SPR-009 tests and Scenario Matrix | NO (underlying P1 risks block the Gate) |
 | RISK-BASELINE-001 | P2 | No SPR-006 executable source/test artifacts are present in this checkout. | The historical SPR-006 baseline cannot be rerun locally as part of the safe regression. | Repository regression evidence | NO |
+| RISK-SPR011-002 | P1 | Turn B found no dedicated `AUTOMATION_FAILURE` taxonomy class and incomplete unsupported-type normalization. | Mandatory taxonomy/fail-closed coverage may be incomplete. | Workflow exception taxonomy | YES |
+| RISK-SPR011-003 | P1 | Turn B found incomplete downstream behavior evidence for PDF blocking/change lineage, AI evidence retention, and dependent stale artifacts (E05/E06/E10/E11). | Exception handling may not fully protect downstream reproducibility. | Workflow scenario behavior | YES |
+| RISK-SPR011-004 | P1 | Turn B found missing actor, explicit transition, failure-reason, human-review-decision, and final-resolution audit evidence. | Material lifecycle reconstruction may be incomplete. | Workflow audit | YES |
+| RISK-SPR011-005 | P1 | Turn B found the pre-Turn-C matrix insufficiently traceable to exact test cases/assertions for all mandatory requirements. Turn C adds exact R01-R20 mapping but does not re-adjudicate the entire matrix. | Final Gate traceability remains pending. | Requirements/test evidence | YES |
+| RISK-SPR011-006 | P1 | Turn B found incomplete deterministic malformed-payload and true partial-persistence/interruption coverage outside the bounded composite-policy recovery path. | Some failure paths remain unverified. | Workflow recovery/error handling | YES |
 
-No P0 risk was observed. All risks above were derived from the current repository and deterministic local fixture probes; no historical count was inherited.
+## Resolved by SPR-009 Turn C
+
+| Risk ID | Former priority | Resolution evidence | Status |
+|---|---:|---|---|
+| RISK-SPR009-001 | P1 | Synthesis now rejects every unimplemented dependency strategy with `UNSUPPORTED_DEPENDENCY_STRATEGY`; ordinary independent effects continue to synthesize. Gate scenarios F–H pass. | RESOLVED |
+| RISK-SPR009-002 | P1 | Model and estimator no longer have authoritative defaults; missing selections raise `ANALYSIS_MODEL_REQUIRED` or `ANALYSIS_ESTIMATOR_REQUIRED`. Gate scenarios R–T pass. | RESOLVED |
+| RISK-SPR009-003 | P1 | `DERIVED_EFFECT` now requires source inputs plus transformation method/version and validated derived-input/evidence graph lineage. Gate scenarios A–C and Q pass. | RESOLVED |
+| RISK-SPR009-004 | P1 | Dataset construction validates the SPR-008 Project-Paper → Meta Coding → Effect → Evidence/Paper path and derived-input path. Results retain Analysis Dataset, effect, input, evidence, and paper identities. Gate scenarios N–Q pass. | RESOLVED |
+| RISK-SPR009-005 | P1 | Sensitivity analyses are persisted as distinct child runs with parent identity, dataset/config hashes, engine version, changed configuration, exclusions, statistics, provenance, and audit state. Independent-process reload passes scenario M. | RESOLVED |
+| RISK-SPR009-006 | P1 | Missing moderator values remain null in the primary dataset and explicitly fail subgroup analysis with `MISSING_MODERATOR_VALUE`. Gate scenarios D–E pass. | RESOLVED |
+| RISK-SPR009-007 | P2 | Added 25 traceable Gate-remediation scenarios with 31 assertions, including sensitivity replay/conflict and 6 numerical non-regression assertions. | RESOLVED |
+
+## Resolved by SPR-010 Turn B
+
+| Risk ID | Former priority | Resolution evidence | Status |
+|---|---:|---|---|
+| RISK-SPR010-001 | P1 | Package validation now recomputes the hash of actual artifact content; mutated scientific content fails both package validation and manifest construction in GATE-D. | RESOLVED |
+| RISK-SPR010-002 | P1 | Analysis-scoped artifacts reject a correct-looking result carrying the wrong `Analysis_ID`; GATE-C compares actual SPR-009 output and verifies the mismatch failure. | RESOLVED |
+| RISK-SPR010-003 | P1 | Required effect/analysis lineage now requires Evidence/Paper identity, and derived effects additionally require transformation method/version and statistical-input node references; GATE-B passes. | RESOLVED |
+| RISK-SPR010-004 | P1 | HUMAN_OWNED protection now includes Reviewer Memo and Critical Appraisal, including blank fields; all six GATE-G attempts are blocked. | RESOLVED |
+| RISK-SPR010-005 | P1 | Export Package generator/schema/validation metadata, package persistence, semantic audit reload, and two-version history are verified by GATE-J/M. | RESOLVED |
+
+## Resolved by SPR-011 Turn D
+
+| Risk ID | Former priority | Lifecycle and remediation evidence | Status |
+|---|---:|---|---|
+| RISK-SPR011-001 | P1 | Turn B reproduced `LIBRARY_ID_LINKAGE_BROKEN + STALE -> AUTO_SAFE/RECONCILED` and failed the Final Gate. Turn C added complete-set precedence and explicit safety predicates. Turn D independently reproduced the input and verified BLOCKED for both plans, AUTO_SAFE=false, zero mutation, order-independent policy hashes, and safe post-reconciliation blocker handling. | RESOLVED |
+
+No risk was closed solely by documentation. SPR-011 Turn B Final Gate remains FAIL in the historical report. Turn D independently closes only `RISK-SPR011-001`; five other P1 risks remain open and therefore SPR-011 Turn D Final Gate is FAIL. `RISK-BASELINE-001` remains open, P2, and non-blocking.

@@ -21,6 +21,8 @@ $expectedCapabilities = [ordered]@{
     ProductionZoteroWrite = $false; ProductionDriveMigration = $false
     EvidenceGraph = $true; EvidenceGraphProductionWrite = $false
     Synthesis = $true; SynthesisProductionWrite = $false
+    Output = $true; OutputProductionWrite = $false
+    WorkflowExceptions = $true; WorkflowExceptionsProductionWrite = $false
 }
 foreach ($entry in $expectedCapabilities.GetEnumerator()) {
     if ($configuration.capabilities.PSObject.Properties[$entry.Key].Value -ne $entry.Value) {
@@ -56,4 +58,14 @@ if($LASTEXITCODE -ne 0){throw "Evidence Graph tests failed with exit code $LASTE
 $synthesisTestRoot=[IO.Path]::GetFullPath((Join-Path $root '../Synthesis/tests'))
 & $powerShell -NoProfile -File (Join-Path $synthesisTestRoot 'SynthesisTests.ps1')
 if($LASTEXITCODE -ne 0){throw "Synthesis Engine tests failed with exit code $LASTEXITCODE."}
+$outputTestRoot=[IO.Path]::GetFullPath((Join-Path $root '../Output/tests'))
+foreach($testName in @('OutputTests.ps1','OutputAdversarialTests.ps1','OutputGateTests.ps1')){
+    & $powerShell -NoProfile -File (Join-Path $outputTestRoot $testName)
+    if($LASTEXITCODE -ne 0){throw "Output Engine test failed: $testName ($LASTEXITCODE)"}
+}
+$workflowTestRoot=[IO.Path]::GetFullPath((Join-Path $root '../Workflow/tests'))
+foreach($testName in @('WorkflowExceptionTests.ps1','WorkflowExceptionAdversarialTests.ps1','WorkflowCompositePolicyTests.ps1','WorkflowCompositePolicyAdversarialTests.ps1')){
+    & $powerShell -NoProfile -File (Join-Path $workflowTestRoot $testName)
+    if($LASTEXITCODE -ne 0){throw "Workflow Exception Engine test failed: $testName ($LASTEXITCODE)"}
+}
 Write-Host 'RAP repository acceptance tests: PASS'
