@@ -48,6 +48,7 @@ function Initialize-RapConfiguration {
                 ProductionZoteroWrite = $false; ProductionDriveMigration = $false
                 EvidenceGraph = $true; EvidenceGraphProductionWrite = $false
                 Synthesis = $true; SynthesisProductionWrite = $false
+                Reconciliation = $true; ReconciliationProductionWrite = $false
             }
         }
         $default | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $configPath -Encoding utf8NoBOM
@@ -94,7 +95,7 @@ function Get-RapConfiguration {
     if($configuration.writeLayer.enabled -isnot [bool]){throw 'writeLayer.enabled must be Boolean.'}
     if([string]::IsNullOrWhiteSpace([string]$configuration.googleDrive.accessTokenEnvironmentVariable)){throw 'googleDrive.accessTokenEnvironmentVariable is required.'}
     if($configuration.operation.mode -notin @('Bootstrap','Live')){throw 'operation.mode must be Bootstrap or Live.'}
-    foreach ($capabilityName in @('CloudController','LocalAgent','SQLite','Logger','Queue','Zotero','WriteLayer','Drive','Bootstrap','Notion','AIReview','MetaCoding','MetaCodingProductionWrite','ProductionAIProvider','ProductionNotionWrite','ProductionZoteroWrite','ProductionDriveMigration','EvidenceGraph','EvidenceGraphProductionWrite','Synthesis','SynthesisProductionWrite')) {
+    foreach ($capabilityName in @('CloudController','LocalAgent','SQLite','Logger','Queue','Zotero','WriteLayer','Drive','Bootstrap','Notion','AIReview','MetaCoding','MetaCodingProductionWrite','ProductionAIProvider','ProductionNotionWrite','ProductionZoteroWrite','ProductionDriveMigration','EvidenceGraph','EvidenceGraphProductionWrite','Synthesis','SynthesisProductionWrite','Reconciliation','ReconciliationProductionWrite')) {
         $capability = $configuration.capabilities.PSObject.Properties[$capabilityName]
         if ($null -eq $capability) { throw "Configuration capability is required: $capabilityName" }
         if ($capability.Value -isnot [bool]) { throw "Configuration capability must be Boolean: $capabilityName" }

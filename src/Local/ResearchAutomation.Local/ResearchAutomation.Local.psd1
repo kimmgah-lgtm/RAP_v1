@@ -32,7 +32,10 @@
         'Invoke-RapExceptionReconciliation', 'Test-RapExceptionResolution', 'Invoke-RapWorkflowExceptionOperation',
         'ConvertTo-RapExceptionClass', 'ConvertTo-RapNormalizedException', 'Get-RapDownstreamImpact', 'Test-RapDependentOperationPermitted',
         'Test-RapWorkflowSnapshot', 'Submit-RapHumanReviewDecision', 'Get-RapExceptionLifecycle', 'Test-RapWorkflowAuditChain',
-        'Initialize-RapWorkflowExceptionStore', 'New-RapWorkflowSqliteDependencies', 'Get-RapWorkflowExceptionSnapshot'
+        'Initialize-RapWorkflowExceptionStore', 'New-RapWorkflowSqliteDependencies', 'Get-RapWorkflowExceptionSnapshot',
+        'Test-RapIntegritySnapshot', 'Compare-RapIntegritySnapshot', 'New-RapReconciliationDecision', 'New-RapRecoveryPlan',
+        'Test-RapRecoveryReadBack', 'Invoke-RapRecoveryPlan', 'Initialize-RapReconciliationStore',
+        'New-RapReconciliationSqliteDependencies', 'Register-RapReconciliationFixture', 'Get-RapReconciliationSnapshot', 'Get-RapReconciliationAudit'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

@@ -1,6 +1,20 @@
 # Changelog
 
-## Unreleased — SPR-011 Turn E P1 remediation
+## Unreleased — SPR-011.5 reconciliation Final Gate
+
+- Added the local/fixture Data Integrity, Reconciliation, and Exception Recovery
+  Engine with ownership-aware decisions, plan-before-apply, stale-plan blocking,
+  idempotency, persisted read-back verification, audit, and transactional
+  restart/fault recovery.
+- Verified the 53/53 focused assertions, repeated the negative 16/16 and
+  adversarial 13/13 suites independently, and passed the full available safe RAP
+  regression.
+- Passed the SPR-011.5 Turn B Final Gate with P0=0, P1=0, production
+  Zotero/Drive/Notion changes 0/0/0, and production writes disabled.
+- Retained seven non-blocking P2 limitations and deferred all external/live
+  reconciliation integrations. SPR-012 was not started.
+
+## SPR-011 Turn E P1 remediation
 
 - Applied the Turn-E remediation bundle to the native Windows workspace and verified 238/238 focused assertions, the 24-script full available regression, and the SPR-009 Gate suite (31/31); resolved `RISK-SPR011-010`.
 - Reproduced every open P1 (RISK-SPR011-002~006) as failing assertions first: 69/85 Turn-E assertions failed against the Turn-D engine (RED), 85/85 pass after repair (GREEN).

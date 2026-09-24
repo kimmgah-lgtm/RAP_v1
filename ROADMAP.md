@@ -97,7 +97,7 @@ No next Sprint was started during the SPR-008 Final Gate.
 
 SPR-010 Final Gate passed. Next-sprint readiness is **YES — LOCAL/MOCK DEVELOPMENT ONLY**. SPR-011 was not started.
 
-## SPR-011 — Research Workflow & Exception Management Engine (Turn E P1 remediation verified on native Windows; Final Gate re-verification pending in Turn F)
+## SPR-011 — Research Workflow & Exception Management Engine (complete; Final Gate PASS)
 
 - Thirteen-class exception taxonomy and deterministic registry identities
 - Fixture integrity detector for Zotero, bibliography, Notion, Library_ID, PDF, project, edit, coding, orphan, stale, link, and unknown conditions
@@ -113,4 +113,28 @@ SPR-010 Final Gate passed. Next-sprint readiness is **YES — LOCAL/MOCK DEVELOP
 - Turn E evidence: legacy 120 + Turn-E 85 + Turn-E adversarial 20 + traceability 13 assertions PASS; all available safe local suites PASS on both the original Linux test mirror and the subsequent native Windows re-run
 - Production workflow writes disabled and external tests deferred
 
-Turn D Final Gate is **FAIL** (historical). Turn E remediation is complete locally; the **Final Gate re-verification (Turn F) has not been performed**. Readiness for SPR-011.5 is **NOT EVALUATED**; SPR-011.5 and SPR-012 were not started.
+Turn D Final Gate remains a historical **FAIL**. Turn F independently re-ran
+the mandatory evidence and full safe regression, closed the gate with P0=0 and
+P1=0, and authorized SPR-011.5 for local/mock development. Production writes
+remained disabled.
+
+## SPR-011.5 — Data Integrity, Reconciliation, and Exception Recovery Engine (complete; Final Gate PASS)
+
+- Snapshot validation and deterministic difference detection
+- Conservative ownership-aware decisions; ambiguous identity, protected
+  ownership, incomplete evidence, and destructive/unknown cases cannot become
+  AUTO_SAFE
+- Library_ID + Project_ID isolation, plan-before-apply, expected/actual snapshot
+  binding, stale-plan blocking, and operation/PlanHash idempotency
+- Local/fixture-only non-destructive recovery with apply, persisted read-back,
+  and verification
+- Atomic SQLite audit/state/operation commit with AFTER_STATE and BEFORE_COMMIT
+  fault rollback, restart completion, and replay verification
+- Focused 53/53 PASS; independent negative 16/16 and adversarial 13/13 PASS
+- Full available safe RAP regression PASS
+- P0=0, P1=0, P2=7 non-blocking; production Zotero/Drive/Notion changes 0/0/0
+- Production reconciliation adapters and external trust anchoring remain deferred
+
+SPR-011.5 Final Gate passed. Next-sprint readiness is **YES — LOCAL/MOCK
+DEVELOPMENT ONLY**. Exact next sprint: **SPR-012 Turn A**, pending an
+authoritative scope/specification. Production writes remain disabled.
