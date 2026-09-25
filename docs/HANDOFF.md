@@ -2,11 +2,11 @@
 
 ## Current Sprint
 
-SPR-013 — Controlled Read-Only Research Validation, Turn A complete on 2026-09-24.
+SPR-013 — Controlled Read-Only Research Validation, complete after Turn B Final Gate PASS on 2026-09-25.
 
-## Baseline HEAD
+## Verified HEAD before Gate commit
 
-`d3ab408092020d2caef82f9f12f835b6d424798c`
+`e3d641a3681ffcd6b1edb383410792d44d323c81`
 
 ## Branch
 
@@ -25,7 +25,9 @@ SPR-013 — Controlled Read-Only Research Validation, Turn A complete on 2026-09
 - Actual papers inspected: **3**
 - `LIB:L000003`: **MATCHED** through Notion Common Review
 - `LIB:L000001`, `LIB:L000002`: **AMBIGUOUS / HUMAN ACTION REQUIRED**
-- SPR-013 Final Gate: **NOT PERFORMED**
+- SPR-013 Turn B Final Gate: **PASS**
+- SPR-013: **COMPLETE**
+- Ready for SPR-014 Controlled Write Pilot: **YES**
 
 The Gate means local/mock production-readiness is verified. It does not authorize Production Write and does not convert deferred live probes to PASS.
 
@@ -45,6 +47,8 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 - Full available safe RAP regression: **PASS**
 - Mandatory failures: **0**
 - SPR-013 focused validation: **21 assertions PASS; failures 0**
+- Reconciliation negative/adversarial Gate rerun: **16/16 and 13/13 PASS**
+- SPR-013 Turn B full safe regression: **PASS**
 
 ## Risks
 
@@ -92,8 +96,8 @@ Real trace summary:
 
 ## Exact next step
 
-Perform an independently commanded SPR-013 Final Gate or targeted read-only remediation planning for the two ambiguity cases. Do not start SPR-014.
+SPR-014 — Single-Object Controlled Write Pilot, Turn A. Start only from an explicit command and keep global Production Write disabled. Any real external write still requires the new sprint's exact-object plan, human approval, stale check, read-back verification, and audit gates.
 
 ## Next command
 
-Issue the SPR-013 Final Gate command, or explicitly authorize a separate human-reviewed backfill phase. Keep Production Write disabled and do not APPLY reconciliation.
+Issue the SPR-014 Turn A controlled-write implementation/validation command against the SPR-013 Gate commit. Do not treat READY FOR SPR-014 as authorization for an actual production write.
