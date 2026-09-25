@@ -2,11 +2,11 @@
 
 ## Current Sprint
 
-SPR-013 — Controlled Read-Only Research Validation, complete after Turn B Final Gate PASS on 2026-09-25.
+SPR-014 — Single-Object Controlled Write Pilot, Turn A implementation complete on 2026-09-25.
 
-## Verified HEAD before Gate commit
+## Baseline HEAD before Turn A commit
 
-`e3d641a3681ffcd6b1edb383410792d44d323c81`
+`0cac8d58e2330de5f5926526ed1a0c52e1690373`
 
 ## Branch
 
@@ -28,6 +28,9 @@ SPR-013 — Controlled Read-Only Research Validation, complete after Turn B Fina
 - SPR-013 Turn B Final Gate: **PASS**
 - SPR-013: **COMPLETE**
 - Ready for SPR-014 Controlled Write Pilot: **YES**
+- SPR-014 Turn A controlled-write implementation: **COMPLETE / PASS**
+- SPR-014 actual production pilot: **TEST_DEFERRED**
+- SPR-014 Final Gate: **NOT PERFORMED**
 
 The Gate means local/mock production-readiness is verified. It does not authorize Production Write and does not convert deferred live probes to PASS.
 
@@ -49,6 +52,10 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 - SPR-013 focused validation: **21 assertions PASS; failures 0**
 - Reconciliation negative/adversarial Gate rerun: **16/16 and 13/13 PASS**
 - SPR-013 Turn B full safe regression: **PASS**
+- SPR-014 controlled-write focused CW01-CW10: **10/10 PASS**
+- SPR-014 controlled-write adversarial CW11-CW20: **10/10 PASS**
+- SPR-014 Turn A full safe RAP regression: **PASS**
+- SPR-014 mandatory failures: **0**
 
 ## Risks
 
@@ -93,11 +100,13 @@ Real trace summary:
 - The project review data source has no rows, so Common Review -> Project mapping is not complete.
 - Zotero `attachments:` base-path configuration remains unresolved for direct linked-file existence checks.
 - Production Write and reconciliation APPLY remain disabled and unauthorized.
+- The production controlled-write pilot remains TEST_DEFERRED; the implemented adapter is sealed and fixture-only.
+- Fixture operation/audit state is in-memory test evidence. A separately authorized production pilot must define durable audit and recovery integration before any external write.
 
 ## Exact next step
 
-SPR-014 — Single-Object Controlled Write Pilot, Turn A. Start only from an explicit command and keep global Production Write disabled. Any real external write still requires the new sprint's exact-object plan, human approval, stale check, read-back verification, and audit gates.
+SPR-014 Final Gate. Independently verify the immutable plan, human-only approval binding, pre-apply guards, fixture apply/read-back/audit behavior, idempotency, regressions, and zero production mutations. Do not perform the actual production pilot.
 
 ## Next command
 
-Issue the SPR-014 Turn A controlled-write implementation/validation command against the SPR-013 Gate commit. Do not treat READY FOR SPR-014 as authorization for an actual production write.
+Issue the SPR-014 Final Gate verification command against the Turn A commit. Keep global Production Write disabled and do not treat the fixture PASS or TEST_DEFERRED production pilot as authorization for an external write.
