@@ -1,5 +1,8 @@
 # SPR-014 Turn C P1 Remediation Report
 
+> 문서 경로: `outputs/SPR-014-TURN-C-REMEDIATION-REPORT.md`
+> 최종 갱신일: 2026-09-26 (Asia/Seoul)
+
 Date: 2026-09-26
 
 Branch: `ASS_v1`
@@ -147,6 +150,17 @@ Open risk result: **P0 = 0, P1 = 0, P2 = 7 non-blocking**.
 - `outputs/SPR-014-TURN-B-FINAL-GATE-REPORT.md`
 - `outputs/SPR-014-TURN-C-REMEDIATION-REPORT.md`
 - `docs/HANDOFF.md`
+- `docs/SPR-015-REQUIREMENTS.md` (requirements handoff only; no implementation)
+
+## Post-completion requirements handoff
+
+Repository verification on 2026-09-26 confirmed `ASS_v1`, local HEAD and `origin/ASS_v1` at `77ca3bf4adc255c8c7852dc0d9d8bd7fc0e4cb38`, and a clean working tree before this documentation-only delta.
+
+The newly approved SPR-015 product direction is recorded in `docs/SPR-015-REQUIREMENTS.md`. This changes no Turn-C implementation or Gate evidence and does not start SPR-015. It specifies Research Question as the entry point, one Quick/Systematic search pipeline, a non-canonical Research Inbox, explicit researcher PROMOTE, canonical identity resolution, pre-Zotero deduplication, stateful PDF acquisition and identity verification, one canonical paper/Library_ID/Paper Review, discovery lineage, one-paper KPIs, and a separate SPR-015R hardening phase.
+
+After the documentation delta, the official `tools/Invoke-Tests.ps1` runner was executed again. It completed with exit code 0: R01-R18 18/18, CW01-CW20 20/20, independent Gate probes 14/14, SPR-013 21 assertions, SPR-012 focused 16/16 plus adversarial 17/17, credential leakage 2/2 with leaks 0, read capability boundary 7/7, and the full available safe RAP regression all passed. Production mutation evidence remained 0/0/0.
+
+No production adapter, search engine, Research Inbox, PDF acquisition workflow, schema migration, or external write was added. Production Write remains disabled, the production pilot remains TEST_DEFERRED, and SPR-014 Turn D remains the exact next step.
 
 ## Remaining limitations
 
@@ -165,3 +179,12 @@ CONTROLLED WRITE P1 REMEDIATION VERIFIED.
 P0/P1 = 0/0.
 PRODUCTION MUTATIONS = 0/0/0.
 FINAL GATE NOT PERFORMED.
+
+<요약>
+
+1. P1-A/B/C remediation and all Turn-C evidence remain PASS.
+2. SPR-015 requirements were added as documentation only; no feature implementation occurred.
+3. Production mutations remain 0/0/0 and Production Write remains disabled.
+4. Next step is SPR-014 Turn D Final Gate.
+
+기록 시각: 2026-09-26 (Asia/Seoul)

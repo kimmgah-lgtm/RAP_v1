@@ -1,5 +1,8 @@
 # RAP Handoff
 
+> 문서 경로: `docs/HANDOFF.md`
+> 최종 갱신일: 2026-09-26 (Asia/Seoul)
+
 ## Current Sprint
 
 SPR-014 — Single-Object Controlled Write Pilot, Turn C P1 remediation COMPLETE / PASS on 2026-09-26.
@@ -35,6 +38,8 @@ SPR-014 — Single-Object Controlled Write Pilot, Turn C P1 remediation COMPLETE
 - SPR-014 Turn D Final Gate: **NOT PERFORMED**
 - SPR-014: **INCOMPLETE pending Turn D Final Gate**
 - Ready for SPR-015 E2E Research Intake Pilot: **NO**
+- SPR-015 product requirements: **DOCUMENTED ONLY** in `docs/SPR-015-REQUIREMENTS.md`
+- SPR-015 / SPR-015R implementation: **NOT STARTED**
 
 The Gate means local/mock production-readiness is verified. It does not authorize Production Write and does not convert deferred live probes to PASS.
 
@@ -123,6 +128,24 @@ Real trace summary:
 
 SPR-014 Turn D Final Gate. Independently reverify R01-R18, the 14 Gate probes, CW01-CW20, process-boundary restart/replay, full regression, P0/P1=0/0, and production mutations 0/0/0. Do not perform the production pilot.
 
+## SPR-015 requirements handoff — documentation only
+
+The approved future direction is recorded in `docs/SPR-015-REQUIREMENTS.md`. It starts from Research Question, uses one Quick/Systematic Research Search Pipeline, holds results as non-canonical Research Inbox candidates, and requires explicit researcher PROMOTE before canonicalization.
+
+The future golden path must perform canonical identity resolution and pre-Zotero deduplication before CREATE/REUSE, use stateful PDF acquisition plus PDF identity verification, preserve discovery lineage, create one Library_ID and one Paper Review per canonical paper, and protect HUMAN_OWNED and ResearcherConfirmed content. AMBIGUOUS, PDF_AMBIGUOUS, and PDF_MISMATCH remain blocked for human review.
+
+SPR-015 begins with a one-paper golden path only after an independent SPR-014 Turn D Final Gate and a separate SPR-015 implementation command. SPR-015R separately hardens duplicate, restart, retry, missing/mismatched PDF, identifier/metadata conflict, cross-system duplicate, partial failure, and lineage-break scenarios.
+
+Unresolved external configuration includes search-source permissions, the authoritative Research Inbox store/schema, researcher PROMOTE identity/provenance, identity evidence thresholds, approved PDF acquisition routes, exact production targets, Project_ID authority, and separately authorized Production Write/recovery procedures.
+
 ## Next command
 
 Issue the SPR-014 Turn D Final Gate verification command against the Turn C commit. Keep global Production Write disabled, do not run the production pilot, and do not start SPR-015.
+
+<요약>
+
+1. SPR-014 Turn C remediation is complete; Turn D Final Gate is next.
+2. SPR-015 requirements are documented only; implementation is not started and readiness remains NO.
+3. Production Write remains disabled and production mutations remain Zotero 0 / Drive 0 / Notion 0.
+
+기록 시각: 2026-09-26 (Asia/Seoul)
