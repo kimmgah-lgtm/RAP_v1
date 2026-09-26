@@ -5,7 +5,7 @@
 
 ## Current Sprint
 
-SPR-015 — LOCAL/DURABLE CORE COMPLETE=YES; connector read pilot readiness=CONDITIONAL; Production Write disabled.
+SPR-015 — Turn E Independent Final Re-Gate FAIL; LOCAL/DURABLE CORE COMPLETE=NO; connector read pilot readiness=NO.
 
 ## Baseline HEAD before SPR-015 Turn A
 
@@ -46,6 +46,8 @@ SPR-015 — LOCAL/DURABLE CORE COMPLETE=YES; connector read pilot readiness=COND
 - SPR-015 Turn D independent Final Re-Gate: **FAIL — 15/19 probes PASS, 4 FAIL, 3 new P1 blockers**
 - SPR-015 Turn D remediation: **PASS — RISK-SPR015-005/006/007 RED→GREEN; 12/12 remediation and 19/19 Turn D probes; Final Re-Gate pending**
 - SPR-015 current disposition: **LOCAL/DURABLE CORE COMPLETE=YES; READY FOR CONNECTOR READ PILOT=CONDITIONAL**
+- SPR-015 Turn E independent Final Re-Gate: **FAIL — 20/22 probes PASS, E21/E22 FAIL, 2 new P1 blockers**
+- SPR-015 current Gate disposition: **LOCAL/DURABLE CORE COMPLETE=NO; READY FOR CONNECTOR READ PILOT=NO**
 - SPR-015 production implementation/pilot: **NOT STARTED / TEST_DEFERRED**
 - SPR-015R implementation: **NOT STARTED**
 
@@ -100,7 +102,7 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 ## Risks
 
 - P0: **0**
-- P1: **0 open** — `RISK-SPR015-005/006/007` remediated with executable RED→GREEN evidence; independent closure re-verification pending
+- P1: **2 open** — `RISK-SPR015-008` identity-resolution authority binding and `RISK-SPR015-009` Zotero reuse-target decision binding
 - P2: **8**; Turn A in-memory persistence deferral resolved, real connector-read limitation retained
 
 `RISK-SPR012-001` remains remediated: arbitrary callbacks cannot enter the production read boundary, registered module-owned capability state controls execution, and only the fixed GET transport is available.
@@ -149,7 +151,7 @@ Real trace summary:
 
 ## Exact next step
 
-Define and authorize a bounded connector read pilot: explicit read-only targets and credentials, normalization contract, fail-closed stop conditions, audit evidence, and verified external mutation count 0. Production Write remains disabled and Production Pilot remains TEST_DEFERRED.
+Run a separately commanded Turn E remediation for `RISK-SPR015-008/009`. Do not start a connector read pilot. Production Write remains disabled and Production Pilot remains TEST_DEFERRED.
 
 ## SPR-015 architecture and Turn A implementation handoff
 
@@ -163,12 +165,12 @@ Unresolved external configuration includes search-source permissions, the author
 
 ## Next command
 
-Issue a separate, explicitly scoped connector read pilot command. Keep global Production Write disabled and Production Pilot TEST_DEFERRED.
+Issue a separate SPR-015 Turn E remediation command. Keep global Production Write disabled and connector/production pilots deferred.
 
 <요약>
 
 1. Turn D remediation closed all three new P1 risks with 12/12 remediation and 19/19 original probes passing.
-2. 사용자 승인에 따라 SPR-015 LOCAL/DURABLE CORE는 COMPLETE이며 connector read pilot은 조건부 준비 상태이다.
+2. Turn E에서 identity authority 및 Zotero target binding P1 두 건이 발견되어 LOCAL/DURABLE CORE COMPLETE=NO이다.
 3. Production Write remains disabled and production mutations remain Zotero 0 / Drive 0 / Notion 0.
 
 기록 시각: 2026-09-26 (Asia/Seoul)

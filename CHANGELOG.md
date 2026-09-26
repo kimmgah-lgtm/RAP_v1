@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn E independent Final Re-Gate
+
+- Independently reran Turn A-D, SPR-012/013/014, and the full safe regression successfully, with Production Write disabled and production mutations 0/0/0.
+- Added 22 public-boundary/adversarial probes; 20 passed and two exposed new P1 blockers: caller-mutable identity resolution can redirect dedup into CREATE, and `ZoteroItemId` is omitted from REUSE decision semantic binding/audit.
+- Recorded Turn E as FAIL with P0/P1/P2=0/2/8, LOCAL/DURABLE CORE COMPLETE=NO, and connector read pilot readiness=NO. No remediation or connector pilot was performed.
+
 ## Unreleased — SPR-015 Turn D P1 remediation
 
 - Bound every persisted decision to exact project/question/search/candidate promotion lineage, canonical identity, lookup execution/evidence, outcome, reason, state, and timestamp with a versioned semantic hash; schema v3 rejects legacy continuation.
