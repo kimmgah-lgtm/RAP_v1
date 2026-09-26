@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn E P1 remediation
+
+- Sealed candidate-derived identity authority with a versioned `IdentityBindingHash` and enforced persisted-authority verification at the public dedup boundary.
+- Bound REUSE decisions and audit proof to exact canonical target, Zotero item, library context, and matched target evidence; advanced persistence to fail-closed schema v4.
+- Passed Turn E remediation 12/12, Turn E probes 22/22, all earlier intake suites, SPR-012/013/014, and the full safe regression with P0/P1=0/0 and mutations 0/0/0.
+- Kept LOCAL/DURABLE CORE COMPLETE=NO and connector read pilot readiness=NO pending a separate independent Final Re-Gate.
+
 ## Unreleased — SPR-015 Turn E independent Final Re-Gate
 
 - Independently reran Turn A-D, SPR-012/013/014, and the full safe regression successfully, with Production Write disabled and production mutations 0/0/0.

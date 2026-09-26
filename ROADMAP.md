@@ -173,7 +173,7 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 
 SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
 
-## SPR-015 — Research Intake Golden Path (Turn E Final Re-Gate FAIL)
+## SPR-015 — Research Intake Golden Path (Turn E remediation PASS; Final Re-Gate pending)
 
 - Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
 - Requirements: `docs/SPR-015-REQUIREMENTS.md`
@@ -195,3 +195,4 @@ SPR-014 is complete. SPR-015 is ready for separately authorized requirements/loc
 - Turn D remediation closed `RISK-SPR015-005/006/007` with decision/evidence immutability, replay-safe semantic binding, and durable pre-decision revalidation audit proof. Remediation probes 12/12, Turn D probes 19/19, all earlier intake suites, and the full safe regression pass.
 - Current P0/P1/P2=0/0/8. User-approved disposition: SPR-015 LOCAL/DURABLE CORE COMPLETE=YES and READY FOR CONNECTOR READ PILOT=CONDITIONAL. The pilot is limited to separately authorized read-only scope with fail-closed normalization and zero mutation. Production Write=DISABLED and Production Pilot=TEST_DEFERRED.
 - Turn E independently passed 20/22 probes but found `RISK-SPR015-008/009`: mutable identity resolution can redirect dedup into CREATE, and the selected Zotero reuse target is omitted from decision semantic binding. Current P0/P1/P2=0/2/8; LOCAL/DURABLE CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO pending separate remediation.
+- Turn E remediation sealed identity authority and exact REUSE target authority, advanced persistence to schema v4, and passed ER01-ER12 12/12 plus E01-E22 22/22 and the full safe regression. Current P0/P1/P2=0/0/8; CORE COMPLETE and connector readiness remain NO until a separate independent Final Re-Gate.
