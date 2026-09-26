@@ -2,11 +2,11 @@
 
 ## Current Sprint
 
-SPR-014 — Single-Object Controlled Write Pilot, Turn A implementation complete on 2026-09-25.
+SPR-014 — Single-Object Controlled Write Pilot, Turn C P1 remediation COMPLETE / PASS on 2026-09-26.
 
-## Baseline HEAD before Turn A commit
+## Baseline HEAD before Turn C commit
 
-`0cac8d58e2330de5f5926526ed1a0c52e1690373`
+`2d601e07b637609c6757db2f15c1187b24f98f8a`
 
 ## Branch
 
@@ -30,7 +30,11 @@ SPR-014 — Single-Object Controlled Write Pilot, Turn A implementation complete
 - Ready for SPR-014 Controlled Write Pilot: **YES**
 - SPR-014 Turn A controlled-write implementation: **COMPLETE / PASS**
 - SPR-014 actual production pilot: **TEST_DEFERRED**
-- SPR-014 Final Gate: **NOT PERFORMED**
+- SPR-014 Turn B Final Gate: **FAIL**
+- SPR-014 Turn C P1 remediation: **COMPLETE / PASS**
+- SPR-014 Turn D Final Gate: **NOT PERFORMED**
+- SPR-014: **INCOMPLETE pending Turn D Final Gate**
+- Ready for SPR-015 E2E Research Intake Pilot: **NO**
 
 The Gate means local/mock production-readiness is verified. It does not authorize Production Write and does not convert deferred live probes to PASS.
 
@@ -56,14 +60,26 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 - SPR-014 controlled-write adversarial CW11-CW20: **10/10 PASS**
 - SPR-014 Turn A full safe RAP regression: **PASS**
 - SPR-014 mandatory failures: **0**
+- SPR-014 Turn B independent Final Gate adversarial probes: **10/14 PASS; 4 FAIL**
+- SPR-014 Turn B full safe RAP regression: **PASS**
+- SPR-014 Turn B mandatory Gate failures: **4**
+- SPR-014 Turn C remediation R01-R18: **18/18 PASS**
+- SPR-014 independent Gate probes after remediation: **14/14 PASS**
+- SPR-014 CW01-CW20 after remediation: **20/20 PASS**
+- SPR-014 Turn C full safe RAP regression: **PASS**
+- SPR-014 Turn C mandatory failures: **0**
 
 ## Risks
 
 - P0: **0**
-- P1: **0**
+- P1: **0** after executable Turn C remediation
 - P2: **7**, inherited non-blocking inventory
 
 `RISK-SPR012-001` remains remediated: arbitrary callbacks cannot enter the production read boundary, registered module-owned capability state controls execution, and only the fixed GET transport is available.
+
+- `RISK-SPR014-001` (**RESOLVED**): capability now binds Operation/Library/Project/system/object/field/plan/payload/approval and cross-scope probes block.
+- `RISK-SPR014-002` (**RESOLVED**): APPLY now rereads and compares current identity, ownership, value/hash, and version before mutation.
+- `RISK-SPR014-003` (**RESOLVED**): protected local SQLite operation/audit envelopes survive real process A/B restarts; uncertain states return RECOVERY_REQUIRED and VERIFIED returns ALREADY_COMPLETED.
 
 ## External connectivity
 
@@ -101,12 +117,12 @@ Real trace summary:
 - Zotero `attachments:` base-path configuration remains unresolved for direct linked-file existence checks.
 - Production Write and reconciliation APPLY remain disabled and unauthorized.
 - The production controlled-write pilot remains TEST_DEFERRED; the implemented adapter is sealed and fixture-only.
-- Fixture operation/audit state is in-memory test evidence. A separately authorized production pilot must define durable audit and recovery integration before any external write.
+- Controlled-write operation/audit state is persisted in a local SHA-256-protected SQLite envelope. It has no external trust anchor and does not authorize a production adapter.
 
 ## Exact next step
 
-SPR-014 Final Gate. Independently verify the immutable plan, human-only approval binding, pre-apply guards, fixture apply/read-back/audit behavior, idempotency, regressions, and zero production mutations. Do not perform the actual production pilot.
+SPR-014 Turn D Final Gate. Independently reverify R01-R18, the 14 Gate probes, CW01-CW20, process-boundary restart/replay, full regression, P0/P1=0/0, and production mutations 0/0/0. Do not perform the production pilot.
 
 ## Next command
 
-Issue the SPR-014 Final Gate verification command against the Turn A commit. Keep global Production Write disabled and do not treat the fixture PASS or TEST_DEFERRED production pilot as authorization for an external write.
+Issue the SPR-014 Turn D Final Gate verification command against the Turn C commit. Keep global Production Write disabled, do not run the production pilot, and do not start SPR-015.

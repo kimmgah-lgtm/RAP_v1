@@ -1,5 +1,6 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+Import-Module (Join-Path $PSScriptRoot 'ControlledWritePersistence.psm1') -Force
 
 $script:ControlledWriteCapabilities = @{}
 $script:ControlledWriteApprovalRequests = @{}
@@ -49,12 +50,13 @@ function Get-RapControlledWritePlanBody {
         StaleState = [bool]$Plan.StaleState
         CreatedAt = [string]$Plan.CreatedAt
         ExpiresAt = [string]$Plan.ExpiresAt
+        DatabasePath = [string]$Plan.DatabasePath
         ProductionWrite = [string]$Plan.ProductionWrite
     }
 }
 
 function Assert-RapControlledWritePlanIntegrity {
-    param([Parameter(Mandatory)]$Plan)
+    param([Parameter(Mandatory)]$Plan,[switch]$IgnoreFreshness)
     $actual = Get-RapControlledWriteHash (Get-RapControlledWritePlanBody $Plan)
     if ($actual -cne [string]$Plan.PlanHash) { throw 'CONTROLLED_WRITE_PLAN_TAMPERED' }
     if ($Plan.ProductionWrite -cne 'DISABLED') { throw 'GLOBAL_PRODUCTION_WRITE_MUST_REMAIN_DISABLED' }
@@ -68,7 +70,7 @@ function Assert-RapControlledWritePlanIntegrity {
     if ([string]$Plan.IdentityStatus -cne 'MATCHED' -or -not [bool]$Plan.CanonicalLibraryIdPresent -or [bool]$Plan.IdentityAmbiguous) { throw 'CONTROLLED_WRITE_IDENTITY_INELIGIBLE' }
     if (-not [bool]$Plan.PdfIdentityVerified) { throw 'PDF_IDENTITY_NOT_VERIFIED' }
     if ([bool]$Plan.OwnershipConflict) { throw 'CONTROLLED_WRITE_OWNERSHIP_CONFLICT' }
-    if ([bool]$Plan.StaleState -or [DateTimeOffset]::UtcNow -gt [DateTimeOffset]::Parse([string]$Plan.ExpiresAt)) { throw 'STALE_CONTROLLED_WRITE_PLAN' }
+    if (-not$IgnoreFreshness-and([bool]$Plan.StaleState -or [DateTimeOffset]::UtcNow -gt [DateTimeOffset]::Parse([string]$Plan.ExpiresAt))) { throw 'STALE_CONTROLLED_WRITE_PLAN' }
     $true
 }
 
@@ -97,6 +99,7 @@ function New-RapControlledWritePlan {
         [bool]$StaleState = $false,
         [string]$VerificationMethod = 'READ_BACK_VALUE_HASH_AND_VERSION',
         [Parameter(Mandatory)][ValidateNotNullOrEmpty()][string]$RollbackInfo,
+        [Parameter(Mandatory)][ValidateNotNullOrEmpty()][string]$DatabasePath,
         [DateTimeOffset]$ExpiresAt = ([DateTimeOffset]::UtcNow.AddMinutes(15))
     )
     if ($Action -cne 'UPDATE') { throw "CONTROLLED_WRITE_ACTION_BLOCKED:$Action" }
@@ -111,6 +114,7 @@ function New-RapControlledWritePlan {
     if ($StaleState -or $ExpiresAt -le [DateTimeOffset]::UtcNow) { throw 'STALE_CONTROLLED_WRITE_PLAN' }
 
     $created = [DateTimeOffset]::UtcNow.ToString('o')
+    $storePath = [IO.Path]::GetFullPath($DatabasePath)
     $beforeCopy = Copy-RapControlledWriteValue $BeforeValue
     $proposedCopy = Copy-RapControlledWriteValue $ProposedValue
     $plan = [pscustomobject][ordered]@{
@@ -142,10 +146,17 @@ function New-RapControlledWritePlan {
         StaleState = $StaleState
         CreatedAt = $created
         ExpiresAt = $ExpiresAt.ToString('o')
+        DatabasePath = $storePath
         ProductionWrite = 'DISABLED'
         PlanHash = ''
     }
     $plan.PlanHash = Get-RapControlledWriteHash (Get-RapControlledWritePlanBody $plan)
+    $existing = Get-RapControlledWritePersistedOperation $storePath $OperationId
+    if ($existing) { throw 'OPERATION_REPLAY_CONFLICT' }
+    $record = [pscustomobject][ordered]@{
+        OperationId=$OperationId;PlanHash=$plan.PlanHash;LibraryId=$LibraryId;ProjectId=$ProjectId;TargetSystem=$TargetSystem;TargetObject=$TargetObject;TargetField=$TargetField;PayloadHash=$plan.PayloadHash;ApprovalBinding=$null;State='PLANNED';BeforeHash=$plan.BeforeHash;BeforeVersion=$ExpectedVersion;ApplyResult=$null;ReadBackResult=$null;VerificationResult=$null;CreatedAt=$created;UpdatedAt=$created;AuditTrail=@([pscustomobject]@{State='PLANNED';Timestamp=$created;Provenance='PLAN_CREATED'});ProductionWrite='DISABLED'
+    }
+    [void](Set-RapControlledWritePersistedOperation $storePath $record)
     $plan
 }
 
@@ -163,6 +174,11 @@ function New-RapControlledWriteApprovalRequest {
         ProductionWrite = 'DISABLED'
     }
     $script:ControlledWriteApprovalRequests[$requestId] = $record
+    $operation = Get-RapControlledWritePersistedOperation $Plan.DatabasePath $Plan.OperationId
+    if ($null -eq $operation -or $operation.PlanHash -cne $Plan.PlanHash) { throw 'CONTROLLED_WRITE_PERSISTENCE_BINDING_MISMATCH' }
+    if ($operation.State -cne 'PLANNED') { throw "CONTROLLED_WRITE_STATE_INVALID:$($operation.State)" }
+    $operation.State='AWAITING_APPROVAL';$operation.AuditTrail=@($operation.AuditTrail)+[pscustomobject]@{State='AWAITING_APPROVAL';Timestamp=[DateTimeOffset]::UtcNow.ToString('o');Provenance='APPROVAL_REQUESTED'}
+    [void](Set-RapControlledWritePersistedOperation $Plan.DatabasePath $operation)
     [pscustomobject][ordered]@{
         PSTypeName = 'Rap.ControlledWriteApprovalRequest'
         RequestId = $requestId
@@ -209,8 +225,14 @@ function Approve-RapControlledWritePlan {
         ApprovalProvenance = $ApprovalProvenance
         ApprovedAt = [DateTimeOffset]::UtcNow.ToString('o')
         ProductionWrite = 'DISABLED'
+        DatabasePath = $Plan.DatabasePath
     }
     $script:ControlledWriteApprovals[$approvalId] = $record
+    $operation = Get-RapControlledWritePersistedOperation $Plan.DatabasePath $Plan.OperationId
+    if ($null -eq $operation -or $operation.PlanHash -cne $Plan.PlanHash -or $operation.State -cne 'AWAITING_APPROVAL') { throw 'CONTROLLED_WRITE_PERSISTENCE_BINDING_MISMATCH' }
+    $operation.ApprovalBinding=[pscustomobject]@{ApprovalId=$approvalId;OperationId=$Plan.OperationId;PlanHash=$Plan.PlanHash;PayloadHash=$Plan.PayloadHash;State='APPROVED';ApprovedBy=$ApprovedBy;ApproverType=$ApproverType;ApprovalProvenance=$ApprovalProvenance;ApprovedAt=$record.ApprovedAt;ProductionWrite='DISABLED'}
+    $operation.State='APPROVED';$operation.AuditTrail=@($operation.AuditTrail)+[pscustomobject]@{State='APPROVED';Timestamp=$record.ApprovedAt;Provenance=$ApprovalProvenance;ApprovalId=$approvalId}
+    [void](Set-RapControlledWritePersistedOperation $Plan.DatabasePath $operation)
     [pscustomobject][ordered]@{
         PSTypeName = 'Rap.ControlledWriteApproval'
         ApprovalId = $approvalId
@@ -222,6 +244,7 @@ function Approve-RapControlledWritePlan {
         ApproverType = $record.ApproverType
         ApprovalProvenance = $record.ApprovalProvenance
         ApprovedAt = $record.ApprovedAt
+        DatabasePath = $Plan.DatabasePath
         ProductionWrite = 'DISABLED'
     }
 }
@@ -230,28 +253,63 @@ function Resolve-RapControlledWriteApproval {
     param([Parameter(Mandatory)]$Approval)
     if ($Approval.PSObject.TypeNames -cnotcontains 'Rap.ControlledWriteApproval') { throw 'UNTRUSTED_CONTROLLED_WRITE_APPROVAL' }
     $id = [string]$Approval.ApprovalId
-    if ($id -notmatch '^[0-9a-f-]{36}$' -or -not $script:ControlledWriteApprovals.ContainsKey($id)) { throw 'UNTRUSTED_CONTROLLED_WRITE_APPROVAL' }
-    $script:ControlledWriteApprovals[$id]
+    if ($id -notmatch '^[0-9a-f-]{36}$') { throw 'UNTRUSTED_CONTROLLED_WRITE_APPROVAL' }
+    if ($script:ControlledWriteApprovals.ContainsKey($id)) { return $script:ControlledWriteApprovals[$id] }
+    if (-not $Approval.PSObject.Properties['DatabasePath'] -or [string]::IsNullOrWhiteSpace([string]$Approval.DatabasePath)) { throw 'UNTRUSTED_CONTROLLED_WRITE_APPROVAL' }
+    $operation = Get-RapControlledWritePersistedOperation $Approval.DatabasePath $Approval.OperationId
+    if ($null -eq $operation -or $null -eq $operation.ApprovalBinding -or $operation.ApprovalBinding.ApprovalId -cne $id) { throw 'UNTRUSTED_CONTROLLED_WRITE_APPROVAL' }
+    $operation.ApprovalBinding
 }
 
 function New-RapControlledWriteFixtureAdapter {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory)][ValidateSet('Zotero', 'GoogleDrive', 'Notion')][string]$TargetSystem,
-        [Parameter(Mandatory)][ValidateNotNullOrEmpty()][string]$TargetObject,
+        [Parameter(Mandatory)]$Plan,
+        [Parameter(Mandatory)]$Approval,
         [Parameter(Mandatory)][hashtable]$InitialFields,
         [Parameter(Mandatory)][ValidateRange(0, 2147483647)][int]$Version,
+        [string]$CurrentLibraryId,
+        [AllowEmptyString()][string]$CurrentProjectId,
+        [string]$CurrentTargetSystem,
+        [string]$CurrentTargetObject,
+        [string]$CurrentTargetField,
+        [ValidateSet('RAP_OWNED','AUTO_OWNED','OTHER_OWNED','HUMAN_OWNED','ResearcherConfirmed')][string]$CurrentOwnership='RAP_OWNED',
+        [ValidateSet('MATCHED','AMBIGUOUS','MISSING')][string]$CurrentIdentityStatus='MATCHED',
+        [bool]$CurrentCanonicalLibraryIdPresent=$true,
+        [bool]$CurrentPdfIdentityVerified=$true,
         [switch]$ReadBackMismatch,
         [switch]$TimeoutAfterApply,
-        [switch]$FailBeforeApply
+        [switch]$FailBeforeApply,
+        [ValidateSet('None','AFTER_APPLYING','AFTER_APPLIED')][string]$FaultPoint='None'
     )
+    [void](Assert-RapControlledWritePlanIntegrity $Plan)
+    $approvalRecord=Resolve-RapControlledWriteApproval $Approval
+    if($approvalRecord.OperationId-cne$Plan.OperationId-or$approvalRecord.PlanHash-cne$Plan.PlanHash-or$approvalRecord.PayloadHash-cne$Plan.PayloadHash){throw 'APPROVAL_BINDING_MISMATCH'}
+    $operation=Get-RapControlledWritePersistedOperation $Plan.DatabasePath $Plan.OperationId
+    if($null-eq$operation-or$operation.State-cne'APPROVED'){throw 'CONTROLLED_WRITE_PERSISTENCE_BINDING_MISMATCH'}
+    $currentLibrary=if($PSBoundParameters.ContainsKey('CurrentLibraryId')){$CurrentLibraryId}else{$Plan.LibraryId}
+    $currentProject=if($PSBoundParameters.ContainsKey('CurrentProjectId')){$CurrentProjectId}else{$Plan.ProjectId}
+    $currentSystem=if($PSBoundParameters.ContainsKey('CurrentTargetSystem')){$CurrentTargetSystem}else{$Plan.TargetSystem}
+    $currentObject=if($PSBoundParameters.ContainsKey('CurrentTargetObject')){$CurrentTargetObject}else{$Plan.TargetObject}
+    $currentField=if($PSBoundParameters.ContainsKey('CurrentTargetField')){$CurrentTargetField}else{$Plan.TargetField}
     $fields = @{}
     foreach ($key in $InitialFields.Keys) { $fields[[string]$key] = Copy-RapControlledWriteValue $InitialFields[$key] }
     $id = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLowerInvariant()
+    $binding=[pscustomobject][ordered]@{OperationId=$Plan.OperationId;LibraryId=$Plan.LibraryId;ProjectId=$Plan.ProjectId;TargetSystem=$Plan.TargetSystem;TargetObject=$Plan.TargetObject;TargetField=$Plan.TargetField;PlanHash=$Plan.PlanHash;PayloadHash=$Plan.PayloadHash;ApprovalId=$approvalRecord.ApprovalId}
     $script:ControlledWriteCapabilities[$id] = [pscustomobject]@{
         Kind = 'FIXTURE_CONTROLLED_WRITE'
-        TargetSystem = $TargetSystem
-        TargetObject = $TargetObject
+        Binding = $binding
+        BindingHash = Get-RapControlledWriteHash $binding
+        DatabasePath = $Plan.DatabasePath
+        CurrentLibraryId = $currentLibrary
+        CurrentProjectId = $currentProject
+        CurrentTargetSystem = $currentSystem
+        CurrentTargetObject = $currentObject
+        CurrentTargetField = $currentField
+        CurrentOwnership = $CurrentOwnership
+        CurrentIdentityStatus = $CurrentIdentityStatus
+        CurrentCanonicalLibraryIdPresent = $CurrentCanonicalLibraryIdPresent
+        CurrentPdfIdentityVerified = $CurrentPdfIdentityVerified
         Fields = $fields
         Version = $Version
         MutationCount = 0
@@ -260,14 +318,15 @@ function New-RapControlledWriteFixtureAdapter {
         FailBeforeApply = [bool]$FailBeforeApply
         Operations = @{}
         Audits = [Collections.Generic.List[object]]::new()
+        FaultPoint = $FaultPoint
         ProductionWrite = 'DISABLED'
     }
     [pscustomobject]@{
         PSTypeName = 'Rap.ControlledWriteCapabilityToken'
         CapabilityId = $id
         Mode = 'FIXTURE_ONLY'
-        TargetSystem = $TargetSystem
-        TargetObject = $TargetObject
+        OperationId = $Plan.OperationId
+        BindingHash = Get-RapControlledWriteHash $binding
         ProductionWrite = 'DISABLED'
     }
 }
@@ -279,6 +338,7 @@ function Resolve-RapControlledWriteCapability {
     if ($id -notmatch '^[a-f0-9]{64}$' -or -not $script:ControlledWriteCapabilities.ContainsKey($id)) { throw 'UNTRUSTED_CONTROLLED_WRITE_ADAPTER' }
     $capability = $script:ControlledWriteCapabilities[$id]
     if ($capability.Kind -cne 'FIXTURE_CONTROLLED_WRITE' -or $capability.ProductionWrite -cne 'DISABLED') { throw 'UNSAFE_CONTROLLED_WRITE_CAPABILITY' }
+    if((Get-RapControlledWriteHash $capability.Binding)-cne$capability.BindingHash){throw 'CONTROLLED_WRITE_CAPABILITY_CORRUPT'}
     $capability
 }
 
@@ -286,8 +346,15 @@ function Get-RapControlledWriteFixtureState {
     [CmdletBinding()]param([Parameter(Mandatory)]$Adapter)
     $capability = Resolve-RapControlledWriteCapability $Adapter
     [pscustomobject]@{
-        TargetSystem = $capability.TargetSystem
-        TargetObject = $capability.TargetObject
+        LibraryId = $capability.CurrentLibraryId
+        ProjectId = $capability.CurrentProjectId
+        TargetSystem = $capability.CurrentTargetSystem
+        TargetObject = $capability.CurrentTargetObject
+        TargetField = $capability.CurrentTargetField
+        Ownership = $capability.CurrentOwnership
+        IdentityStatus = $capability.CurrentIdentityStatus
+        CanonicalLibraryIdPresent = $capability.CurrentCanonicalLibraryIdPresent
+        PdfIdentityVerified = $capability.CurrentPdfIdentityVerified
         Fields = Copy-RapControlledWriteValue $capability.Fields
         Version = $capability.Version
         MutationCount = $capability.MutationCount
@@ -334,56 +401,65 @@ function Invoke-RapControlledWritePilot {
     )
     if ($Environment -cne $ExpectedEnvironment) { throw 'CONTROLLED_WRITE_ENVIRONMENT_MISMATCH' }
     if ($Environment -ceq 'PRODUCTION') { throw 'PRODUCTION_WRITE_PILOT_TEST_DEFERRED' }
-    [void](Assert-RapControlledWritePlanIntegrity $Plan)
-    $capability = Resolve-RapControlledWriteCapability $Adapter
-    if ($capability.TargetSystem -cne $Plan.TargetSystem -or $capability.TargetObject -cne $Plan.TargetObject) { throw 'CONTROLLED_WRITE_TARGET_MISMATCH' }
-
-    if ($capability.Operations.ContainsKey($Plan.OperationId)) {
-        $existing = $capability.Operations[$Plan.OperationId]
-        if ($existing.PlanHash -cne $Plan.PlanHash) { throw 'OPERATION_REPLAY_CONFLICT' }
-        if ($existing.Status -ceq 'VERIFIED') {
-            return [pscustomobject]@{OperationId=$Plan.OperationId;Status='ALREADY_COMPLETED';ChangesApplied=$false;MutationCount=0;Verification='PASS';StateHistory=@('PLANNED','AWAITING_APPROVAL','APPROVED','APPLYING','APPLIED','VERIFIED','ALREADY_COMPLETED');Audit=$existing.Audit;ProductionWrite='DISABLED'}
-        }
-        throw "OPERATION_NOT_REPLAYABLE:$($existing.Status)"
+    [void](Assert-RapControlledWritePlanIntegrity $Plan -IgnoreFreshness)
+    $operation=Get-RapControlledWritePersistedOperation $Plan.DatabasePath $Plan.OperationId
+    if($null-eq$operation){throw 'CONTROLLED_WRITE_OPERATION_NOT_PERSISTED'}
+    if($operation.PlanHash-cne$Plan.PlanHash-or$operation.PayloadHash-cne$Plan.PayloadHash){throw 'OPERATION_REPLAY_CONFLICT'}
+    if($operation.State-ceq'VERIFIED'){
+        return [pscustomobject]@{OperationId=$Plan.OperationId;Status='ALREADY_COMPLETED';ChangesApplied=$false;MutationCount=0;Verification='PASS';StateHistory=@($operation.AuditTrail|ForEach-Object{$_.State})+@('ALREADY_COMPLETED');Audit=$operation.AuditTrail[-1];ProductionWrite='DISABLED'}
     }
-
+    if($operation.State-in@('APPLYING','APPLIED','VERIFY_FAILED')){
+        return [pscustomobject]@{OperationId=$Plan.OperationId;Status='RECOVERY_REQUIRED';PersistedState=$operation.State;ChangesApplied=$false;MutationCount=0;Verification=$(if($operation.State-eq'VERIFY_FAILED'){'FAIL'}else{'UNKNOWN'});HumanReview=$true;ProductionWrite='DISABLED'}
+    }
+    [void](Assert-RapControlledWritePlanIntegrity $Plan)
     if ($null -eq $Approval) { throw 'HUMAN_APPROVAL_REQUIRED' }
     $approvalRecord = Resolve-RapControlledWriteApproval $Approval
     if ($approvalRecord.State -cne 'APPROVED' -or $approvalRecord.ApproverType -cne 'HUMAN' -or $approvalRecord.OperationId -cne $Plan.OperationId -or $approvalRecord.PlanHash -cne $Plan.PlanHash -or $approvalRecord.PayloadHash -cne $Plan.PayloadHash) { throw 'APPROVAL_BINDING_MISMATCH' }
+    if($operation.State-cne'APPROVED'-or$null-eq$operation.ApprovalBinding-or$operation.ApprovalBinding.ApprovalId-cne$approvalRecord.ApprovalId){throw 'CONTROLLED_WRITE_PERSISTED_APPROVAL_MISMATCH'}
+    $capability = Resolve-RapControlledWriteCapability $Adapter
+    $binding=$capability.Binding
+    if($binding.OperationId-cne$Plan.OperationId-or$binding.LibraryId-cne$Plan.LibraryId-or$binding.ProjectId-cne$Plan.ProjectId-or$binding.TargetSystem-cne$Plan.TargetSystem-or$binding.TargetObject-cne$Plan.TargetObject-or$binding.TargetField-cne$Plan.TargetField-or$binding.PlanHash-cne$Plan.PlanHash-or$binding.PayloadHash-cne$Plan.PayloadHash-or$binding.ApprovalId-cne$approvalRecord.ApprovalId){throw 'CONTROLLED_WRITE_CAPABILITY_BINDING_MISMATCH'}
+    if($capability.DatabasePath-cne$Plan.DatabasePath){throw 'CONTROLLED_WRITE_CAPABILITY_BINDING_MISMATCH'}
 
+    # APPLY-time sealed current-state read and revalidation.
+    if($capability.CurrentLibraryId-cne$Plan.LibraryId-or$capability.CurrentProjectId-cne$Plan.ProjectId-or$capability.CurrentTargetSystem-cne$Plan.TargetSystem-or$capability.CurrentTargetObject-cne$Plan.TargetObject-or$capability.CurrentTargetField-cne$Plan.TargetField-or-not$capability.CurrentCanonicalLibraryIdPresent-or-not$capability.CurrentPdfIdentityVerified-or$capability.CurrentIdentityStatus-cne'MATCHED'){throw 'CONTROLLED_WRITE_IDENTITY_CHANGED'}
+    if($capability.CurrentOwnership-cne'RAP_OWNED'){throw "CONTROLLED_WRITE_OWNERSHIP_CHANGED:$($capability.CurrentOwnership)"}
     $currentValue = if ($capability.Fields.ContainsKey($Plan.TargetField)) { Copy-RapControlledWriteValue $capability.Fields[$Plan.TargetField] } else { $null }
     if ((Get-RapControlledWriteHash $currentValue) -cne $Plan.BeforeHash -or [string]$capability.Version -cne $Plan.ExpectedVersion) { throw 'STALE_CONTROLLED_WRITE_PLAN' }
     if ($capability.FailBeforeApply) { throw 'CONTROLLED_WRITE_APPLY_FAILED' }
 
-    $stateHistory = [Collections.Generic.List[string]]::new()
-    foreach ($state in @('PLANNED','AWAITING_APPROVAL','APPROVED','APPLYING')) { $stateHistory.Add($state) }
+    $stateHistory=[Collections.Generic.List[string]]::new();foreach($entry in @($operation.AuditTrail)){$stateHistory.Add([string]$entry.State)}
+    $claimId=[guid]::NewGuid().ToString();$operation.State='APPLYING';$operation.AuditTrail=@($operation.AuditTrail)+[pscustomobject]@{State='APPLYING';Timestamp=[DateTimeOffset]::UtcNow.ToString('o');Provenance='PRE_APPLY_GUARDS_PASS';CapabilityBindingHash=$capability.BindingHash;ClaimId=$claimId}
+    if(-not(Enter-RapControlledWritePersistedApply $Plan.DatabasePath $operation $claimId)){return [pscustomobject]@{OperationId=$Plan.OperationId;Status='RECOVERY_REQUIRED';PersistedState='APPLYING';ChangesApplied=$false;MutationCount=0;Verification='UNKNOWN';HumanReview=$true;ProductionWrite='DISABLED'}};$stateHistory.Add('APPLYING')
+    if($capability.FaultPoint-eq'AFTER_APPLYING'){throw 'INJECTED_FAULT:AFTER_APPLYING'}
+
     $capability.Fields[$Plan.TargetField] = Copy-RapControlledWriteValue $Plan.ProposedValue
     $capability.Version = [int]$capability.Version + 1
     $capability.MutationCount = [int]$capability.MutationCount + 1
-    $stateHistory.Add('APPLIED')
+    $operation.State='APPLIED';$operation.ApplyResult=[pscustomobject]@{Status='APPLIED';AppliedAt=[DateTimeOffset]::UtcNow.ToString('o');AfterHash=$Plan.PayloadHash;Version=[string]$capability.Version};$operation.AuditTrail=@($operation.AuditTrail)+[pscustomobject]@{State='APPLIED';Timestamp=$operation.ApplyResult.AppliedAt;Provenance='FIXTURE_APPLY'}
+    [void](Set-RapControlledWritePersistedOperation $Plan.DatabasePath $operation);$stateHistory.Add('APPLIED')
+    if($capability.FaultPoint-eq'AFTER_APPLIED'){throw 'INJECTED_FAULT:AFTER_APPLIED'}
 
     if ($capability.TimeoutAfterApply) {
         $audit = New-RapControlledWriteAudit $Plan $approvalRecord 'PARTIAL_FAILURE' $currentValue $Plan.ProposedValue $true $false
-        $capability.Audits.Add($audit)
-        $capability.Operations[$Plan.OperationId] = [pscustomobject]@{PlanHash=$Plan.PlanHash;Status='PARTIAL_FAILURE';Audit=$audit}
+        $capability.Audits.Add($audit);$operation.ApplyResult.Status='TIMEOUT_AFTER_APPLY';$operation.AuditTrail=@($operation.AuditTrail)+[pscustomobject]@{State='APPLIED';Timestamp=[DateTimeOffset]::UtcNow.ToString('o');Provenance='TIMEOUT_AFTER_APPLY';RecoveryRequired=$true};[void](Set-RapControlledWritePersistedOperation $Plan.DatabasePath $operation)
         return [pscustomobject]@{OperationId=$Plan.OperationId;Status='PARTIAL_FAILURE';ChangesApplied=$true;MutationCount=1;Verification='UNKNOWN';StateHistory=@($stateHistory);Audit=$audit;HumanReview=$true;ProductionWrite='DISABLED'}
     }
 
     $readBack = Copy-RapControlledWriteValue $capability.Fields[$Plan.TargetField]
     if ($capability.ReadBackMismatch) { $readBack = [pscustomobject]@{SimulatedMismatch=$true;ObservedHash=(Get-RapControlledWriteHash $readBack)} }
     $verified = (Get-RapControlledWriteHash $readBack) -ceq $Plan.PayloadHash
+    $operation.ReadBackResult=[pscustomobject]@{ObservedHash=Get-RapControlledWriteHash $readBack;ExpectedHash=$Plan.PayloadHash;ReadAt=[DateTimeOffset]::UtcNow.ToString('o')}
     if (-not $verified) {
         $stateHistory.Add('VERIFY_FAILED')
         $audit = New-RapControlledWriteAudit $Plan $approvalRecord 'VERIFY_FAILED' $currentValue $readBack $true $false
-        $capability.Audits.Add($audit)
-        $capability.Operations[$Plan.OperationId] = [pscustomobject]@{PlanHash=$Plan.PlanHash;Status='VERIFY_FAILED';Audit=$audit}
+        $capability.Audits.Add($audit);$operation.State='VERIFY_FAILED';$operation.VerificationResult='FAIL';$operation.AuditTrail=@($operation.AuditTrail)+[pscustomobject]@{State='VERIFY_FAILED';Timestamp=[DateTimeOffset]::UtcNow.ToString('o');Provenance='READ_BACK_MISMATCH';Audit=$audit};[void](Set-RapControlledWritePersistedOperation $Plan.DatabasePath $operation)
         return [pscustomobject]@{OperationId=$Plan.OperationId;Status='VERIFY_FAILED';ChangesApplied=$true;MutationCount=1;Verification='FAIL';StateHistory=@($stateHistory);Audit=$audit;HumanReview=$true;ProductionWrite='DISABLED'}
     }
 
     $stateHistory.Add('VERIFIED')
     $audit = New-RapControlledWriteAudit $Plan $approvalRecord 'VERIFIED' $currentValue $readBack $true $true
-    $capability.Audits.Add($audit)
-    $capability.Operations[$Plan.OperationId] = [pscustomobject]@{PlanHash=$Plan.PlanHash;Status='VERIFIED';Audit=$audit}
+    $capability.Audits.Add($audit);$operation.State='VERIFIED';$operation.VerificationResult='PASS';$operation.AuditTrail=@($operation.AuditTrail)+[pscustomobject]@{State='VERIFIED';Timestamp=[DateTimeOffset]::UtcNow.ToString('o');Provenance='READ_BACK_MATCH';Audit=$audit};[void](Set-RapControlledWritePersistedOperation $Plan.DatabasePath $operation)
     [pscustomobject]@{OperationId=$Plan.OperationId;Status='VERIFIED';ChangesApplied=$true;MutationCount=1;Verification='PASS';StateHistory=@($stateHistory);Audit=$audit;ProductionWrite='DISABLED'}
 }
 
