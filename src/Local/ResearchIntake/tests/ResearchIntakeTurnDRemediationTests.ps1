@@ -1,0 +1,25 @@
+$ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'TestHarness.ps1')
+$script:Pass=0;$script:Fail=0
+function Assert-RD([string]$id,[bool]$ok,[string]$detail){if($ok){$script:Pass++;Write-Host "$id PASS $detail"}else{$script:Fail++;Write-Host "$id FAIL $detail"}}
+function Existing {[pscustomobject]@{CanonicalKey='doi:10.1234/rap.001';ZoteroItemId='Z1';Title='Research Intake Safety';FirstAuthor='Kim';Year='2026'}}
+
+$c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$null=Invoke-RapResearchIntakeReadOnlyLookup $c.Store TIMEOUT;$r=Invoke-RapResearchIntakeDecision $c.Store $p;Assert-RD RD01 ($r.Decision.Decision-ceq'BLOCKED') 'NOT_FOUND to TIMEOUT blocks stale decision'
+$c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$e=Existing;$null=Invoke-RapResearchIntakeReadOnlyLookup $c.Store PASS @($e) @($e);$r=Invoke-RapResearchIntakeDecision $c.Store $p;Assert-RD RD02 ($r.Decision.Decision-ceq'BLOCKED') 'NOT_FOUND to FOUND blocks stale decision'
+$c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$c.Store.LookupSnapshot=$null;Assert-RD RD03 ((Get-RapIntakeThrown {Invoke-RapResearchIntakeDecision $c.Store $p})-ne'') 'removed lookup evidence fails closed'
+$c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$c.Store.LookupSnapshot.ExecutionId='LOOKUP-REPLACED';$r=Invoke-RapResearchIntakeDecision $c.Store $p;Assert-RD RD04 ($r.Decision.Decision-ceq'BLOCKED') 'lookup execution identity change blocks replay'
+$temp=Join-Path ([IO.Path]::GetTempPath()) ('ri-remd-'+[guid]::NewGuid().ToString('N'));New-Item $temp -ItemType Directory|Out-Null
+try{
+    $db=Join-Path $temp 'fresh-envelope.db';$c=New-RapIntakeContext @() @() @((New-RapIntakeFixture)) $db;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$c.Store.Decisions['C-001'].Reason='LAUNDERED';Save-RapResearchIntakeStore $c.Store|Out-Null;$s=Open-RapResearchIntakeStore $db;$r=Invoke-RapResearchIntakeDecision $s $s.Promotions['C-001'];Assert-RD RD05 ($r.Decision.Decision-ceq'BLOCKED') 'fresh generic envelope cannot launder stale decision'
+    $c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$c.Store.Decisions['C-001'].CandidateId='C-OTHER';$r=Invoke-RapResearchIntakeDecision $c.Store $p;Assert-RD RD06 ($r.Decision.Decision-ceq'BLOCKED') 'cross-candidate decision substitution blocked'
+    $c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$c.Store.Decisions['C-001'].ProjectId='PR999';$r=Invoke-RapResearchIntakeDecision $c.Store $p;Assert-RD RD07 ($r.Decision.Decision-ceq'BLOCKED') 'cross-project decision substitution blocked'
+    $c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$d=$c.Store.Decisions['C-001'];$index=[int]$d.RevalidationSequence-1;$c.Store.Audit.RemoveAt($index);$r=Invoke-RapResearchIntakeDecision $c.Store $p;Assert-RD RD08 ($r.Decision.Decision-ceq'BLOCKED') 'missing bound revalidation event blocks replay'
+    $c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$d=$c.Store.Decisions['C-001'];$d.RevalidationSequence=[long]$d.DecisionAuditSequence+1;$r=Invoke-RapResearchIntakeDecision $c.Store $p;Assert-RD RD09 ($r.Decision.Decision-ceq'BLOCKED') 'late revalidation reference blocks replay'
+    $c=New-RapIntakeContext;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$d=$c.Store.Decisions['C-001'];$evt=@($c.Store.Audit|Where-Object{$_.Sequence-eq$d.RevalidationSequence})[0];$evt.Data.CandidateId='C-OTHER';$r=Invoke-RapResearchIntakeDecision $c.Store $p;Assert-RD RD10 ($r.Decision.Decision-ceq'BLOCKED') 'wrong-candidate revalidation proof blocks replay'
+    $c=New-RapIntakeContext;$p=Promote-RapFixture $c;$before=$c.Store.Counters.ZoteroCreateDecision;$c.Store.Audit=$null;$thrown=Get-RapIntakeThrown {Invoke-RapResearchIntakeDecision $c.Store $p};Assert-RD RD11 (($thrown-ne'')-and$c.Store.Decisions.Count-eq0-and$c.Store.Counters.ZoteroCreateDecision-eq$before) 'audit write failure is fail-closed'
+    $db=Join-Path $temp 'restart-change.db';$c=New-RapIntakeContext @() @() @((New-RapIntakeFixture)) $db;$p=Promote-RapFixture $c;$null=Invoke-RapResearchIntakeDecision $c.Store $p;$s=Open-RapResearchIntakeStore $db;$e=Existing;$null=Invoke-RapResearchIntakeReadOnlyLookup $s PASS @($e) @($e);$r=Invoke-RapResearchIntakeDecision $s $s.Promotions['C-001'];Assert-RD RD12 ($r.Decision.Decision-ceq'BLOCKED') 'restart plus changed evidence blocks old decision reuse'
+}finally{Remove-Item $temp -Recurse -Force -ErrorAction SilentlyContinue}
+
+Write-Host "SPR-015 Turn D remediation probes: PASS=$script:Pass FAIL=$script:Fail TOTAL=$($script:Pass+$script:Fail)"
+if($script:Fail-gt0){Write-Host 'TURN_D_REMEDIATION_PROBES=FAIL';exit 1}
+Write-Host 'TURN_D_REMEDIATION_PROBES=PASS'

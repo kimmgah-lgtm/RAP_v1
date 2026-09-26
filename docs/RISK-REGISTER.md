@@ -1,8 +1,8 @@
 # RAP Risk Register
 
-Last verified: 2026-09-26, SPR-015 Turn D independent Final Re-Gate
+Last verified: 2026-09-26, SPR-015 Turn D remediation
 
-Open-risk summary: **P0 = 0, P1 = 3, P2 = 8**.
+Open-risk summary: **P0 = 0, P1 = 0, P2 = 8**.
 
 ## Open risks
 
@@ -16,9 +16,14 @@ Open-risk summary: **P0 = 0, P1 = 3, P2 = 8**.
 | RISK-SPR0115-001 | P2 | Production reconciliation adapters remain intentionally deferred; only local/fixture recovery was verified. | Live reconciliation semantics require a separately authorized gate. | Reconciliation external boundary | NO |
 | RISK-SPR0115-002 | P2 | Reconciliation and controlled-write persistence use local hashes without an external trust anchor. | A fully privileged local actor could rewrite state and recompute hashes. | Local persistence/audit | NO |
 | RISK-SPR015-002 | P2 | Canonical-paper and Zotero lookups use bounded mock registries. Live/read-only connector wiring and normalization at that boundary are deferred. | Production data-shape and connector-read mismatches remain untested. | Research Intake lookup boundary | NO — production remains disabled |
-| RISK-SPR015-005 | P1 | Turn D D15/D17: after an authoritative NOT_FOUND decision, replacing lookup evidence with TIMEOUT or FOUND still returns the cached CREATE decision without comparing lookup execution/status. | Stale CREATE authority can survive failed or duplicate-proving evidence. | Research Intake decision replay/evidence binding | YES |
-| RISK-SPR015-006 | P1 | Turn D D18: a blocked decision changed to CREATE and saved in a newly valid generic persistence envelope is accepted on reload/replay. | Generic envelope integrity does not protect decision semantics. | Research Intake decision integrity | YES |
-| RISK-SPR015-007 | P1 | Turn D D19: persisted audit has no explicit lineage-revalidation event or equivalent decision evidence containing the validated promotion binding. | Mandatory pre-decision lineage revalidation is not independently reconstructable. | Research Intake audit/provenance | YES |
+
+## Resolved by SPR-015 Turn D remediation
+
+| Risk ID | Former priority | RED → GREEN evidence | Status |
+|---|---:|---|---|
+| RISK-SPR015-005 | P1 | RED: D15/D17 returned stale CREATE after NOT_FOUND changed to TIMEOUT/FOUND. GREEN: decisions bind lookup execution and exact evidence hash; changed/removed/reordered evidence blocks replay. D15/D17 and RD01-RD04/RD12 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
+| RISK-SPR015-006 | P1 | RED: D18 accepted a forged CREATE inside a fresh generic envelope. GREEN: versioned semantic `DecisionBindingHash` binds project/question/search/candidate/promotion/identity/lookup/decision/reason/state/time; fresh-envelope and cross-scope laundering fail closed. D18 and RD05-RD07 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
+| RISK-SPR015-007 | P1 | RED: D19 found no pre-decision revalidation proof. GREEN: durable `PROMOTION_LINEAGE_REVALIDATED` event is bound by sequence/evidence hash and must precede the decision audit; missing/late/wrong proof and audit-write failure fail closed. D19 and RD08-RD11 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
 
 ## Closed by SPR-015 Turn D independent re-verification
 
