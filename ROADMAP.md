@@ -173,7 +173,7 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 
 SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
 
-## SPR-015 — Research Intake Golden Path (Turn E remediation PASS; Final Re-Gate pending)
+## SPR-015 — Research Intake Golden Path (Turn F Final Re-Gate FAIL)
 
 - Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
 - Requirements: `docs/SPR-015-REQUIREMENTS.md`
@@ -193,6 +193,7 @@ SPR-014 is complete. SPR-015 is ready for separately authorized requirements/loc
 - `RISK-SPR015-003/004` are remediated with open P0/P1=0/0, but SPR-015 CORE COMPLETE remains NO until a separately commanded Turn D Independent Final Re-Gate.
 - Turn D independently closed `RISK-SPR015-003/004`, but 4/19 new probes failed and registered `RISK-SPR015-005/006/007`: stale lookup evidence can reuse CREATE, a semantically forged decision can survive a valid envelope rewrite, and lineage revalidation is not audit-provable.
 - Turn D remediation closed `RISK-SPR015-005/006/007` with decision/evidence immutability, replay-safe semantic binding, and durable pre-decision revalidation audit proof. Remediation probes 12/12, Turn D probes 19/19, all earlier intake suites, and the full safe regression pass.
-- Current P0/P1/P2=0/0/8. User-approved disposition: SPR-015 LOCAL/DURABLE CORE COMPLETE=YES and READY FOR CONNECTOR READ PILOT=CONDITIONAL. The pilot is limited to separately authorized read-only scope with fail-closed normalization and zero mutation. Production Write=DISABLED and Production Pilot=TEST_DEFERRED.
+- Historical pre-Turn-E user disposition was SPR-015 LOCAL/DURABLE CORE COMPLETE=YES and READY FOR CONNECTOR READ PILOT=CONDITIONAL. Later independent Gates supersede that status. Production Write=DISABLED and Production Pilot=TEST_DEFERRED.
 - Turn E independently passed 20/22 probes but found `RISK-SPR015-008/009`: mutable identity resolution can redirect dedup into CREATE, and the selected Zotero reuse target is omitted from decision semantic binding. Current P0/P1/P2=0/2/8; LOCAL/DURABLE CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO pending separate remediation.
 - Turn E remediation sealed identity authority and exact REUSE target authority, advanced persistence to schema v4, and passed ER01-ER12 12/12 plus E01-E22 22/22 and the full safe regression. Current P0/P1/P2=0/0/8; CORE COMPLETE and connector readiness remain NO until a separate independent Final Re-Gate.
+- Turn F independently passed 25/27 probes and every required existing suite/full regression, but F25/F26 exposed `RISK-SPR015-010`: decision replay does not require authoritative identity-resolution and lookup-execution audit semantics. Current P0/P1/P2=0/1/8; LOCAL/DURABLE CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO pending separate remediation.

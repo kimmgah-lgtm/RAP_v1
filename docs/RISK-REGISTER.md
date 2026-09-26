@@ -1,8 +1,8 @@
 # RAP Risk Register
 
-Last verified: 2026-09-26, SPR-015 Turn E remediation
+Last verified: 2026-09-26, SPR-015 Turn F independent Final Re-Gate
 
-Open-risk summary: **P0 = 0, P1 = 0, P2 = 8**.
+Open-risk summary: **P0 = 0, P1 = 1, P2 = 8**.
 
 ## Open risks
 
@@ -17,12 +17,18 @@ Open-risk summary: **P0 = 0, P1 = 0, P2 = 8**.
 | RISK-SPR0115-002 | P2 | Reconciliation and controlled-write persistence use local hashes without an external trust anchor. | A fully privileged local actor could rewrite state and recompute hashes. | Local persistence/audit | NO |
 | RISK-SPR015-002 | P2 | Canonical-paper and Zotero lookups use bounded mock registries. Live/read-only connector wiring and normalization at that boundary are deferred. | Production data-shape and connector-read mismatches remain untested. | Research Intake lookup boundary | NO — production remains disabled |
 
+## Opened by SPR-015 Turn F independent Final Re-Gate
+
+| Risk ID | Priority | Description and evidence | Impact | Affected component | Gate blocking |
+|---|---|---|---|---|---|
+| RISK-SPR015-010 | P1 | F25/F26: changing the semantic event type of `IDENTITY_RESOLVED` or `READ_ONLY_LOOKUP_EXECUTED` while preserving audit sequence does not invalidate an existing CREATE decision. Replay verifies revalidation and decision audits but not the upstream identity/lookup authority audits. | Durable provenance cannot prove the full authority chain while replay still reports authoritative success. | Research Intake decision/audit authority | **YES** |
+
 ## Resolved by SPR-015 Turn E remediation
 
 | Risk ID | Former priority | RED → GREEN evidence | Status |
 |---|---:|---|---|
-| RISK-SPR015-008 | P1 | RED: E21 accepted a caller-mutated canonical identity and granted CREATE. GREEN: versioned `IdentityBindingHash`, detached return artifacts, and persisted authority verification block canonical/DOI/PMID/candidate/project/source-evidence substitution. E21 and ER01-ER06 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
-| RISK-SPR015-009 | P1 | RED: E22 accepted a substituted `ZoteroItemId` after fresh-envelope restart. GREEN: decision/audit bind canonical target, Zotero item, library context, and exact matched-record evidence. E22 and ER07-ER12 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
+| RISK-SPR015-008 | P1 | RED: E21 accepted a caller-mutated canonical identity and granted CREATE. GREEN: versioned `IdentityBindingHash`, detached return artifacts, and persisted authority verification block canonical/DOI/PMID/candidate/project/source-evidence substitution. E21, ER01-ER06, and Turn F F01-F05/F17/F24 PASS. | RESOLVED — independently reverified in Turn F |
+| RISK-SPR015-009 | P1 | RED: E22 accepted a substituted `ZoteroItemId` after fresh-envelope restart. GREEN: decision/audit bind canonical target, Zotero item, library context, and exact matched-record evidence. E22, ER07-ER12, and Turn F F09-F11/F19/F27 PASS. | RESOLVED — independently reverified in Turn F |
 
 ## Resolved by SPR-015 Turn D remediation
 

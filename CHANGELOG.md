@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn F independent Final Re-Gate
+
+- Added 27 independent end-to-end authority probes; 25 passed and F25/F26 exposed one new P1 in identity/lookup audit-authority validation during decision replay.
+- Independently reran Turn A-E, SPR-012/013/014, and the full safe regression successfully with schema v4, secret leakage 0, and production mutations 0/0/0.
+- Recorded Turn F as FAIL with P0/P1/P2=0/1/8, LOCAL/DURABLE CORE COMPLETE=NO, and connector-read pilot readiness=NO. No remediation, connector pilot, or production activation was performed.
+
 ## Unreleased — SPR-015 Turn E P1 remediation
 
 - Sealed candidate-derived identity authority with a versioned `IdentityBindingHash` and enforced persisted-authority verification at the public dedup boundary.
