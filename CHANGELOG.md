@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn C P1 remediation
+
+- Persisted authoritative lookup outcomes and required canonical/Zotero `NOT_FOUND` evidence before any `CREATE_CANDIDATE` decision; lookup uncertainty now remains blocked across restart.
+- Sealed PROMOTE search lineage, candidate identity, researcher provenance, and timestamp, with revalidation before identity/dedup advancement and after reload.
+- Advanced Research Intake persistence to schema v2 with fail-closed legacy/default handling; passed original probes 13/13, expanded remediation 19/19, Turn A/B suites, and full safe regression.
+- Kept SPR-015 CORE COMPLETE=NO, connector-read pilot blocked, Production Write disabled, and production mutations 0/0/0 pending an independent Turn D Final Re-Gate.
+
 ## Unreleased — SPR-015 Turn C independent Final Gate
 
 - Independently reran the Turn A/B suites and the full safe regression successfully, with secret leakage 0 and production Zotero/Drive/Notion mutations 0/0/0.

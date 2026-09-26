@@ -5,7 +5,7 @@
 
 ## Current Sprint
 
-SPR-015 — Turn C independent Final Gate FAIL on 2026-09-26; remediation not performed.
+SPR-015 — Turn C Final Gate remains FAIL; P1 remediation PASS on 2026-09-26; independent Turn D Final Re-Gate required.
 
 ## Baseline HEAD before SPR-015 Turn A
 
@@ -42,6 +42,7 @@ SPR-015 — Turn C independent Final Gate FAIL on 2026-09-26; remediation not pe
 - SPR-015 Turn A local/mock core: **COMPLETE / PASS**
 - SPR-015 Turn B durable intake: **COMPLETE / PASS**
 - SPR-015 Turn C independent Final Gate: **FAIL — 2 P1 blockers**
+- SPR-015 Turn C remediation: **PASS — both P1 RED→GREEN; Final Re-Gate pending**
 - SPR-015 production implementation/pilot: **NOT STARTED / TEST_DEFERRED**
 - SPR-015R implementation: **NOT STARTED**
 
@@ -96,7 +97,7 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 ## Risks
 
 - P0: **0**
-- P1: **2** — lookup-failure decision bypass and missing search-lineage promotion binding
+- P1: **0 open after remediation** — `RISK-SPR015-003/004` require independent Turn D closure confirmation
 - P2: **8**; Turn A in-memory persistence deferral resolved, real connector-read limitation retained
 
 `RISK-SPR012-001` remains remediated: arbitrary callbacks cannot enter the production read boundary, registered module-owned capability state controls execution, and only the fixed GET transport is available.
@@ -145,7 +146,7 @@ Real trace summary:
 
 ## Exact next step
 
-Run a separately commanded SPR-015 Turn C Remediation for `RISK-SPR015-003` and `RISK-SPR015-004`. Keep Production Write disabled.
+Run a separately commanded SPR-015 Turn D Independent Final Re-Gate. Keep Production Write disabled and the connector-read pilot blocked.
 
 ## SPR-015 architecture and Turn A implementation handoff
 
@@ -159,12 +160,12 @@ Unresolved external configuration includes search-source permissions, the author
 
 ## Next command
 
-Issue a separate SPR-015 Turn C Remediation command. Keep global Production Write disabled and do not run the connector or production pilot.
+Issue a separate SPR-015 Turn D Independent Final Re-Gate command. Keep global Production Write disabled and do not run the connector or production pilot.
 
 <요약>
 
-1. Existing Turn A/B and full regressions pass, but Turn C independent probes failed 3/13.
-2. SPR-015 durable core is incomplete with two Gate-blocking P1 risks; remediation is next.
+1. Turn C remediation converted the original three failed probes to 13/13 PASS and added 19/19 expanded evidence.
+2. Both P1 risks are remediated, but SPR-015 durable core remains incomplete until independent Turn D Final Re-Gate.
 3. Production Write remains disabled and production mutations remain Zotero 0 / Drive 0 / Notion 0.
 
 기록 시각: 2026-09-26 (Asia/Seoul)

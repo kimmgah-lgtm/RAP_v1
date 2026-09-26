@@ -26,4 +26,6 @@ $repositoryRoot = Split-Path -Parent $PSScriptRoot
 & (Join-Path $repositoryRoot 'src/Local/ResearchIntake/tests/ResearchIntakeRestartTests.ps1')
 & (Join-Path $repositoryRoot 'src/Local/ResearchIntake/tests/ResearchIntakeLookupTests.ps1')
 & (Join-Path $repositoryRoot 'src/Local/ResearchIntake/tests/ResearchIntakeIdentityHardeningTests.ps1')
+& (Join-Path $repositoryRoot 'src/Local/ResearchIntake/tests/ResearchIntakeTurnCGateProbes.ps1')
+& (Join-Path $repositoryRoot 'src/Local/ResearchIntake/tests/ResearchIntakeTurnCRemediationTests.ps1')
 

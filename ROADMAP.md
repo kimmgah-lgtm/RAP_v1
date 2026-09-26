@@ -173,7 +173,7 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 
 SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
 
-## SPR-015 — Research Intake Golden Path (Turn C Final Gate FAIL; local/mock only)
+## SPR-015 — Research Intake Golden Path (Turn C remediation PASS; Final Re-Gate pending)
 
 - Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
 - Requirements: `docs/SPR-015-REQUIREMENTS.md`
@@ -189,3 +189,5 @@ SPR-014 is complete. SPR-015 is ready for separately authorized requirements/loc
 - Turn C independently reran the official safe regression successfully, but 3/13 adversarial Gate probes failed: timeout and partial lookup results can be bypassed into `CREATE_CANDIDATE`, and PROMOTE binding does not cover `SearchExecutionId` lineage.
 - Turn C result is FAIL with P0=0, P1=2, P2=8. SPR-015 CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO; remediation requires a separately commanded turn.
 - Production Write remains DISABLED and the connector/production pilot remains TEST_DEFERRED.
+- Turn C remediation reproduced the original RED failures, then passed the same 13/13 Gate probes plus 19/19 expanded lookup/lineage/restart/schema assertions and the full safe regression.
+- `RISK-SPR015-003/004` are remediated with open P0/P1=0/0, but SPR-015 CORE COMPLETE remains NO until a separately commanded Turn D Independent Final Re-Gate.
