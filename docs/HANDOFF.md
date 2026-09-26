@@ -5,11 +5,11 @@
 
 ## Current Sprint
 
-SPR-014 — Single-Object Controlled Write Pilot, Turn D Final Gate PASS and COMPLETE on 2026-09-26.
+SPR-015 — Research Intake Core Contract and one-paper zero-duplicate LOCAL/MOCK golden path, Turn A COMPLETE / PASS on 2026-09-26.
 
-## Baseline HEAD before Turn C commit
+## Baseline HEAD before SPR-015 Turn A
 
-`2d601e07b637609c6757db2f15c1187b24f98f8a`
+`ef89b0073d172edb7efcc2680b32ca2b7dcbcdf4`
 
 ## Branch
 
@@ -38,8 +38,10 @@ SPR-014 — Single-Object Controlled Write Pilot, Turn D Final Gate PASS and COM
 - SPR-014 Turn D Final Gate: **PASS**
 - SPR-014: **COMPLETE**
 - Ready for SPR-015 E2E Research Intake Pilot: **YES — REQUIREMENTS/LOCAL-MOCK DEVELOPMENT ONLY**
-- SPR-015 product requirements: **DOCUMENTED ONLY** in `docs/SPR-015-REQUIREMENTS.md`
-- SPR-015 / SPR-015R implementation: **NOT STARTED**
+- SPR-015 product requirements: **ACCEPTED** in `docs/SPR-015-REQUIREMENTS.md`
+- SPR-015 Turn A local/mock core: **COMPLETE / PASS**
+- SPR-015 production implementation/pilot: **NOT STARTED / TEST_DEFERRED**
+- SPR-015R implementation: **NOT STARTED**
 
 The Gate means local/mock production-readiness is verified. It does not authorize Production Write and does not convert deferred live probes to PASS.
 
@@ -80,12 +82,18 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 - SPR-014 Turn D SPR-012 focused/adversarial/boundary: **16/16, 17/17, 7/7 PASS**
 - SPR-014 Turn D full safe RAP regression: **PASS; exit code 0**
 - SPR-014 Turn D mandatory failures: **0**
+- SPR-015 Turn A contract: **10/10 PASS**
+- SPR-015 Turn A zero-duplicate: **10/10 PASS**
+- SPR-015 Turn A Research Inbox safety: **8/8 PASS**
+- SPR-015 Turn A adversarial: **13/13 PASS**
+- SPR-015 Turn A total: **41/41 PASS**
+- SPR-015 Turn A full safe RAP regression: **PASS; exit code 0**
 
 ## Risks
 
 - P0: **0**
-- P1: **0** after independent Turn D Final Gate
-- P2: **7**, inherited non-blocking inventory
+- P1: **0** after SPR-015 Turn A implementation and full regression
+- P2: **9**, including two Turn A non-blocking deferrals
 
 `RISK-SPR012-001` remains remediated: arbitrary callbacks cannot enter the production read boundary, registered module-owned capability state controls execution, and only the fixed GET transport is available.
 
@@ -133,26 +141,26 @@ Real trace summary:
 
 ## Exact next step
 
-Prepare SPR-015 implementation planning from the accepted ADR and requirements under a separate command. Keep Production Write disabled and do not treat the deferred production pilot as passed.
+Run a separately commanded SPR-015 Turn B Identity/Dedup Hardening gate with restart-safe persistence and bounded read-only connector integration. Keep Production Write disabled.
 
-## SPR-015 requirements handoff — documentation only
+## SPR-015 architecture and Turn A implementation handoff
 
 The approved future direction is recorded in `docs/adr/ADR-0012-research-intake-architecture.md` and `docs/SPR-015-REQUIREMENTS.md`. It starts from Research Question, uses one Quick/Systematic Research Search Pipeline, holds results as non-canonical Research Inbox candidates, and requires explicit researcher PROMOTE before canonicalization.
 
 The future golden path must perform canonical identity resolution and pre-Zotero deduplication before CREATE/REUSE, use stateful PDF acquisition plus PDF identity verification, preserve discovery lineage, create one Library_ID and one Paper Review per canonical paper, and protect HUMAN_OWNED and ResearcherConfirmed content. AMBIGUOUS, PDF_AMBIGUOUS, and PDF_MISMATCH remain blocked for human review.
 
-SPR-014 Turn D is now PASS. SPR-015 begins with a one-paper golden path only after a separate SPR-015 implementation command. SPR-015R separately hardens duplicate, restart, retry, missing/mismatched PDF, identifier/metadata conflict, cross-system duplicate, partial failure, and lineage-break scenarios.
+Turn A implemented the bounded local/mock path through a non-mutating CREATE/REUSE decision. Turn B separately hardens durable restart/retry and bounded connector reads. SPR-015R later covers missing/mismatched PDF, cross-system duplicate, partial failure, and lineage-break scenarios.
 
 Unresolved external configuration includes search-source permissions, the authoritative Research Inbox store/schema, researcher PROMOTE identity/provenance, identity evidence thresholds, approved PDF acquisition routes, exact production targets, Project_ID authority, and separately authorized Production Write/recovery procedures.
 
 ## Next command
 
-Issue a separate SPR-015 implementation-planning command against the accepted ADR and requirements. Keep global Production Write disabled and do not run the production pilot without separate authorization.
+Issue a separate SPR-015 Turn B command for identity/dedup hardening, durable replay, and bounded read-only lookup integration. Keep global Production Write disabled and do not run the production pilot without separate authorization.
 
 <요약>
 
-1. SPR-014 Turn D Final Gate passed and SPR-014 is complete.
-2. SPR-015 ADR and requirements are accepted; implementation is not started and readiness is limited to requirements/local-mock development.
+1. SPR-015 Turn A local/mock Research Intake core passed 41/41 tests and full regression.
+2. SPR-015 production implementation and pilot remain unstarted/deferred; Turn B requires separate authorization.
 3. Production Write remains disabled and production mutations remain Zotero 0 / Drive 0 / Notion 0.
 
 기록 시각: 2026-09-26 (Asia/Seoul)

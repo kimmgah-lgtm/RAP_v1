@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn A Research Intake core
+
+- Added a typed LOCAL/MOCK Research Intake workflow from Research Question through explicit PROMOTE ONE and a non-mutating pre-Zotero CREATE/REUSE decision.
+- Added fail-closed DOI normalization, identity priority, candidate/project binding, fuzzy ambiguity, incomplete-mapping blocking, idempotent promotion, and lineage audit.
+- Passed 41/41 new contract, zero-duplicate, Inbox safety, and adversarial assertions plus the full available safe regression.
+- Kept Production Write disabled, Production Pilot TEST_DEFERRED, and Zotero/Drive/Notion production mutations at 0/0/0.
+
 ## Unreleased — SPR-014 Turn D Final Gate and SPR-015 architecture preservation
 
 - Independently passed R01-R18, CW01-CW20, 14 Gate probes, SPR-012/013 regressions, and the full available safe regression.

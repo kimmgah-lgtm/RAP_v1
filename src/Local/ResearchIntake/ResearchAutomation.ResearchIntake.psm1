@@ -1,0 +1,2 @@
+Import-Module (Join-Path $PSScriptRoot 'ResearchIntakeEngine.psm1') -Force
+Export-ModuleMember -Function New-RapResearchIntakeStore,New-RapResearchQuestion,New-RapSearchRequest,Invoke-RapMockResearchSearch,Add-RapResearchInboxCandidates,Promote-RapResearchInboxCandidate,Resolve-RapCanonicalPaperIdentity,Get-RapPreZoteroDedupDecision,Invoke-RapResearchIntakeDecision,Get-RapResearchIntakeAudit

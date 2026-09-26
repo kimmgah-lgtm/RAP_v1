@@ -1,8 +1,8 @@
 # RAP Risk Register
 
-Last verified: 2026-09-26, SPR-014 Turn D Final Gate
+Last verified: 2026-09-26, SPR-015 Turn A
 
-Open-risk summary: **P0 = 0, P1 = 0, P2 = 7**.
+Open-risk summary: **P0 = 0, P1 = 0, P2 = 9**.
 
 ## Open risks
 
@@ -15,6 +15,8 @@ Open-risk summary: **P0 = 0, P1 = 0, P2 = 7**.
 | RISK-SPR011-011 | P2 | Turn E: legacy assertion `'partial commit marked complete'` in `WorkflowExceptionAdversarialTests.ps1` checks a local flag that is never set (vacuous). The requirement is re-mapped to E3-20 and E5-10~17; the historical test was left unchanged. | Legacy assertion count overstates evidence by 1. | Requirements/test evidence | NO |
 | RISK-SPR0115-001 | P2 | Production reconciliation adapters remain intentionally deferred; only local/fixture recovery was verified. | Live reconciliation semantics require a separately authorized gate. | Reconciliation external boundary | NO |
 | RISK-SPR0115-002 | P2 | Reconciliation and controlled-write persistence use local hashes without an external trust anchor. | A fully privileged local actor could rewrite state and recompute hashes. | Local persistence/audit | NO |
+| RISK-SPR015-001 | P2 | Turn A Research Intake promotion, decision, and audit state is in-memory only. Restart-equivalent behavior is proven through deterministic registry lookup, but durable operation replay is deferred. | Process restart cannot yet resume an unfinished intake operation from a protected local ledger. | Research Intake persistence | NO — Turn A local/mock boundary |
+| RISK-SPR015-002 | P2 | Canonical-paper and Zotero lookups use bounded mock registries. Live/read-only connector wiring and normalization at that boundary are deferred. | Production data-shape and connector-read mismatches remain untested. | Research Intake lookup boundary | NO — production remains disabled |
 
 ## Resolved by SPR-009 Turn C
 

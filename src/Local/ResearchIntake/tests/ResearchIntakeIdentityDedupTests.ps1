@@ -1,0 +1,16 @@
+. (Join-Path $PSScriptRoot 'TestHarness.ps1')
+$script:N=0
+function A([string]$id,[bool]$ok,[string]$message){$script:N++;if(!$ok){throw "$id failed: $message"};Write-Host "$id PASS $message"}
+function Existing([string]$key,[string]$zid='Z-1',[string]$title='Research Intake Safety',[string]$author='Kim',[string]$year='2026'){[pscustomobject]@{CanonicalKey=$key;ZoteroItemId=$zid;Title=$title;FirstAuthor=$author;Year=$year}}
+function D([object]$fixture,[object[]]$canonical,[object[]]$zotero){$c=New-RapIntakeContext $canonical $zotero @($fixture);$p=Promote-RapFixture $c $fixture.CandidateId;Invoke-RapResearchIntakeDecision $c.Store $p}
+$e=Existing 'doi:10.1234/rap.001';$r=D (New-RapIntakeFixture) @($e) @($e);A ZD01 ($r.Decision.Decision-eq'REUSE_EXISTING') 'same DOI and metadata reuses existing item'
+$e=Existing 'doi:10.1234/rap.001';$r=D (New-RapIntakeFixture C-002 ' https://doi.org/10.1234/RAP.001 ') @($e) @($e);A ZD02 ($r.Decision.Decision-eq'REUSE_EXISTING'-and$r.Identity.NormalizedDoi-eq'10.1234/rap.001') 'DOI URL and whitespace normalize to reuse'
+$e=Existing 'doi:10.1234/rap.001';$r=D (New-RapIntakeFixture C-003 'DOI:10.1234/RAP.001') @($e) @($e);A ZD03 ($r.Decision.Decision-eq'REUSE_EXISTING') 'DOI case variation reuses existing item'
+$e=Existing 'doi:10.1234/rap.001' 'Z-1' 'Different Paper' 'Lee' '2020';$r=D (New-RapIntakeFixture C-004) @($e) @($e);A ZD04 ($r.Decision.Decision-eq'IDENTITY_CONFLICT') 'same DOI with incompatible metadata requires human review'
+$e=Existing 'doi:10.9999/other';$r=D (New-RapIntakeFixture C-005 '10.1234/rap.001') @($e) @($e);A ZD05 ($r.Decision.Decision-eq'CREATE_CANDIDATE') 'different DOI with same title does not auto-merge'
+$e=Existing 'pmid:123456';$r=D (New-RapIntakeFixture C-006 '' 'Research Intake Safety' 'Kim' '2026' '123456') @($e) @($e);A ZD06 ($r.Decision.Decision-eq'REUSE_EXISTING'-and$r.Identity.Authority-eq'STRONG_EXTERNAL_ID') 'strong external ID permits reuse'
+$e=Existing 'tay:research intake safety|kim|2026';$r=D (New-RapIntakeFixture C-007 '') @($e) @($e);A ZD07 ($r.Decision.Decision-eq'REUSE_EXISTING'-and$r.Identity.Authority-eq'TITLE_AUTHOR_YEAR') 'title-author-year follows explicit reuse policy'
+$r=D (New-RapIntakeFixture C-008 '' 'Research Intake' '' '') @() @();A ZD08 ($r.Decision.Decision-eq'AMBIGUOUS'-and$r.Identity.Authority-eq'FUZZY_ONLY') 'fuzzy-only candidate cannot merge or reuse'
+$c=New-RapIntakeContext;$p1=Promote-RapFixture $c;$r1=Invoke-RapResearchIntakeDecision $c.Store $p1;$p2=Promote-RapFixture $c;$r2=Invoke-RapResearchIntakeDecision $c.Store $p2;A ZD09 ($p1.PromotionHash-eq$p2.PromotionHash-and$r1.Decision.Decision-eq$r2.Decision.Decision-and$c.Store.Counters.ZoteroCreateDecision-eq1) 'repeated PROMOTE creates one decision'
+$prior=[pscustomobject]@{CanonicalKey=$r1.Identity.CanonicalKey;ZoteroItemId='Z-RESTART';Title='Research Intake Safety';FirstAuthor='Kim';Year='2026'};$r3=D (New-RapIntakeFixture C-009) @($prior) @($prior);A ZD10 ($r3.Decision.Decision-eq'REUSE_EXISTING'-and-not$r3.Decision.ChangesApplied) 'restart-equivalent lookup produces no duplicate CREATE'
+if($script:N-ne10){throw "Expected 10 zero-duplicate assertions, got $script:N"};Write-Host 'SPR-015 zero-duplicate matrix: ZD01-ZD10 10/10 PASS'

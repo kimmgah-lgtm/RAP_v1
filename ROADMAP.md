@@ -173,9 +173,13 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 
 SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
 
-## SPR-015 — Research Intake Golden Path (requirements accepted; implementation not started)
+## SPR-015 — Research Intake Golden Path (Turn A complete; local/mock only)
 
 - Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
 - Requirements: `docs/SPR-015-REQUIREMENTS.md`
 - Goal: ONE-PAPER ZERO-DUPLICATE RESEARCH INTAKE PILOT
-- No SPR-015 code, schema migration, external write, or production activation has started.
+- Implemented typed Research Question, unified Search request, Research Inbox, explicit PROMOTE ONE, canonical identity resolution, pre-Zotero dedup, and non-mutating CREATE/REUSE decision contracts.
+- Contract 10/10, zero-duplicate 10/10, Inbox safety 8/8, and adversarial 13/13 tests PASS; full safe regression PASS.
+- P0/P1=0/0 and production Zotero/Drive/Notion mutations=0/0/0.
+- Turn A is in-memory and mock-only. Durable replay and bounded connector reads are deferred to Turn B.
+- No schema migration, external write, production activation, PDF pipeline, Library_ID allocation, or Paper Review creation has started.
