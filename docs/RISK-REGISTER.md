@@ -1,8 +1,8 @@
 # RAP Risk Register
 
-Last verified: 2026-09-26, SPR-015 Turn C remediation
+Last verified: 2026-09-26, SPR-015 Turn D independent Final Re-Gate
 
-Open-risk summary: **P0 = 0, P1 = 0, P2 = 8**. Final Re-Gate remains required.
+Open-risk summary: **P0 = 0, P1 = 3, P2 = 8**.
 
 ## Open risks
 
@@ -16,13 +16,16 @@ Open-risk summary: **P0 = 0, P1 = 0, P2 = 8**. Final Re-Gate remains required.
 | RISK-SPR0115-001 | P2 | Production reconciliation adapters remain intentionally deferred; only local/fixture recovery was verified. | Live reconciliation semantics require a separately authorized gate. | Reconciliation external boundary | NO |
 | RISK-SPR0115-002 | P2 | Reconciliation and controlled-write persistence use local hashes without an external trust anchor. | A fully privileged local actor could rewrite state and recompute hashes. | Local persistence/audit | NO |
 | RISK-SPR015-002 | P2 | Canonical-paper and Zotero lookups use bounded mock registries. Live/read-only connector wiring and normalization at that boundary are deferred. | Production data-shape and connector-read mismatches remain untested. | Research Intake lookup boundary | NO — production remains disabled |
+| RISK-SPR015-005 | P1 | Turn D D15/D17: after an authoritative NOT_FOUND decision, replacing lookup evidence with TIMEOUT or FOUND still returns the cached CREATE decision without comparing lookup execution/status. | Stale CREATE authority can survive failed or duplicate-proving evidence. | Research Intake decision replay/evidence binding | YES |
+| RISK-SPR015-006 | P1 | Turn D D18: a blocked decision changed to CREATE and saved in a newly valid generic persistence envelope is accepted on reload/replay. | Generic envelope integrity does not protect decision semantics. | Research Intake decision integrity | YES |
+| RISK-SPR015-007 | P1 | Turn D D19: persisted audit has no explicit lineage-revalidation event or equivalent decision evidence containing the validated promotion binding. | Mandatory pre-decision lineage revalidation is not independently reconstructable. | Research Intake audit/provenance | YES |
 
-## Remediated by SPR-015 Turn C — Final Re-Gate pending
+## Closed by SPR-015 Turn D independent re-verification
 
 | Risk ID | Former priority | Closure evidence | Status |
 |---|---:|---|---|
-| RISK-SPR015-003 | P1 | Original GC09/GC10 RED reproduced; default state is LOOKUP_REQUIRED; persisted authoritative lookup snapshot added; TIMEOUT/PARTIAL/MALFORMED/AUTH/PERMISSION/UNKNOWN/MULTIPLE remain non-absence; restart cases pass; same probes GREEN; expanded remediation 19/19 and full regression PASS. | REMEDIATED — TURN D RE-GATE REQUIRED |
-| RISK-SPR015-004 | P1 | Original GC13 RED reproduced; PROMOTE now seals search execution/mode/source/provenance, candidate identity and timestamp; APPLY-like revalidation blocks project/question/search/candidate/DOI/PMID substitutions after restart and valid envelope rewrite; same probe GREEN; full regression PASS. | REMEDIATED — TURN D RE-GATE REQUIRED |
+| RISK-SPR015-003 | P1 | Turn D D01-D07 independently confirms default/missing/failed/uncertain lookup cannot create; original Turn C probes 13/13 and remediation 19/19 also pass. | RESOLVED — TURN D |
+| RISK-SPR015-004 | P1 | Turn D D08-D12 independently confirms search/project/candidate/DOI and restart-bound lineage substitution fail closed. | RESOLVED — TURN D |
 
 ## Resolved by SPR-015 Turn B
 

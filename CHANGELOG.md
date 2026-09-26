@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn D independent Final Re-Gate
+
+- Independently confirmed closure of the original lookup-failure and promotion-lineage P1 defects and reran all required safe regressions successfully.
+- Added 19 alternate-path probes; 15 passed and 4 exposed three new Gate-blocking P1 risks in decision-to-lookup binding, semantic decision integrity, and audit proof of lineage revalidation.
+- Recorded Turn D as FAIL with CORE COMPLETE=NO and connector-read pilot blocked; no remediation, external lookup, production activation, or production mutation was performed.
+
 ## Unreleased — SPR-015 Turn C P1 remediation
 
 - Persisted authoritative lookup outcomes and required canonical/Zotero `NOT_FOUND` evidence before any `CREATE_CANDIDATE` decision; lookup uncertainty now remains blocked across restart.
