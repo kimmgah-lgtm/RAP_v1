@@ -1,8 +1,8 @@
 # RAP Risk Register
 
-Last verified: 2026-09-24, SPR-011 Turn E native Windows verification (independent re-verification pending in Turn F)
+Last verified: 2026-09-26, SPR-014 Turn D Final Gate
 
-Open-risk summary: **P0 = 0, P1 = 0, P2 = 5**.
+Open-risk summary: **P0 = 0, P1 = 0, P2 = 7**.
 
 ## Open risks
 
@@ -13,6 +13,8 @@ Open-risk summary: **P0 = 0, P1 = 0, P2 = 5**.
 | RISK-SPR011-008 | P2 | Turn E: `Submit-RapHumanReviewDecision` checks the researcher against a configured `AuthorizedResearchers` list and rejects automation identities, but identity is asserted, not authenticated (single-user local agent). | A local process could claim a researcher identity. | Researcher decision workflow | NO |
 | RISK-SPR011-009 | P2 | Turn E: downstream impact consumes a normalized Evidence-Graph lineage projection (`Snapshot.Dependents`); an adapter that builds this projection from live `Get-RapEvidenceDependents` / `Get-RapDerivedValueInputs` results is not implemented (same boundary as Turn A: detection consumes normalized snapshots). No competing lineage store was created. | Live wiring must be verified when connectors are enabled. | Workflow ↔ Evidence Graph boundary | NO |
 | RISK-SPR011-011 | P2 | Turn E: legacy assertion `'partial commit marked complete'` in `WorkflowExceptionAdversarialTests.ps1` checks a local flag that is never set (vacuous). The requirement is re-mapped to E3-20 and E5-10~17; the historical test was left unchanged. | Legacy assertion count overstates evidence by 1. | Requirements/test evidence | NO |
+| RISK-SPR0115-001 | P2 | Production reconciliation adapters remain intentionally deferred; only local/fixture recovery was verified. | Live reconciliation semantics require a separately authorized gate. | Reconciliation external boundary | NO |
+| RISK-SPR0115-002 | P2 | Reconciliation and controlled-write persistence use local hashes without an external trust anchor. | A fully privileged local actor could rewrite state and recompute hashes. | Local persistence/audit | NO |
 
 ## Resolved by SPR-009 Turn C
 

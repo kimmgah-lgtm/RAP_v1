@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — SPR-014 Turn D Final Gate and SPR-015 architecture preservation
+
+- Independently passed R01-R18, CW01-CW20, 14 Gate probes, SPR-012/013 regressions, and the full available safe regression.
+- Closed SPR-014 with P0/P1 0/0, secret leakage 0, and production mutations 0/0/0 while keeping Production Write disabled and the production pilot TEST_DEFERRED.
+- Accepted ADR-0012 and refined the SPR-015 one-paper zero-duplicate intake requirements without implementing SPR-015.
+
 ## Unreleased — SPR-013 controlled read-only validation Turn A
 
 - Added a pure read-only cross-system identity classifier and PLAN-only reconciliation-case builder; no APPLY path is exposed.

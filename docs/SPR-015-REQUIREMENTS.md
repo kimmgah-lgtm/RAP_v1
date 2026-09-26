@@ -3,12 +3,13 @@
 > 문서 경로: `docs/SPR-015-REQUIREMENTS.md`
 > 기록일: 2026-09-26 (Asia/Seoul)
 > 상태: **REQUIREMENTS APPROVED / IMPLEMENTATION NOT STARTED**
+> 제품 목표: **ONE-PAPER ZERO-DUPLICATE RESEARCH INTAKE PILOT**
 
 ## 1. 범위와 권한
 
 이 문서는 SPR-015 및 후속 SPR-015R의 제품 요구사항 인계서다. 구현, 외부 시스템 쓰기, 스키마 마이그레이션, Production Write 활성화를 승인하지 않는다.
 
-- SPR-014 Turn D Final Gate가 다음 작업이다.
+- SPR-014 Turn D Final Gate는 PASS했으며, 별도 명령 전에는 SPR-015 구현을 시작하지 않는다.
 - SPR-015와 SPR-015R은 아직 시작하지 않았다.
 - 기존 Safety, Ownership, Reconciliation, HUMAN_OWNED, ResearcherConfirmed 보호 정책을 모두 상속한다.
 - AMBIGUOUS, PDF_AMBIGUOUS, PDF_MISMATCH는 자동 확정·병합·승격할 수 없다.
@@ -158,6 +159,7 @@ Research Question
 → Library_ID
 → Paper Review
 → Researcher Review
+→ ResearcherConfirmed
 ```
 
 모든 외부 쓰기는 별도 명세와 승인, SPR-014 Final Gate 이후의 통제된 capability, 적용 직전 재검증, read-back verification을 요구한다.

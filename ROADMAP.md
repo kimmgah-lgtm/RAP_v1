@@ -161,3 +161,21 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 - Verified PDF bibliographic identity and SHA-256 evidence; recorded incomplete structured linkage and a zero-row project mapping data source.
 - Focused 21 assertions and the full safe RAP regression PASS; P0/P1 0/0; secret leakage 0; production mutations 0/0/0.
 - Production Write remains disabled. SPR-013 Final Gate was not performed and SPR-014 was not started.
+
+## SPR-014 — Single-Object Controlled Write Pilot (complete; Final Gate PASS)
+
+- Capability binds Operation, Library, Project, target, field, plan, payload, and approval and revalidates them at APPLY time.
+- Current identity, ownership, value/hash, and version changes fail closed before mutation.
+- Durable local operation/audit persistence provides restart-safe idempotency and explicit human recovery for uncertain states.
+- Turn D independently passed R01-R18, CW01-CW20, 14 Gate probes, SPR-012/013 regressions, and the full available safe regression.
+- P0=0, P1=0, secret leakage=0, and production Zotero/Drive/Notion mutations=0/0/0.
+- Production Write remains disabled and the actual production pilot remains TEST_DEFERRED.
+
+SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
+
+## SPR-015 — Research Intake Golden Path (requirements accepted; implementation not started)
+
+- Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
+- Requirements: `docs/SPR-015-REQUIREMENTS.md`
+- Goal: ONE-PAPER ZERO-DUPLICATE RESEARCH INTAKE PILOT
+- No SPR-015 code, schema migration, external write, or production activation has started.
