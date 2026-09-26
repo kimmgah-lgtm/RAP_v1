@@ -1,14 +1,13 @@
 # RAP Risk Register
 
-Last verified: 2026-09-26, SPR-015 Turn G independent Final Re-Gate
+Last verified: 2026-09-26, SPR-015 Turn G remediation
 
-Open-risk summary: **P0 = 0, P1 = 1, P2 = 8**.
+Open-risk summary: **P0 = 0, P1 = 0, P2 = 8**.
 
 ## Open risks
 
 | Risk ID | Priority | Description and evidence | Impact | Affected component | Gate blocking |
 |---|---|---|---|---|---|
-| RISK-SPR015-011 | P1 | Turn G G31/G32: decision replay still succeeds when the authoritative `CANDIDATE_PROMOTED` audit event is renamed or sequenced after the decision. `Test-RapDecisionAuditProof` validates identity/lookup/revalidation/decision audits but not promotion audit semantics and ordering. | Durable provenance cannot prove explicit PROMOTE preceded identity and decision authority. | Research Intake decision replay / audit authority | **YES** |
 | RISK-BASELINE-001 | P2 | No SPR-006 executable source/test artifacts are present in this checkout. | The historical SPR-006 baseline cannot be rerun locally as part of the safe regression. | Repository regression evidence | NO |
 | RISK-SPR011-007 | P2 | Turn E: the lifecycle hash chain detects partial edits, forged appends, tail deletion, and deleted audit rows (E3-17~19, EA-10/11), but has no external anchor. An actor with local write access who recomputes the whole chain and head can rewrite history undetected. | Tamper evidence is local-only. | Workflow audit store | NO |
 | RISK-SPR011-008 | P2 | Turn E: `Submit-RapHumanReviewDecision` checks the researcher against a configured `AuthorizedResearchers` list and rejects automation identities, but identity is asserted, not authenticated (single-user local agent). | A local process could claim a researcher identity. | Researcher decision workflow | NO |
@@ -17,6 +16,12 @@ Open-risk summary: **P0 = 0, P1 = 1, P2 = 8**.
 | RISK-SPR0115-001 | P2 | Production reconciliation adapters remain intentionally deferred; only local/fixture recovery was verified. | Live reconciliation semantics require a separately authorized gate. | Reconciliation external boundary | NO |
 | RISK-SPR0115-002 | P2 | Reconciliation and controlled-write persistence use local hashes without an external trust anchor. | A fully privileged local actor could rewrite state and recompute hashes. | Local persistence/audit | NO |
 | RISK-SPR015-002 | P2 | Canonical-paper and Zotero lookups use bounded mock registries. Live/read-only connector wiring and normalization at that boundary are deferred. | Production data-shape and connector-read mismatches remain untested. | Research Intake lookup boundary | NO — production remains disabled |
+
+## Resolved by SPR-015 Turn G remediation
+
+| Risk ID | Former priority | RED → GREEN evidence | Status |
+|---|---:|---|---|
+| RISK-SPR015-011 | P1 | RED: G31/G32 allowed replay without an authoritative, correctly ordered `CANDIDATE_PROMOTED` event. GREEN: decision binding v4 binds unique promotion audit sequence and semantic evidence; actual event Data, subject, provenance, binding, uniqueness and PROMOTE-before-IDENTITY ordering are revalidated. GR01-GR14 14/14 and G01-G32 32/32 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
 
 ## Resolved by SPR-015 Turn F remediation
 

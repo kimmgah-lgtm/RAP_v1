@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn G P1 remediation and research architecture
+
+- Bound authoritative `CANDIDATE_PROMOTED` sequence and semantic evidence into decision binding v4, replay proof and persistence validation; missing, wrong, conflicting or late promotion evidence now fails closed.
+- Passed Turn G remediation GR01-GR14 14/14, original Turn G G01-G32 32/32, every prior intake suite, SPR-012/013/014 and the full safe regression with P0/P1=0/0 and mutations 0/0/0.
+- Added accepted ADR-0013 for research lineage, versioning, branching, reverse traceability and SPR-016's provisional non-canonical discovery/question-formation direction; no SPR-016 feature was implemented.
+- Kept LOCAL/DURABLE CORE COMPLETE=NO and connector readiness=NO pending a separate Independent Final Re-Gate.
+
 ## Unreleased — SPR-015 Turn G independent Final Re-Gate
 
 - Added 32 independent end-to-end authority probes; 30 passed and G31/G32 exposed one new P1 in promotion-audit authority and ordering during decision replay.

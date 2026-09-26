@@ -173,7 +173,7 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 
 SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
 
-## SPR-015 — Research Intake Golden Path (Turn G Final Re-Gate FAIL; remediation required)
+## SPR-015 — Research Intake Golden Path (Turn G remediation PASS; Independent Re-Gate pending)
 
 - Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
 - Requirements: `docs/SPR-015-REQUIREMENTS.md`
@@ -199,3 +199,10 @@ SPR-014 is complete. SPR-015 is ready for separately authorized requirements/loc
 - Turn F independently passed 25/27 probes and every required existing suite/full regression, but F25/F26 exposed `RISK-SPR015-010`: decision replay does not require authoritative identity-resolution and lookup-execution audit semantics. Current P0/P1/P2=0/1/8; LOCAL/DURABLE CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO pending separate remediation.
 - Turn F remediation bound identity and canonical/Zotero lookup audit sequence plus recomputed semantic evidence into decision replay. F01-F27 27/27, FR01-FR14 14/14 and the full safe regression pass. Current P0/P1/P2=0/0/8; COMPLETE and connector readiness remain NO pending a separate independent Final Re-Gate.
 - Turn G independently passed 30/32 probes and every required existing suite/full regression, but G31/G32 exposed `RISK-SPR015-011`: replay does not require an authoritative, correctly ordered `CANDIDATE_PROMOTED` audit event. Current P0/P1/P2=0/1/8; LOCAL/DURABLE CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO pending separate remediation.
+- Turn G remediation bound unique promotion audit sequence and semantic evidence into decision binding v4, preserved durable schema v4, and passed GR01-GR14 14/14, G01-G32 32/32 and the full safe regression. Current P0/P1/P2=0/0/8; CORE COMPLETE and connector readiness remain NO pending a separate Independent Final Re-Gate.
+
+## SPR-016 — Research Discovery & Question Formation (provisional; implementation not started)
+
+- Architecture: `docs/adr/ADR-0013-research-lineage-branching-and-synthesis-architecture.md`
+- Non-canonical research track: **READY** for topic/problem exploration, background research, literature search, Research Inbox and local reasoning.
+- No connector write, production canonical mutation or SPR-016 feature implementation is authorized.
