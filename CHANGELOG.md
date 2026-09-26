@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn B durable intake
+
+- Added versioned, hash-verified SQLite persistence for Research Intake lineage, identity, lookup, decision, audit, and lifecycle state.
+- Added restart-safe replay, RECOVERY_REQUIRED intermediate states, DOI/PMID and title-author-year conflict hardening, and fail-closed read-only lookup outcomes.
+- Passed 32/32 new restart/lookup/identity tests, Turn A 41/41 regression, and the full safe regression with production mutations 0/0/0.
+
 ## Unreleased — SPR-015 Turn A Research Intake core
 
 - Added a typed LOCAL/MOCK Research Intake workflow from Research Question through explicit PROMOTE ONE and a non-mutating pre-Zotero CREATE/REUSE decision.

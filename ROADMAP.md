@@ -183,3 +183,6 @@ SPR-014 is complete. SPR-015 is ready for separately authorized requirements/loc
 - P0/P1=0/0 and production Zotero/Drive/Notion mutations=0/0/0.
 - Turn A is in-memory and mock-only. Durable replay and bounded connector reads are deferred to Turn B.
 - No schema migration, external write, production activation, PDF pipeline, Library_ID allocation, or Paper Review creation has started.
+- Turn B added versioned/hash-verified SQLite persistence, restart/replay recovery gates, identity conflict hardening, and sealed read-only lookup failure semantics.
+- Turn B restart 10/10, lookup 10/10, identity 12/12, Turn A 41/41 regression, and full safe regression PASS.
+- Real Zotero read-only lookup remains DEFERRED; production mutations remain 0/0/0.

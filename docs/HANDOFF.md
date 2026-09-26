@@ -5,7 +5,7 @@
 
 ## Current Sprint
 
-SPR-015 — Research Intake Core Contract and one-paper zero-duplicate LOCAL/MOCK golden path, Turn A COMPLETE / PASS on 2026-09-26.
+SPR-015 — Durable Research Intake, identity/dedup hardening, and read-only lookup contract, Turn B COMPLETE / PASS on 2026-09-26.
 
 ## Baseline HEAD before SPR-015 Turn A
 
@@ -40,6 +40,8 @@ SPR-015 — Research Intake Core Contract and one-paper zero-duplicate LOCAL/MOC
 - Ready for SPR-015 E2E Research Intake Pilot: **YES — REQUIREMENTS/LOCAL-MOCK DEVELOPMENT ONLY**
 - SPR-015 product requirements: **ACCEPTED** in `docs/SPR-015-REQUIREMENTS.md`
 - SPR-015 Turn A local/mock core: **COMPLETE / PASS**
+- SPR-015 Turn B durable intake: **COMPLETE / PASS**
+- SPR-015 Turn C independent Final Gate: **NOT PERFORMED**
 - SPR-015 production implementation/pilot: **NOT STARTED / TEST_DEFERRED**
 - SPR-015R implementation: **NOT STARTED**
 
@@ -88,12 +90,14 @@ The Gate means local/mock production-readiness is verified. It does not authoriz
 - SPR-015 Turn A adversarial: **13/13 PASS**
 - SPR-015 Turn A total: **41/41 PASS**
 - SPR-015 Turn A full safe RAP regression: **PASS; exit code 0**
+- SPR-015 Turn B restart/lookup/identity: **10/10, 10/10, 12/12 PASS**
+- SPR-015 Turn B full safe RAP regression: **PASS; exit code 0**
 
 ## Risks
 
 - P0: **0**
 - P1: **0** after SPR-015 Turn A implementation and full regression
-- P2: **9**, including two Turn A non-blocking deferrals
+- P2: **8**; Turn A in-memory persistence deferral resolved, real connector-read limitation retained
 
 `RISK-SPR012-001` remains remediated: arbitrary callbacks cannot enter the production read boundary, registered module-owned capability state controls execution, and only the fixed GET transport is available.
 
@@ -141,7 +145,7 @@ Real trace summary:
 
 ## Exact next step
 
-Run a separately commanded SPR-015 Turn B Identity/Dedup Hardening gate with restart-safe persistence and bounded read-only connector integration. Keep Production Write disabled.
+Run a separately commanded SPR-015 Turn C independent Final Gate. Keep Production Write disabled and the production pilot deferred.
 
 ## SPR-015 architecture and Turn A implementation handoff
 
@@ -149,18 +153,18 @@ The approved future direction is recorded in `docs/adr/ADR-0012-research-intake-
 
 The future golden path must perform canonical identity resolution and pre-Zotero deduplication before CREATE/REUSE, use stateful PDF acquisition plus PDF identity verification, preserve discovery lineage, create one Library_ID and one Paper Review per canonical paper, and protect HUMAN_OWNED and ResearcherConfirmed content. AMBIGUOUS, PDF_AMBIGUOUS, and PDF_MISMATCH remain blocked for human review.
 
-Turn A implemented the bounded local/mock path through a non-mutating CREATE/REUSE decision. Turn B separately hardens durable restart/retry and bounded connector reads. SPR-015R later covers missing/mismatched PDF, cross-system duplicate, partial failure, and lineage-break scenarios.
+Turn A implemented the bounded local/mock path through a non-mutating CREATE/REUSE decision. Turn B added durable restart/retry and bounded read-only lookup contracts. SPR-015R later covers missing/mismatched PDF, cross-system duplicate, partial failure, and lineage-break scenarios.
 
 Unresolved external configuration includes search-source permissions, the authoritative Research Inbox store/schema, researcher PROMOTE identity/provenance, identity evidence thresholds, approved PDF acquisition routes, exact production targets, Project_ID authority, and separately authorized Production Write/recovery procedures.
 
 ## Next command
 
-Issue a separate SPR-015 Turn B command for identity/dedup hardening, durable replay, and bounded read-only lookup integration. Keep global Production Write disabled and do not run the production pilot without separate authorization.
+Issue a separate SPR-015 Turn C independent Final Gate command. Keep global Production Write disabled and do not run the production pilot without separate authorization.
 
 <요약>
 
-1. SPR-015 Turn A local/mock Research Intake core passed 41/41 tests and full regression.
-2. SPR-015 production implementation and pilot remain unstarted/deferred; Turn B requires separate authorization.
+1. SPR-015 Turn B durable intake passed 32/32 new tests, Turn A 41/41 regression, and full regression.
+2. Real connector lookup and production pilot remain deferred; Turn C independent Final Gate is next.
 3. Production Write remains disabled and production mutations remain Zotero 0 / Drive 0 / Notion 0.
 
 기록 시각: 2026-09-26 (Asia/Seoul)
