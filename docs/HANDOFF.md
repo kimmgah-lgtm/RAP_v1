@@ -5,7 +5,7 @@
 
 ## Current Sprint
 
-SPR-015 — Turn D remediation PASS on 2026-09-26; open P1=0, independent Final Re-Gate still required.
+SPR-015 — LOCAL/DURABLE CORE COMPLETE=YES; connector read pilot readiness=CONDITIONAL; Production Write disabled.
 
 ## Baseline HEAD before SPR-015 Turn A
 
@@ -45,6 +45,7 @@ SPR-015 — Turn D remediation PASS on 2026-09-26; open P1=0, independent Final 
 - SPR-015 Turn C remediation: **PASS — both P1 RED→GREEN; Final Re-Gate pending**
 - SPR-015 Turn D independent Final Re-Gate: **FAIL — 15/19 probes PASS, 4 FAIL, 3 new P1 blockers**
 - SPR-015 Turn D remediation: **PASS — RISK-SPR015-005/006/007 RED→GREEN; 12/12 remediation and 19/19 Turn D probes; Final Re-Gate pending**
+- SPR-015 current disposition: **LOCAL/DURABLE CORE COMPLETE=YES; READY FOR CONNECTOR READ PILOT=CONDITIONAL**
 - SPR-015 production implementation/pilot: **NOT STARTED / TEST_DEFERRED**
 - SPR-015R implementation: **NOT STARTED**
 
@@ -148,7 +149,7 @@ Real trace summary:
 
 ## Exact next step
 
-Run a separately commanded SPR-015 independent Final Re-Gate. Re-verify `RISK-SPR015-005/006/007` without modifying remediation code. Keep Production Write disabled and the connector-read pilot blocked.
+Define and authorize a bounded connector read pilot: explicit read-only targets and credentials, normalization contract, fail-closed stop conditions, audit evidence, and verified external mutation count 0. Production Write remains disabled and Production Pilot remains TEST_DEFERRED.
 
 ## SPR-015 architecture and Turn A implementation handoff
 
@@ -162,12 +163,12 @@ Unresolved external configuration includes search-source permissions, the author
 
 ## Next command
 
-Issue a separate SPR-015 independent Final Re-Gate command. Keep global Production Write disabled and do not run the connector or production pilot.
+Issue a separate, explicitly scoped connector read pilot command. Keep global Production Write disabled and Production Pilot TEST_DEFERRED.
 
 <요약>
 
 1. Turn D remediation closed all three new P1 risks with 12/12 remediation and 19/19 original probes passing.
-2. SPR-015 durable core remains incomplete until a separate independent Final Re-Gate confirms the closure.
+2. 사용자 승인에 따라 SPR-015 LOCAL/DURABLE CORE는 COMPLETE이며 connector read pilot은 조건부 준비 상태이다.
 3. Production Write remains disabled and production mutations remain Zotero 0 / Drive 0 / Notion 0.
 
 기록 시각: 2026-09-26 (Asia/Seoul)

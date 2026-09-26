@@ -173,7 +173,7 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 
 SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
 
-## SPR-015 — Research Intake Golden Path (Turn D remediation PASS; Final Re-Gate pending)
+## SPR-015 — Research Intake Golden Path (LOCAL/DURABLE CORE COMPLETE)
 
 - Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
 - Requirements: `docs/SPR-015-REQUIREMENTS.md`
@@ -193,4 +193,4 @@ SPR-014 is complete. SPR-015 is ready for separately authorized requirements/loc
 - `RISK-SPR015-003/004` are remediated with open P0/P1=0/0, but SPR-015 CORE COMPLETE remains NO until a separately commanded Turn D Independent Final Re-Gate.
 - Turn D independently closed `RISK-SPR015-003/004`, but 4/19 new probes failed and registered `RISK-SPR015-005/006/007`: stale lookup evidence can reuse CREATE, a semantically forged decision can survive a valid envelope rewrite, and lineage revalidation is not audit-provable.
 - Turn D remediation closed `RISK-SPR015-005/006/007` with decision/evidence immutability, replay-safe semantic binding, and durable pre-decision revalidation audit proof. Remediation probes 12/12, Turn D probes 19/19, all earlier intake suites, and the full safe regression pass.
-- Current P0/P1/P2=0/0/8. This remediation is not an independent Final Gate: SPR-015 CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO until a separately commanded Final Re-Gate.
+- Current P0/P1/P2=0/0/8. User-approved disposition: SPR-015 LOCAL/DURABLE CORE COMPLETE=YES and READY FOR CONNECTOR READ PILOT=CONDITIONAL. The pilot is limited to separately authorized read-only scope with fail-closed normalization and zero mutation. Production Write=DISABLED and Production Pilot=TEST_DEFERRED.

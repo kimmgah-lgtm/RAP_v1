@@ -21,9 +21,9 @@ Open-risk summary: **P0 = 0, P1 = 0, P2 = 8**.
 
 | Risk ID | Former priority | RED → GREEN evidence | Status |
 |---|---:|---|---|
-| RISK-SPR015-005 | P1 | RED: D15/D17 returned stale CREATE after NOT_FOUND changed to TIMEOUT/FOUND. GREEN: decisions bind lookup execution and exact evidence hash; changed/removed/reordered evidence blocks replay. D15/D17 and RD01-RD04/RD12 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
-| RISK-SPR015-006 | P1 | RED: D18 accepted a forged CREATE inside a fresh generic envelope. GREEN: versioned semantic `DecisionBindingHash` binds project/question/search/candidate/promotion/identity/lookup/decision/reason/state/time; fresh-envelope and cross-scope laundering fail closed. D18 and RD05-RD07 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
-| RISK-SPR015-007 | P1 | RED: D19 found no pre-decision revalidation proof. GREEN: durable `PROMOTION_LINEAGE_REVALIDATED` event is bound by sequence/evidence hash and must precede the decision audit; missing/late/wrong proof and audit-write failure fail closed. D19 and RD08-RD11 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
+| RISK-SPR015-005 | P1 | RED: D15/D17 returned stale CREATE after NOT_FOUND changed to TIMEOUT/FOUND. GREEN: decisions bind lookup execution and exact evidence hash; changed/removed/reordered evidence blocks replay. D15/D17 and RD01-RD04/RD12 PASS. | RESOLVED — remediation accepted |
+| RISK-SPR015-006 | P1 | RED: D18 accepted a forged CREATE inside a fresh generic envelope. GREEN: versioned semantic `DecisionBindingHash` binds project/question/search/candidate/promotion/identity/lookup/decision/reason/state/time; fresh-envelope and cross-scope laundering fail closed. D18 and RD05-RD07 PASS. | RESOLVED — remediation accepted |
+| RISK-SPR015-007 | P1 | RED: D19 found no pre-decision revalidation proof. GREEN: durable `PROMOTION_LINEAGE_REVALIDATED` event is bound by sequence/evidence hash and must precede the decision audit; missing/late/wrong proof and audit-write failure fail closed. D19 and RD08-RD11 PASS. | RESOLVED — remediation accepted |
 
 ## Closed by SPR-015 Turn D independent re-verification
 

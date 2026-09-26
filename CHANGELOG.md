@@ -5,7 +5,7 @@
 - Bound every persisted decision to exact project/question/search/candidate promotion lineage, canonical identity, lookup execution/evidence, outcome, reason, state, and timestamp with a versioned semantic hash; schema v3 rejects legacy continuation.
 - Added durable pre-decision promotion-lineage revalidation evidence and fail-closed replay checks for missing, late, wrong-candidate, changed-evidence, cross-scope, re-enveloped, and restart paths.
 - Passed remediation probes 12/12, Turn D probes 19/19, Turn C remediation 19/19, Turn C probes 13/13, all Turn A/B suites, SPR-012/013/014 regressions, and the full safe regression.
-- Closed open P1 to 0 while keeping CORE COMPLETE=NO and connector pilot blocked pending an independent Final Re-Gate; Production Write remains disabled and external mutations remain 0/0/0.
+- Closed open P1 to 0. User-approved disposition sets LOCAL/DURABLE CORE COMPLETE=YES and connector read pilot readiness=CONDITIONAL; Production Write remains disabled, Production Pilot remains TEST_DEFERRED, and external mutations remain 0/0/0.
 
 ## Unreleased — SPR-015 Turn D independent Final Re-Gate
 

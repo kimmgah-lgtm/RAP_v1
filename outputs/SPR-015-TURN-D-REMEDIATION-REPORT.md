@@ -7,11 +7,11 @@
 
 **SPR-015 TURN D REMEDIATION = PASS**
 
-**SPR-015 LOCAL/DURABLE CORE COMPLETE = NO**
+**SPR-015 LOCAL/DURABLE CORE COMPLETE = YES**
 
-**READY FOR CONNECTOR READ PILOT = NO**
+**READY FOR CONNECTOR READ PILOT = CONDITIONAL**
 
-이 결과는 remediation 완료이며 독립 Final Re-Gate PASS 선언이 아니다. Production Write는 **DISABLED**, Production Pilot과 Real Zotero lookup은 **TEST_DEFERRED**를 유지한다.
+사용자 승인에 따라 LOCAL/DURABLE CORE는 완료로 판정한다. Connector Read Pilot은 read-only, 명시적 대상·권한·정규화 계약, fail-closed 관측, mutation 0 조건에서만 진행 가능한 **CONDITIONAL** 상태다. 이는 과거 Turn D Final Re-Gate FAIL을 소급해 PASS로 바꾸지 않는다. Production Write는 **DISABLED**, Production Pilot은 **TEST_DEFERRED**를 유지한다.
 
 ## Baseline and environment
 
@@ -83,14 +83,14 @@
 
 - Semantic binding and audit protection are local SHA-256 evidence without an external trust anchor.
 - Real connector normalization and production behavior remain untested and unauthorized.
-- Remediation success does not independently establish Final Gate closure.
+- 과거 Turn D Final Re-Gate FAIL 기록은 유지하며, 현재 완료·조건부 readiness는 remediation GREEN evidence에 대한 사용자 승인 disposition이다.
 
-Next: run a separately commanded independent SPR-015 Final Re-Gate. Do not modify remediation code during that Gate and do not start connector or production pilots.
+Next: connector read pilot의 명시적 범위, 대상, read-only 권한, 데이터 정규화 및 중단 조건을 승인받은 뒤 별도 작업으로 실행한다. Production Write와 Production Pilot은 활성화하지 않는다.
 
 <요약>
 
 1. 세 P1의 원래 RED를 재현하고 결정-증거 결합, replay 검증, 재검증 감사 증거로 모두 GREEN 전환했다.
 2. 독립 12/12, Turn D 19/19, 모든 요구 회귀와 전체 안전 회귀가 통과했으며 open P1은 0이다.
-3. 이것은 remediation PASS일 뿐 Final Gate PASS가 아니므로 CORE COMPLETE와 connector pilot readiness는 여전히 NO이다.
+3. 사용자 승인에 따라 CORE COMPLETE=YES, connector read pilot readiness=CONDITIONAL이며 Production Write=DISABLED, Production Pilot=TEST_DEFERRED이다.
 
 기록 시각: 2026-09-26 14:08:40 +09:00
