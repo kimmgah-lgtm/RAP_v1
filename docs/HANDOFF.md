@@ -1,11 +1,11 @@
 # RAP Handoff
 
 > 문서 경로: `docs/HANDOFF.md`
-> 최종 갱신일: 2026-09-26 15:11:30 +09:00 (Asia/Seoul)
+> 최종 갱신일: 2026-09-26 15:20:41 +09:00 (Asia/Seoul)
 
 ## Current Sprint
 
-SPR-015 — Turn F remediation PASS; LOCAL/DURABLE CORE COMPLETE=NO; independent Final Re-Gate pending.
+SPR-015 — Turn G independent Final Re-Gate FAIL; promotion-audit authority remediation required.
 
 ## Baseline HEAD before SPR-015 Turn A
 
@@ -50,11 +50,12 @@ SPR-015 — Turn F remediation PASS; LOCAL/DURABLE CORE COMPLETE=NO; independent
 - SPR-015 Turn E remediation: **PASS — E01-E22 22/22 and ER01-ER12 12/12; open P1=0; Final Re-Gate pending**
 - SPR-015 Turn F independent Final Re-Gate: **FAIL — 25/27 probes PASS; F25/F26 exposed RISK-SPR015-010; P0/P1/P2=0/1/8**
 - SPR-015 Turn F remediation: **PASS — F01-F27 27/27 and FR01-FR14 14/14; P0/P1/P2=0/0/8; Final Re-Gate pending**
+- SPR-015 Turn G independent Final Re-Gate: **FAIL — 30/32 probes PASS; G31/G32 exposed RISK-SPR015-011; P0/P1/P2=0/1/8**
 - SPR-015 current Gate disposition: **LOCAL/DURABLE CORE COMPLETE=NO; READY FOR CONNECTOR READ PILOT=NO**
 - SPR-015 production implementation/pilot: **NOT STARTED / TEST_DEFERRED**
 - SPR-015R implementation: **NOT STARTED**
 
-Passing component suites verify their bounded local/mock contracts, but Turn F does not close the end-to-end Gate. Nothing here authorizes Production Write or converts deferred live probes to PASS.
+Passing component suites verify their bounded local/mock contracts, but Turn G does not close the end-to-end Gate. Nothing here authorizes Production Write or converts deferred live probes to PASS.
 
 ## Tests
 
@@ -73,6 +74,7 @@ Passing component suites verify their bounded local/mock contracts, but Turn F d
 - Mandatory failures: **0**
 - SPR-015 Turn F independent probes: **25/27 PASS; F25/F26 FAIL**
 - SPR-015 Turn F probes after remediation: **27/27 PASS; remediation 14/14 PASS**
+- SPR-015 Turn G independent probes: **30/32 PASS; G31/G32 FAIL**
 - SPR-013 focused validation: **21 assertions PASS; failures 0**
 - Reconciliation negative/adversarial Gate rerun: **16/16 and 13/13 PASS**
 - SPR-013 Turn B full safe regression: **PASS**
@@ -107,7 +109,7 @@ Passing component suites verify their bounded local/mock contracts, but Turn F d
 ## Risks
 
 - P0: **0**
-- P1: **0 open** — `RISK-SPR015-008/009` remediated with executable RED→GREEN evidence; independent Final Re-Gate pending
+- P1: **1 open** — `RISK-SPR015-011`; promotion audit omission or post-decision ordering does not block replay
 - P2: **8**; Turn A in-memory persistence deferral resolved, real connector-read limitation retained
 
 `RISK-SPR012-001` remains remediated: arbitrary callbacks cannot enter the production read boundary, registered module-owned capability state controls execution, and only the fixed GET transport is available.
@@ -156,7 +158,7 @@ Real trace summary:
 
 ## Exact next step
 
-Run a separately commanded independent Final Re-Gate for the Turn F remediation. Do not start a connector read pilot. Production Write remains disabled and Production Pilot remains TEST_DEFERRED.
+Run a separately commanded SPR-015 Turn G remediation for `RISK-SPR015-011`. Do not start a connector read pilot. Production Write remains disabled and Production Pilot remains TEST_DEFERRED.
 
 ## SPR-015 architecture and Turn A implementation handoff
 
@@ -170,12 +172,12 @@ Unresolved external configuration includes search-source permissions, the author
 
 ## Next command
 
-Issue a separate SPR-015 independent Final Re-Gate command. Keep global Production Write disabled and connector/production pilots deferred.
+Issue a separate SPR-015 Turn G remediation command. Keep global Production Write disabled and connector/production pilots deferred.
 
 <요약>
 
-1. Turn F remediation은 identity/lookup audit authority를 binding하고 F25/F26을 GREEN으로 전환했다.
-2. Turn F 27/27과 remediation 14/14가 통과했지만 별도 Final Re-Gate 전까지 LOCAL/DURABLE CORE COMPLETE=NO이다.
+1. Turn F remediation과 모든 기존 공식 회귀는 통과했다.
+2. Turn G G31/G32에서 promotion audit 누락·후행을 허용하는 새 P1이 확인됐다.
 3. Production Write remains disabled and production mutations remain Zotero 0 / Drive 0 / Notion 0.
 
-기록 시각: 2026-09-26 15:11:30 +09:00 (Asia/Seoul)
+기록 시각: 2026-09-26 15:20:41 +09:00 (Asia/Seoul)

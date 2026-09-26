@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn G independent Final Re-Gate
+
+- Added 32 independent end-to-end authority probes; 30 passed and G31/G32 exposed one new P1 in promotion-audit authority and ordering during decision replay.
+- Independently reran Turn F remediation/probes, all prior intake suites, SPR-012/013/014 and the full safe regression successfully with secret leakage 0 and production mutations 0/0/0.
+- Recorded Turn G as FAIL with P0/P1/P2=0/1/8, LOCAL/DURABLE CORE COMPLETE=NO and connector-read pilot readiness=NO. No remediation, connector pilot or production activation was performed.
+
 ## Unreleased — SPR-015 Turn F P1 remediation
 
 - Bound identity, raw lookup execution, candidate-scoped canonical lookup and Zotero lookup audit authority into decision binding version 3 without changing durable schema v4.

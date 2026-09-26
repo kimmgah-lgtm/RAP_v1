@@ -173,7 +173,7 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 
 SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
 
-## SPR-015 — Research Intake Golden Path (Turn F remediation PASS; Final Re-Gate pending)
+## SPR-015 — Research Intake Golden Path (Turn G Final Re-Gate FAIL; remediation required)
 
 - Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
 - Requirements: `docs/SPR-015-REQUIREMENTS.md`
@@ -198,3 +198,4 @@ SPR-014 is complete. SPR-015 is ready for separately authorized requirements/loc
 - Turn E remediation sealed identity authority and exact REUSE target authority, advanced persistence to schema v4, and passed ER01-ER12 12/12 plus E01-E22 22/22 and the full safe regression. Current P0/P1/P2=0/0/8; CORE COMPLETE and connector readiness remain NO until a separate independent Final Re-Gate.
 - Turn F independently passed 25/27 probes and every required existing suite/full regression, but F25/F26 exposed `RISK-SPR015-010`: decision replay does not require authoritative identity-resolution and lookup-execution audit semantics. Current P0/P1/P2=0/1/8; LOCAL/DURABLE CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO pending separate remediation.
 - Turn F remediation bound identity and canonical/Zotero lookup audit sequence plus recomputed semantic evidence into decision replay. F01-F27 27/27, FR01-FR14 14/14 and the full safe regression pass. Current P0/P1/P2=0/0/8; COMPLETE and connector readiness remain NO pending a separate independent Final Re-Gate.
+- Turn G independently passed 30/32 probes and every required existing suite/full regression, but G31/G32 exposed `RISK-SPR015-011`: replay does not require an authoritative, correctly ordered `CANDIDATE_PROMOTED` audit event. Current P0/P1/P2=0/1/8; LOCAL/DURABLE CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO pending separate remediation.
