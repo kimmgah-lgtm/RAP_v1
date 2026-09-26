@@ -1,11 +1,11 @@
 # RAP Handoff
 
 > 문서 경로: `docs/HANDOFF.md`
-> 최종 갱신일: 2026-09-26 14:52:35 +09:00 (Asia/Seoul)
+> 최종 갱신일: 2026-09-26 15:11:30 +09:00 (Asia/Seoul)
 
 ## Current Sprint
 
-SPR-015 — Turn F independent Final Re-Gate FAIL; LOCAL/DURABLE CORE COMPLETE=NO; Turn F remediation required.
+SPR-015 — Turn F remediation PASS; LOCAL/DURABLE CORE COMPLETE=NO; independent Final Re-Gate pending.
 
 ## Baseline HEAD before SPR-015 Turn A
 
@@ -49,6 +49,7 @@ SPR-015 — Turn F independent Final Re-Gate FAIL; LOCAL/DURABLE CORE COMPLETE=N
 - SPR-015 Turn E independent Final Re-Gate: **FAIL — 20/22 probes PASS, E21/E22 FAIL, 2 new P1 blockers**
 - SPR-015 Turn E remediation: **PASS — E01-E22 22/22 and ER01-ER12 12/12; open P1=0; Final Re-Gate pending**
 - SPR-015 Turn F independent Final Re-Gate: **FAIL — 25/27 probes PASS; F25/F26 exposed RISK-SPR015-010; P0/P1/P2=0/1/8**
+- SPR-015 Turn F remediation: **PASS — F01-F27 27/27 and FR01-FR14 14/14; P0/P1/P2=0/0/8; Final Re-Gate pending**
 - SPR-015 current Gate disposition: **LOCAL/DURABLE CORE COMPLETE=NO; READY FOR CONNECTOR READ PILOT=NO**
 - SPR-015 production implementation/pilot: **NOT STARTED / TEST_DEFERRED**
 - SPR-015R implementation: **NOT STARTED**
@@ -71,6 +72,7 @@ Passing component suites verify their bounded local/mock contracts, but Turn F d
 - Full available safe RAP regression: **PASS**
 - Mandatory failures: **0**
 - SPR-015 Turn F independent probes: **25/27 PASS; F25/F26 FAIL**
+- SPR-015 Turn F probes after remediation: **27/27 PASS; remediation 14/14 PASS**
 - SPR-013 focused validation: **21 assertions PASS; failures 0**
 - Reconciliation negative/adversarial Gate rerun: **16/16 and 13/13 PASS**
 - SPR-013 Turn B full safe regression: **PASS**
@@ -154,7 +156,7 @@ Real trace summary:
 
 ## Exact next step
 
-Run a separately commanded Turn F remediation for `RISK-SPR015-010`. Do not start a connector read pilot. Production Write remains disabled and Production Pilot remains TEST_DEFERRED.
+Run a separately commanded independent Final Re-Gate for the Turn F remediation. Do not start a connector read pilot. Production Write remains disabled and Production Pilot remains TEST_DEFERRED.
 
 ## SPR-015 architecture and Turn A implementation handoff
 
@@ -168,12 +170,12 @@ Unresolved external configuration includes search-source permissions, the author
 
 ## Next command
 
-Issue a separate SPR-015 Turn F remediation command. Keep global Production Write disabled and connector/production pilots deferred.
+Issue a separate SPR-015 independent Final Re-Gate command. Keep global Production Write disabled and connector/production pilots deferred.
 
 <요약>
 
-1. Turn F는 기존 003-009 위험과 필수 공격을 독립적으로 재검증했으나 F25/F26이 실패했다.
-2. Identity/lookup audit 의미를 decision replay가 요구하지 않는 새 P1 때문에 LOCAL/DURABLE CORE COMPLETE=NO이다.
+1. Turn F remediation은 identity/lookup audit authority를 binding하고 F25/F26을 GREEN으로 전환했다.
+2. Turn F 27/27과 remediation 14/14가 통과했지만 별도 Final Re-Gate 전까지 LOCAL/DURABLE CORE COMPLETE=NO이다.
 3. Production Write remains disabled and production mutations remain Zotero 0 / Drive 0 / Notion 0.
 
-기록 시각: 2026-09-26 14:52:35 +09:00 (Asia/Seoul)
+기록 시각: 2026-09-26 15:11:30 +09:00 (Asia/Seoul)

@@ -1,8 +1,8 @@
 # RAP Risk Register
 
-Last verified: 2026-09-26, SPR-015 Turn F independent Final Re-Gate
+Last verified: 2026-09-26, SPR-015 Turn F remediation
 
-Open-risk summary: **P0 = 0, P1 = 1, P2 = 8**.
+Open-risk summary: **P0 = 0, P1 = 0, P2 = 8**.
 
 ## Open risks
 
@@ -17,11 +17,11 @@ Open-risk summary: **P0 = 0, P1 = 1, P2 = 8**.
 | RISK-SPR0115-002 | P2 | Reconciliation and controlled-write persistence use local hashes without an external trust anchor. | A fully privileged local actor could rewrite state and recompute hashes. | Local persistence/audit | NO |
 | RISK-SPR015-002 | P2 | Canonical-paper and Zotero lookups use bounded mock registries. Live/read-only connector wiring and normalization at that boundary are deferred. | Production data-shape and connector-read mismatches remain untested. | Research Intake lookup boundary | NO — production remains disabled |
 
-## Opened by SPR-015 Turn F independent Final Re-Gate
+## Resolved by SPR-015 Turn F remediation
 
-| Risk ID | Priority | Description and evidence | Impact | Affected component | Gate blocking |
-|---|---|---|---|---|---|
-| RISK-SPR015-010 | P1 | F25/F26: changing the semantic event type of `IDENTITY_RESOLVED` or `READ_ONLY_LOOKUP_EXECUTED` while preserving audit sequence does not invalidate an existing CREATE decision. Replay verifies revalidation and decision audits but not the upstream identity/lookup authority audits. | Durable provenance cannot prove the full authority chain while replay still reports authoritative success. | Research Intake decision/audit authority | **YES** |
+| Risk ID | Former priority | RED → GREEN evidence | Status |
+|---|---:|---|---|
+| RISK-SPR015-010 | P1 | RED: F25/F26 allowed replay after identity/lookup audit semantics were removed. GREEN: binding version 3 binds identity, raw lookup, scoped canonical/Zotero audit sequence and semantic evidence hashes; actual event Data, subject, outcome, target, uniqueness and ordering are revalidated. F01-F27 and FR01-FR14 PASS. | RESOLVED — remediation; independent Final Re-Gate pending |
 
 ## Resolved by SPR-015 Turn E remediation
 

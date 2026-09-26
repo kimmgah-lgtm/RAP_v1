@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn F P1 remediation
+
+- Bound identity, raw lookup execution, candidate-scoped canonical lookup and Zotero lookup audit authority into decision binding version 3 without changing durable schema v4.
+- Replay now recomputes semantic hashes from actual audit Data and verifies subject, outcome, exact target, uniqueness and ordering across CREATE and REUSE paths.
+- Passed Turn F remediation 14/14, Turn F probes 27/27, all prior intake suites, SPR-012/013/014 and the full safe regression with P0/P1=0/0 and mutations 0/0/0.
+- Kept LOCAL/DURABLE CORE COMPLETE=NO and connector readiness=NO pending a separate independent Final Re-Gate.
+
 ## Unreleased — SPR-015 Turn F independent Final Re-Gate
 
 - Added 27 independent end-to-end authority probes; 25 passed and F25/F26 exposed one new P1 in identity/lookup audit-authority validation during decision replay.
