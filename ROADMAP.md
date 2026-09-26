@@ -173,7 +173,7 @@ Turn A is complete. **SPR-012 Final Gate was not performed**, readiness for the 
 
 SPR-014 is complete. SPR-015 is ready for separately authorized requirements/local-mock development only.
 
-## SPR-015 — Research Intake Golden Path (Turn A complete; local/mock only)
+## SPR-015 — Research Intake Golden Path (Turn C Final Gate FAIL; local/mock only)
 
 - Accepted architecture: `docs/adr/ADR-0012-research-intake-architecture.md`
 - Requirements: `docs/SPR-015-REQUIREMENTS.md`
@@ -186,3 +186,6 @@ SPR-014 is complete. SPR-015 is ready for separately authorized requirements/loc
 - Turn B added versioned/hash-verified SQLite persistence, restart/replay recovery gates, identity conflict hardening, and sealed read-only lookup failure semantics.
 - Turn B restart 10/10, lookup 10/10, identity 12/12, Turn A 41/41 regression, and full safe regression PASS.
 - Real Zotero read-only lookup remains DEFERRED; production mutations remain 0/0/0.
+- Turn C independently reran the official safe regression successfully, but 3/13 adversarial Gate probes failed: timeout and partial lookup results can be bypassed into `CREATE_CANDIDATE`, and PROMOTE binding does not cover `SearchExecutionId` lineage.
+- Turn C result is FAIL with P0=0, P1=2, P2=8. SPR-015 CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO; remediation requires a separately commanded turn.
+- Production Write remains DISABLED and the connector/production pilot remains TEST_DEFERRED.

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — SPR-015 Turn C independent Final Gate
+
+- Independently reran the Turn A/B suites and the full safe regression successfully, with secret leakage 0 and production Zotero/Drive/Notion mutations 0/0/0.
+- Added 13 independent semantic/adversarial Gate probes; 10 passed and 3 exposed two Gate-blocking P1 risks in lookup-failure enforcement and search-lineage promotion binding.
+- Recorded Turn C as FAIL with SPR-015 CORE COMPLETE=NO and READY FOR CONNECTOR READ PILOT=NO; no remediation or production activation was performed.
+
 ## Unreleased — SPR-015 Turn B durable intake
 
 - Added versioned, hash-verified SQLite persistence for Research Intake lineage, identity, lookup, decision, audit, and lifecycle state.
